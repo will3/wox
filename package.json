@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
+  "scripts": {
+    "start": "node server.js",
+    "build": "parcel build index.html"
+  },
   "devDependencies": {
     "@types/lodash": "^4.14.158",
     "@types/react-dom": "^16.9.8",
@@ -10,9 +14,15 @@
     "typescript": "^3.9.7"
   },
   "dependencies": {
+    "express": "^4.17.1",
     "lodash": "^4.17.19",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
     "react-three-fiber": "^4.2.18",
     "simplex-noise": "^2.4.0",
     "three": "^0.119.1"
+  },
+  "engines": {
+    "node": "12.x"
   }
 }
