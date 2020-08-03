@@ -1,0 +1,18 @@
+{
+  "name": "wox",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/lodash": "^4.14.158",
+    "@types/react-dom": "^16.9.8",
+    "parcel": "^1.12.4",
+    "typescript": "^3.9.7"
+  },
+  "dependencies": {
+    "lodash": "^4.17.19",
+    "react-three-fiber": "^4.2.18",
+    "simplex-noise": "^2.4.0",
+    "three": "^0.119.1"
+  }
+}
