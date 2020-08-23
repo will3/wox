@@ -1,7 +1,6 @@
 import ChunkData from "./ChunkData";
 import React, { useMemo } from "react";
 import MeshData from "./MeshData";
-import { useThree } from "react-three-fiber";
 import { BufferGeometry } from "three";
 
 export interface ChunkProps {
@@ -12,9 +11,6 @@ export default (props: ChunkProps) => {
   const { chunk } = props;
   const meshData = useMemo<MeshData>(() => chunk.mesh(), []);
 
-  const { gl } = useThree();
-
-  gl.setClearColor(0x000000);
   console.log(meshData.vertices.length);
 
   return (
@@ -47,7 +43,7 @@ export default (props: ChunkProps) => {
           itemSize={3}
         />
       </bufferGeometry>
-      <meshLambertMaterial color={0xff0000} attach="material" />
+      <meshLambertMaterial color={0x333333} attach="material" />
     </mesh>
   );
 };

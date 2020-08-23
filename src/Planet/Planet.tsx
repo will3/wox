@@ -9,11 +9,11 @@ export interface PlanetProps {
 
 export default (props: PlanetProps) => {
   const { size } = props;
+  const maxHeight = 64;
   const chunks = new ChunksData();
   const noise = new Noise({
     scale: new Vector3(1, 0.4, 1),
   });
-  const maxHeight = size[1] * chunks.size;
 
   const generateChunk = (chunk: ChunkData) => {
     const origin = new Vector3().fromArray(chunk.origin);
@@ -23,7 +23,7 @@ export default (props: PlanetProps) => {
         for (let k = 0; k < chunk.size; k++) {
           const gradient = (-absY / maxHeight) * 2 + 1;
           const position = new Vector3().fromArray([i, j, k]).add(origin);
-          const v = noise.get(position) + gradient;
+          const v = noise.get(position) * 2+ gradient ;
           chunk.set(i, j, k, v);
         }
       }
@@ -48,7 +48,7 @@ export default (props: PlanetProps) => {
 };
 
 interface NoiseOptions {
-  seed?: string;
+  seed?: SimplexNoise.RandomNumberGenerator | string;
   frequency?: number;
   scale?: Vector3;
   type?: NoiseType;
@@ -58,7 +58,7 @@ interface NoiseOptions {
 }
 
 class Noise {
-  seed: string;
+  seed: SimplexNoise.RandomNumberGenerator | string;
   frequency: number;
   scale: Vector3;
   type: NoiseType;
@@ -68,7 +68,7 @@ class Noise {
 
   noise: SimplexNoise;
   constructor(options?: NoiseOptions) {
-    this.seed = options?.seed || "1337";
+    this.seed = options?.seed || Math.random;
     this.frequency = options?.frequency || 0.01;
     this.scale = options?.scale || new Vector3(1, 1, 1);
     this.type = options?.type || NoiseType.fbm;
