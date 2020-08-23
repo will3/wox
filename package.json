@@ -14,6 +14,7 @@
     "typescript": "^3.9.7"
   },
   "dependencies": {
+    "drei": "^1.2.0",
     "express": "^4.17.1",
     "keycode": "^2.2.0",
     "lodash": "^4.17.19",

@@ -2,6 +2,7 @@ import React from "react";
 import Planet from "./Planet/Planet";
 import { Vector3 } from "three";
 import CameraController from "./CameraController";
+import { Stats } from "drei";
 
 export interface MainProps {
   size: [number, number, number];
@@ -22,6 +23,7 @@ export default (props: MainProps) => {
       <CameraController target={target} />
       <ambientLight color={0x999999} />
       <directionalLight position={[8, 3, 2]} intensity={0.6} />
+      <Stats />
       <Planet size={size} seed={1337} />
     </>
   );
