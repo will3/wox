@@ -1,7 +1,8 @@
 import ChunkData from "./ChunkData";
-import React, { useMemo } from "react";
+import React, { useMemo, useEffect, useState } from "react";
 import MeshData from "./MeshData";
 import { BufferGeometry } from "three";
+import { useFrame } from "react-three-fiber";
 
 export interface ChunkProps {
   chunk: ChunkData;
@@ -9,11 +10,14 @@ export interface ChunkProps {
 
 export default (props: ChunkProps) => {
   const { chunk } = props;
-  const meshData = useMemo<MeshData>(() => chunk.mesh(), []);
 
-  console.log(meshData.vertices.length);
+  const [meshData, setMeshData] = useState<MeshData>();
 
-  return (
+  useEffect(() => {
+    setMeshData(chunk.mesh());
+  }, []);
+
+  return meshData == null ? null : (
     <mesh position={chunk.origin}>
       <bufferGeometry
         attach="geometry"
