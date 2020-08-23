@@ -1,14 +1,17 @@
 import MeshData from "./MeshData";
+import ChunksData from "./ChunksData";
 
 export default class ChunkData {
   data: number[] = [];
   color: number[] = [];
   origin: [number, number, number];
   size = 32;
+  chunks: ChunksData;
 
-  constructor(origin: [number, number, number], size = 32) {
+  constructor(origin: [number, number, number], chunks: ChunksData, size = 32) {
     this.origin = origin;
     this.size = size;
+    this.chunks = chunks;
   }
 
   mesh(): MeshData {
@@ -18,7 +21,7 @@ export default class ChunkData {
     const normals: number[] = [];
 
     for (let d = 0; d < 3; d++) {
-      for (let i = 0; i < this.size; i++) {
+      for (let i = -1; i < this.size; i++) {
         for (let j = 0; j < this.size; j++) {
           for (let k = 0; k < this.size; k++) {
             const a = this.getInDimension(d, i, j, k);
@@ -98,7 +101,17 @@ export default class ChunkData {
     return this.get(j, k, i);
   }
 
-  get(i: number, j: number, k: number) {
+  get(i: number, j: number, k: number): number {
+    if (
+      i < 0 ||
+      j < 0 ||
+      k < 0 ||
+      i >= this.size ||
+      j >= this.size ||
+      k >= this.size
+    ) {
+      return 0;
+    }
     const index = i * this.size * this.size + j * this.size + k;
     return this.data[index] || 0;
   }

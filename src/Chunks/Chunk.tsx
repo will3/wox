@@ -1,8 +1,7 @@
 import ChunkData from "./ChunkData";
-import React, { useMemo, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import MeshData from "./MeshData";
 import { BufferGeometry } from "three";
-import { useFrame } from "react-three-fiber";
 
 export interface ChunkProps {
   chunk: ChunkData;
