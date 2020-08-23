@@ -14,7 +14,11 @@ export default (props: ChunkProps) => {
   const [meshData, setMeshData] = useState<MeshData>();
 
   useEffect(() => {
-    setMeshData(chunk.mesh());
+    const meshData = chunk.mesh();
+    console.log(
+      `Meshed ${meshData.vertices.length} vertices, ${meshData.indices.length} indices`
+    );
+    setMeshData(meshData);
   }, []);
 
   return meshData == null ? null : (

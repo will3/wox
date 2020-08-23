@@ -1,8 +1,7 @@
-import React, { useEffect, useRef, createRef } from "react";
-import { Chunks, ChunksData, ChunkData } from "../Chunks";
+import React, { useEffect, createRef } from "react";
+import { Chunks, ChunkData } from "../Chunks";
 import { Vector3 } from "three";
 import { Noise } from "../Noise";
-import { create } from "lodash";
 
 export interface PlanetProps {
   size: [number, number, number];
@@ -12,6 +11,7 @@ export interface PlanetProps {
 export default (props: PlanetProps) => {
   const { size, seed } = props;
   const maxHeight = 64;
+  const chunkSize = 32;
 
   const chunksRef = createRef<Chunks>();
 
@@ -20,29 +20,31 @@ export default (props: PlanetProps) => {
   });
 
   useEffect(() => {
-    console.log(chunksRef.current);
     if (chunksRef.current == null) {
       return;
     }
 
-    const chunks = chunksRef.current.chunks;
+    const chunks = chunksRef.current;
+
     for (let i = 0; i < size[0]; i++) {
       for (let j = 0; j < size[1]; j++) {
         for (let k = 0; k < size[2]; k++) {
-          const origin = [i, j, k].map((x) => x * chunks.size) as [
+          const origin = [i, j, k].map((x) => x * chunkSize) as [
             number,
             number,
             number
           ];
-          const chunk = chunks.getOrCreateChunk(origin);
+          const chunk = chunks.chunks.getOrCreateChunk(origin);
           generateChunk(chunk);
         }
       }
     }
+
+    chunks.forceUpdate();
   }, [chunksRef.current, seed]);
 
   const generateChunk = (chunk: ChunkData) => {
-    console.log(`Generated chunk ${chunk.getKey()}`)
+    console.log(`Generated chunk ${chunk.getKey()}`);
     const origin = new Vector3().fromArray(chunk.origin);
     for (let i = 0; i < chunk.size; i++) {
       for (let j = 0; j < chunk.size; j++) {
