@@ -52,7 +52,7 @@ export default (props: PlanetProps) => {
         for (let k = 0; k < chunk.size; k++) {
           const gradient = (-absY / maxHeight) * 2 + 1;
           const position = new Vector3().fromArray([i, j, k]).add(origin);
-          const v = noise.get(position) * 2 + gradient;
+          const v = noise.get(position) + gradient;
           chunk.set(i, j, k, v);
         }
       }
