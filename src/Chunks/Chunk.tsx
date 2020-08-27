@@ -40,7 +40,7 @@ export default (props: ChunkProps) => {
         <bufferAttribute
           attachObject={["attributes", "color"]}
           count={meshData.colors.length / 3}
-          array={meshData.colors}
+          array={new Float32Array(meshData.colors)}
           itemSize={3}
         />
         <bufferAttribute
@@ -50,7 +50,7 @@ export default (props: ChunkProps) => {
           itemSize={3}
         />
       </bufferGeometry>
-      <meshLambertMaterial color={0x333333} attach="material" />
+      <meshLambertMaterial attach="material" vertexColors={true} />
     </mesh>
   );
 };

@@ -1,9 +1,11 @@
 import MeshData from "./MeshData";
 import ChunksData from "./ChunksData";
 
+export type Color = [number, number, number];
+
 export default class ChunkData {
   data: number[] = [];
-  color: number[] = [];
+  color: Color[] = [];
   origin: [number, number, number];
   size = 32;
   chunks: ChunksData;
@@ -42,7 +44,11 @@ export default class ChunkData {
             const index = vertices.length / 3;
 
             vertices.push(...v1, ...v2, ...v3, ...v4);
-            const color = [1.0, 1.0, 1.0];
+
+            const ci = front ? i : i + 1;
+            const coord = this.getVector(d, ci, j, k);
+
+            const color = this.getColor(coord[0], coord[1], coord[2]);
             colors.push(...color, ...color, ...color, ...color);
             const normal = this.getNormal(d, front);
 
@@ -119,6 +125,16 @@ export default class ChunkData {
   set(i: number, j: number, k: number, v: number) {
     const index = i * this.size * this.size + j * this.size + k;
     this.data[index] = v;
+  }
+
+  setColor(i: number, j: number, k: number, color: Color) {
+    const index = i * this.size * this.size + j * this.size + k;
+    this.color[index] = color;
+  }
+
+  getColor(i: number, j: number, k: number) {
+    const index = i * this.size * this.size + j * this.size + k;
+    return this.color[index];
   }
 
   getNormal(d: number, front: boolean) {
