@@ -10,6 +10,12 @@ export interface CameraControllerProps {
 }
 
 export default (props: CameraControllerProps) => {
+  const [distance, setDistance] = useState(400);
+  const initialRotation = new Euler(-Math.PI / 4, Math.PI / 4, 0, "YXZ");
+  const zoomRate = 1.1;
+  const [rotation, setRotation] = useState(initialRotation);
+  const [targetRotation, setTargetRotation] = useState(initialRotation);
+
   const { target } = props;
 
   const handleKeyUp = (e: KeyboardEvent) => {
@@ -23,6 +29,12 @@ export default (props: CameraControllerProps) => {
       next.y += Math.PI / 2;
       setTargetRotation(next);
     }
+
+    if (key === "=") {
+      setDistance(distance / zoomRate);
+    } else if (key === "-") {
+      setDistance(distance * zoomRate);
+    }
   };
 
   useFrame(() => {
@@ -35,11 +47,6 @@ export default (props: CameraControllerProps) => {
       window.removeEventListener("keyup", handleKeyUp);
     };
   });
-
-  const distance = 400;
-  const initialRotation = new Euler(-Math.PI / 4, Math.PI / 4, 0, "YXZ");
-  const [rotation, setRotation] = useState(initialRotation);
-  const [targetRotation, setTargetRotation] = useState(initialRotation);
 
   return <Camera {...{ target, distance, rotation }} />;
 };

@@ -2,6 +2,7 @@ import ChunkData from "./ChunkData";
 import React, { useEffect, useState } from "react";
 import MeshData from "./MeshData";
 import { BufferGeometry } from "three";
+import { meshChunk } from "./meshChunk";
 
 export interface ChunkProps {
   chunk: ChunkData;
@@ -13,7 +14,7 @@ export default (props: ChunkProps) => {
   const [meshData, setMeshData] = useState<MeshData>();
 
   useEffect(() => {
-    const meshData = chunk.mesh();
+    const meshData = meshChunk(chunk);
     console.log(
       `Meshed ${meshData.vertices.length} vertices, ${meshData.indices.length} indices`
     );
@@ -50,7 +51,7 @@ export default (props: ChunkProps) => {
           itemSize={3}
         />
       </bufferGeometry>
-      <meshLambertMaterial attach="material" vertexColors={true} />
+      <meshBasicMaterial attach="material" vertexColors={true} />
     </mesh>
   );
 };

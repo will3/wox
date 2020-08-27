@@ -12,3 +12,13 @@ export const lerpEulers = (a: Euler, b: Euler, r: number) => {
     a.order
   );
 };
+
+export const clamp = (v: number, min: number, max: number) => {
+  if (v < min) {
+    return min;
+  }
+  if (v > max) {
+    return max;
+  }
+  return v;
+};
