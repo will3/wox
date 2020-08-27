@@ -5,20 +5,32 @@
 
   <body>
     <script id="vertexShader" type="x-shader/x-vertex">
-        uniform sampler2D normals;
-        attribute vec3 color;
-        attribute uint index;
-        varying vec3 vColor;
-        void main() {
-          vColor = color;
-          gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
-        }
+      uniform sampler2D voxelNormals;
+      uniform float voxelCount;
+      attribute vec3 color;
+      attribute uint voxelIndex;
+      varying vec3 vColor;
+      flat varying uint vVoxelIndex;
+      void main() {
+        vColor = color;
+        vVoxelIndex = voxelIndex;
+        gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+      }
     </script>
     <script id="fragmentShader" type="x-shader/x-fragment">
-        varying vec3 vColor;
-        void main() {
-          gl_FragColor = vec4( vColor, 1.0 );
-        }
+      uniform sampler2D voxelNormals;
+      uniform float voxelCount;
+      varying vec3 vColor;
+      flat varying uint vVoxelIndex;
+      void main() {
+        vec2 uv = vec2(float(vVoxelIndex) / voxelCount, 0.5);
+        vec4 voxelNormal = texture2D(voxelNormals, uv);
+        vec3 lightDir = normalize(vec3(-1.0, -1.0, -1.0));
+        float diff = clamp(dot(lightDir, voxelNormal.xyz), 0.0, 1.0);
+        diff = 1.0 - ((1.0 - diff) * 0.4);
+        vec4 col = vec4(vColor * diff, 1.0);
+        gl_FragColor = col;
+      }
     </script>
     <div id="root">
       <script src="./src/index.tsx"></script>

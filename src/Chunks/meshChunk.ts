@@ -8,7 +8,11 @@ export const meshChunk = (chunk: ChunkData): MeshData => {
   const colors: number[] = [];
   const indices: number[] = [];
   const normals: number[] = [];
+  const voxelIndexes: number[] = [];
   const size = chunk.size;
+  const indexMap: { [key: string]: number } = {};
+  const voxelNormals: number[] = [];
+  let voxelIndex = 0;
 
   for (let d = 0; d < 3; d++) {
     for (let i = -1; i < size; i++) {
@@ -37,19 +41,7 @@ export const meshChunk = (chunk: ChunkData): MeshData => {
             ? getVector(d, i, j, k)
             : getVector(d, i + 1, j, k);
 
-          
           const color = chunk.getColor(coord[0], coord[1], coord[2]);
-          const voxelNormal = chunk.calcNormal(coord[0], coord[1], coord[2]);
-          const lightDir = new Vector3(-1, -1, -1);
-
-          let dot = voxelNormal.dot(lightDir);
-          dot = clamp(dot, 0, 1);
-          dot = 1 - (1 - dot) * 0.4;
-
-          color[0] *= dot;
-          color[1] *= dot;
-          color[2] *= dot;
-
           colors.push(...color, ...color, ...color, ...color);
 
           if (front) {
@@ -74,6 +66,20 @@ export const meshChunk = (chunk: ChunkData): MeshData => {
 
           const normal = getFaceNormal(d, front);
           normals.push(...normal, ...normal, ...normal, ...normal);
+
+          const key = getKey(coord[0], coord[1], coord[2]);
+
+          if (indexMap[key] == null) {
+            indexMap[key] = voxelIndex;
+
+            const voxelNormal = chunk.calcNormal(coord[0], coord[1], coord[2]);
+            voxelNormals.push(voxelNormal.x, voxelNormal.y, voxelNormal.z);
+
+            voxelIndex++;
+          }
+
+          const vi = indexMap[key];
+          voxelIndexes.push(vi, vi, vi, vi);
         }
       }
     }
@@ -84,7 +90,14 @@ export const meshChunk = (chunk: ChunkData): MeshData => {
     colors,
     indices,
     normals,
+    voxelIndexes,
+    voxelNormals,
+    voxelCount: voxelIndex
   };
+};
+
+const getKey = (i: number, j: number, k: number) => {
+  return `${i}-${j}-${k}`;
 };
 
 const getVector = (d: number, i: number, j: number, k: number) => {

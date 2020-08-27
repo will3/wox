@@ -1,7 +1,14 @@
 import ChunkData from "./ChunkData";
 import React, { useEffect, useState } from "react";
 import MeshData from "./MeshData";
-import { BufferGeometry, ShaderMaterial } from "three";
+import {
+  BufferGeometry,
+  DataTexture,
+  Uniform,
+  RGBFormat,
+  FloatType,
+  NearestFilter,
+} from "three";
 import { meshChunk } from "./meshChunk";
 
 export interface ChunkProps {
@@ -24,13 +31,25 @@ export default (props: ChunkProps) => {
     setMeshData(meshData);
   }, []);
 
-  const material = new ShaderMaterial({
-    vertexShader: vShader,
-    fragmentShader: fShader,
-  });
+  if (meshData == null) {
+    return null;
+  }
 
-  return meshData == null ? null : (
-    <mesh position={chunk.origin} material={material}>
+  const pixelData = meshData.voxelNormals;
+
+  const dataTexture = new DataTexture(
+    Float32Array.from(pixelData),
+    pixelData.length / 3,
+    1,
+    RGBFormat,
+    FloatType
+  );
+  dataTexture.minFilter = NearestFilter;
+  dataTexture.magFilter = NearestFilter;
+  dataTexture.needsUpdate = true;
+
+  return (
+    <mesh position={chunk.origin}>
       <bufferGeometry
         attach="geometry"
         ref={(bufferGeometry: BufferGeometry) => {
@@ -58,7 +77,22 @@ export default (props: ChunkProps) => {
           array={new Float32Array(meshData.normals)}
           itemSize={3}
         />
+        <bufferAttribute
+          attachObject={["attributes", "voxelIndex"]}
+          count={meshData.voxelIndexes.length}
+          array={new Uint32Array(meshData.voxelIndexes)}
+          itemSize={1}
+        />
       </bufferGeometry>
+      <shaderMaterial
+        vertexShader={vShader}
+        fragmentShader={fShader}
+        uniforms={{
+          voxelNormals: new Uniform(dataTexture),
+          voxelCount: new Uniform(meshData.voxelCount),
+        }}
+        attach="material"
+      />
     </mesh>
   );
 };
