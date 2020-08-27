@@ -1,13 +1,27 @@
 <html>
+  <head>
+    <link rel="stylesheet" href="./app.css" />
+  </head>
 
-<head>
-    <link rel="stylesheet" href="./app.css">
-</head>
-
-<body>
+  <body>
+    <script id="vertexShader" type="x-shader/x-vertex">
+        uniform sampler2D normals;
+        attribute vec3 color;
+        attribute uint index;
+        varying vec3 vColor;
+        void main() {
+          vColor = color;
+          gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
+        }
+    </script>
+    <script id="fragmentShader" type="x-shader/x-fragment">
+        varying vec3 vColor;
+        void main() {
+          gl_FragColor = vec4( vColor, 1.0 );
+        }
+    </script>
     <div id="root">
-        <script src="./src/index.tsx"></script>
+      <script src="./src/index.tsx"></script>
     </div>
-</body>
-
+  </body>
 </html>

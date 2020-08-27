@@ -1,12 +1,15 @@
 import ChunkData from "./ChunkData";
 import React, { useEffect, useState } from "react";
 import MeshData from "./MeshData";
-import { BufferGeometry } from "three";
+import { BufferGeometry, ShaderMaterial } from "three";
 import { meshChunk } from "./meshChunk";
 
 export interface ChunkProps {
   chunk: ChunkData;
 }
+
+const vShader = document.getElementById("vertexShader")!.textContent!;
+const fShader = document.getElementById("fragmentShader")!.textContent!;
 
 export default (props: ChunkProps) => {
   const { chunk } = props;
@@ -21,8 +24,13 @@ export default (props: ChunkProps) => {
     setMeshData(meshData);
   }, []);
 
+  const material = new ShaderMaterial({
+    vertexShader: vShader,
+    fragmentShader: fShader,
+  });
+
   return meshData == null ? null : (
-    <mesh position={chunk.origin}>
+    <mesh position={chunk.origin} material={material}>
       <bufferGeometry
         attach="geometry"
         ref={(bufferGeometry: BufferGeometry) => {
@@ -51,7 +59,6 @@ export default (props: ChunkProps) => {
           itemSize={3}
         />
       </bufferGeometry>
-      <meshBasicMaterial attach="material" vertexColors={true} />
     </mesh>
   );
 };
