@@ -1,5 +1,5 @@
 import ChunkData from "./ChunkData";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import MeshData from "./MeshData";
 import {
   BufferGeometry,
@@ -8,8 +8,11 @@ import {
   RGBFormat,
   FloatType,
   NearestFilter,
+  Vector3,
+  ShaderMaterial,
 } from "three";
 import { meshChunk } from "./meshChunk";
+import { useFrame } from "react-three-fiber";
 
 export interface ChunkProps {
   chunk: ChunkData;
@@ -31,12 +34,13 @@ export default (props: ChunkProps) => {
     setMeshData(meshData);
   }, []);
 
+  const shaderMaterialRef = useRef<ShaderMaterial>();
+
   if (meshData == null) {
     return null;
   }
 
   const pixelData = meshData.voxelNormals;
-
   const dataTexture = new DataTexture(
     Float32Array.from(pixelData),
     pixelData.length / 3,
@@ -44,9 +48,9 @@ export default (props: ChunkProps) => {
     RGBFormat,
     FloatType
   );
-  dataTexture.minFilter = NearestFilter;
-  dataTexture.magFilter = NearestFilter;
-  dataTexture.needsUpdate = true;
+
+  const sunColor = new Vector3(1.0, 1.0, 1.0);
+  const lightDir = new Vector3(-1.0, -1.0, -1.0).normalize();
 
   return (
     <mesh position={chunk.origin}>
@@ -85,11 +89,14 @@ export default (props: ChunkProps) => {
         />
       </bufferGeometry>
       <shaderMaterial
+        ref={shaderMaterialRef}
         vertexShader={vShader}
         fragmentShader={fShader}
         uniforms={{
           voxelNormals: new Uniform(dataTexture),
           voxelCount: new Uniform(meshData.voxelCount),
+          sunColor: new Uniform(sunColor),
+          lightDir: new Uniform(lightDir),
         }}
         attach="material"
       />
