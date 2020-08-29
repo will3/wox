@@ -5551,3 +5551,8 @@ xtend@^4.0.0, xtend@~4.0.1:
   version "4.0.2"
   resolved "https://registry.yarnpkg.com/xtend/-/xtend-4.0.2.tgz#bb72779f5fa465186b1f438f674fa347fdb5db54"
   integrity sha512-LKYU1iAXJXUgAXn9URjiu+MWhyUXHsvfp7mcuYm9dSUKK0/CjtrUwFAxD82/mCWbtLsGjFIad0wIsod4zrTAEQ==
+
+zustand@^3.0.2:
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/zustand/-/zustand-3.0.2.tgz#7e408c93dfbc5db39d9f05009d79b71818e6e13d"
+  integrity sha512-Vrj1qomDlkcQOrTCda7b1GPJcYuLU+EOgKHQwllgeGABrwm8FmauNFETrhqDjcB2esnusHPEKvDCqpJffl1igA==
