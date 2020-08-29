@@ -12,10 +12,13 @@
       attribute vec3 color;
       attribute uint voxelIndex;
       varying vec3 vColor;
-      flat varying uint vVoxelIndex;
+
       void main() {
-        vColor = color;
-        vVoxelIndex = voxelIndex;
+        vec2 uv = vec2(float(voxelIndex) / voxelCount, 0.5);
+        vec4 voxelNormal = texture2D(voxelNormals, uv);
+        float diff = clamp(dot(lightDir, voxelNormal.xyz), 0.0, 1.0);
+        vColor = color * diff * sunColor;
+
         gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
       }
     </script>
@@ -25,13 +28,9 @@
       uniform vec3 sunColor;
       uniform vec3 lightDir;
       varying vec3 vColor;
-      flat varying uint vVoxelIndex;
+
       void main() {
-        vec2 uv = vec2(float(vVoxelIndex) / voxelCount, 0.5);
-        vec4 voxelNormal = texture2D(voxelNormals, uv);
-        float diff = clamp(dot(lightDir, voxelNormal.xyz), 0.0, 1.0);
-        vec4 col =  vec4(vColor * diff * sunColor, 1.0);
-        gl_FragColor = col;
+        gl_FragColor = vec4(vColor, 1.0);;
       }
     </script>
     <div id="root">
