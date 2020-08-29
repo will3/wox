@@ -29,7 +29,7 @@ export default (props: ChunkProps) => {
   useEffect(() => {
     const meshData = meshChunk(chunk);
     console.log(
-      `Meshed ${meshData.vertices.length} vertices, ${meshData.indices.length} indices`
+      `Meshed ${meshData.vertices.length / 3} vertices, ${meshData.indices.length / 3} triangles`
     );
     setMeshData(meshData);
   }, []);
