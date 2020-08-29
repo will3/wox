@@ -9,6 +9,7 @@
       uniform float voxelCount;
       uniform vec3 sunColor;
       uniform vec3 lightDir;
+      uniform vec3 ambient;
       attribute vec3 color;
       attribute uint voxelIndex;
       varying vec3 vColor;
@@ -17,7 +18,9 @@
         vec2 uv = vec2(float(voxelIndex) / voxelCount, 0.5);
         vec4 voxelNormal = texture2D(voxelNormals, uv);
         float diff = clamp(dot(lightDir, voxelNormal.xyz), 0.0, 1.0);
-        vColor = color * diff * sunColor;
+        vColor =
+          color * diff * sunColor +
+          color * ambient;
 
         gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
       }

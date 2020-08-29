@@ -49,8 +49,9 @@ export default (props: ChunkProps) => {
     FloatType
   );
 
-  const sunColor = new Vector3(1.0, 1.0, 1.0);
+  const sunColor = new Vector3(0.9, 0.9, 0.9);
   const lightDir = new Vector3(-1.0, -1.0, -1.0).normalize();
+  const ambient = new Vector3(0.1, 0.1, 0.1);
 
   return (
     <mesh position={chunk.origin}>
@@ -97,6 +98,7 @@ export default (props: ChunkProps) => {
           voxelCount: new Uniform(meshData.voxelCount),
           sunColor: new Uniform(sunColor),
           lightDir: new Uniform(lightDir),
+          ambient: new Uniform(ambient)
         }}
         attach="material"
       />
