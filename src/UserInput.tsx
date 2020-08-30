@@ -24,7 +24,7 @@ export default () => {
     if (key === "=") {
       setCamera({ distance: distance / zoomRate });
     } else if (key === "-") {
-      setCamera({ distance: distance / zoomRate });
+      setCamera({ distance: distance * zoomRate });
     }
   };
 

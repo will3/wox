@@ -32,7 +32,7 @@ export default class ChunkData {
     return this.data[index] || 0;
   }
 
-  getWorld(i: number, j: number, k: number): number {
+  getWorld(i: number, j: number, k: number): number | null {
     if (
       i < 0 ||
       j < 0 ||
@@ -70,22 +70,34 @@ export default class ChunkData {
     return _.clone(color);
   }
 
+  getColorWorld(i: number, j: number, k: number) {
+    if (
+      i < 0 ||
+      j < 0 ||
+      k < 0 ||
+      i >= this.size ||
+      j >= this.size ||
+      k >= this.size
+    ) {
+      return this.chunks.getColor(
+        i + this.origin[0],
+        j + this.origin[1],
+        k + this.origin[2]
+      );
+    }
+
+    return this.getColor(i, j, k);
+  }
+
   getKey() {
     return this.origin.join(",");
   }
 
   calcNormal(i: number, j: number, k: number) {
-    const a = new Vector3(
-      this.getWorld(i + 1, j, k),
-      this.getWorld(i, j + 1, k),
-      this.getWorld(i, j, k + 1)
-    );
-    const b = new Vector3(
-      this.getWorld(i - 1, j, k),
-      this.getWorld(i, j - 1, k),
-      this.getWorld(i, j, k - 1)
-    );
-
-    return a.sub(b).normalize();
+    return new Vector3(
+      this.getWorld(i + 1, j, k)! - this.getWorld(i - 1, j, k)!,
+      this.getWorld(i, j + 1, k)! - this.getWorld(i, j - 1, k)!,
+      this.getWorld(i, j, k + 1)! - this.getWorld(i, j, k - 1)!
+    ).normalize();
   }
 }

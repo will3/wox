@@ -17,20 +17,20 @@ export interface ChunkProps {
   chunk: ChunkData;
 }
 
-const vShader = document.getElementById("vertexShader")!.textContent!;
-const fShader = document.getElementById("fragmentShader")!.textContent!;
-
 export default (props: ChunkProps) => {
   const { chunk } = props;
+
+  const vShader = document.getElementById("vertexShader")!.textContent!;
+  const fShader = document.getElementById("fragmentShader")!.textContent!;
 
   const [meshData, setMeshData] = useState<MeshData>();
 
   useEffect(() => {
     const meshData = meshChunk(chunk);
     console.log(
-      `Meshed ${meshData.vertices.length / 3} vertices, ${
-        meshData.indices.length / 3
-      } triangles`
+      `Meshed ${chunk.origin.join(",")} ${
+        meshData.vertices.length / 3
+      } vertices, ${meshData.indices.length / 3} triangles`
     );
     setMeshData(meshData);
   }, []);
@@ -55,10 +55,13 @@ export default (props: ChunkProps) => {
     return null;
   }
 
-  const pixelData = meshData.voxelNormals;
+  if (meshData.vertices.length == null) {
+    return null;
+  }
+
   const dataTexture = new DataTexture(
-    Float32Array.from(pixelData),
-    pixelData.length / 3,
+    Float32Array.from(meshData.voxelNormals),
+    meshData.voxelNormals.length / 3,
     1,
     RGBFormat,
     FloatType
@@ -69,7 +72,7 @@ export default (props: ChunkProps) => {
   const ambient = new Vector3(1.0, 1.0, 1.0).multiplyScalar(0.1);
 
   return (
-    <mesh position={chunk.origin}>
+    <mesh position={chunk.origin} receiveShadow={true} castShadow={true}>
       <bufferGeometry
         attach="geometry"
         ref={(bufferGeometry: BufferGeometry) => {
@@ -117,6 +120,7 @@ export default (props: ChunkProps) => {
         }}
         attach="material"
       />
+      {/* <shadowMaterial attach="material"/> */}
     </mesh>
   );
 };

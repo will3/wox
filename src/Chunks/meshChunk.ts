@@ -1,6 +1,4 @@
 import MeshData from "./MeshData";
-import { Vector3 } from "three";
-import { clamp } from "lodash";
 import ChunkData from "./ChunkData";
 
 export const meshChunk = (chunk: ChunkData): MeshData => {
@@ -15,11 +13,15 @@ export const meshChunk = (chunk: ChunkData): MeshData => {
   let voxelIndex = 0;
 
   for (let d = 0; d < 3; d++) {
-    for (let i = -1; i < size; i++) {
+    for (let i = 0; i < size; i++) {
       for (let j = 0; j < size; j++) {
         for (let k = 0; k < size; k++) {
           const a = getInDimension(chunk, d, i, j, k);
           const b = getInDimension(chunk, d, i + 1, j, k);
+
+          if (a == null || b == null) {
+            continue;
+          }
 
           if (a > 0 === b > 0) {
             continue;
@@ -41,7 +43,7 @@ export const meshChunk = (chunk: ChunkData): MeshData => {
             ? getVector(d, i, j, k)
             : getVector(d, i + 1, j, k);
 
-          const color = chunk.getColor(coord[0], coord[1], coord[2]);
+          const color = chunk.getColorWorld(coord[0], coord[1], coord[2]);
           colors.push(...color, ...color, ...color, ...color);
 
           if (front) {
@@ -92,7 +94,7 @@ export const meshChunk = (chunk: ChunkData): MeshData => {
     normals,
     voxelIndexes,
     voxelNormals,
-    voxelCount: voxelIndex
+    voxelCount: voxelIndex,
   };
 };
 
@@ -116,15 +118,12 @@ const getInDimension = (
   j: number,
   k: number
 ) => {
-  if (i >= chunk.size) {
-    return 0;
-  }
   if (d === 0) {
-    return chunk.get(i, j, k);
+    return chunk.getWorld(i, j, k);
   } else if (d === 1) {
-    return chunk.get(k, i, j);
+    return chunk.getWorld(k, i, j);
   }
-  return chunk.get(j, k, i);
+  return chunk.getWorld(j, k, i);
 };
 
 const getFaceNormal = (d: number, front: boolean) => {
@@ -135,8 +134,4 @@ const getFaceNormal = (d: number, front: boolean) => {
     return [0, dir, 0];
   }
   return [0, 0, dir];
-};
-
-const dim = (v: number, r: number) => {
-  return 1 - (1 - v) * r;
 };

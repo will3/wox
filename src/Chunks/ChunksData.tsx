@@ -12,9 +12,18 @@ export default class ChunksData {
     const origin = this.getOrigin(i, j, k);
     const chunk = this.getChunk(origin);
     if (chunk == null) {
-      return 0;
+      return null;
     }
     return chunk.get(i - origin[0], j - origin[1], k - origin[2]);
+  }
+
+  getColor(i: number, j: number, k: number) {
+    const origin = this.getOrigin(i, j, k);
+    const chunk = this.getChunk(origin);
+    if (chunk == null) {
+      return [1.0, 0.0, 1.0];
+    }
+    return chunk.getColor(i - origin[0], j - origin[1], k - origin[2]);
   }
 
   getOrigin(i: number, j: number, k: number): [number, number, number] {
