@@ -9,6 +9,9 @@ import {
   FloatType,
   Vector3,
   ShaderMaterial,
+  mergeUniforms,
+  UniformsLib,
+  UniformsUtils,
 } from "three";
 import { meshChunk } from "./meshChunk";
 import { useStore } from "../store";
@@ -71,6 +74,17 @@ export default (props: ChunkProps) => {
   const lightDir = new Vector3(-1.0, -1.0, -1.0).normalize();
   const ambient = new Vector3(1.0, 1.0, 1.0).multiplyScalar(0.1);
 
+  const uniforms = UniformsUtils.merge([
+    UniformsLib["lights"],
+    {
+      voxelNormals: new Uniform(dataTexture),
+      voxelCount: new Uniform(meshData.voxelCount),
+      sunColor: new Uniform(sunColor),
+      lightDir: new Uniform(lightDir),
+      ambient: new Uniform(ambient),
+    },
+  ]);
+
   return (
     <mesh position={chunk.origin} receiveShadow={true} castShadow={true}>
       <bufferGeometry
@@ -111,15 +125,11 @@ export default (props: ChunkProps) => {
         ref={shaderMaterialRef}
         vertexShader={vShader}
         fragmentShader={fShader}
-        uniforms={{
-          voxelNormals: new Uniform(dataTexture),
-          voxelCount: new Uniform(meshData.voxelCount),
-          sunColor: new Uniform(sunColor),
-          lightDir: new Uniform(lightDir),
-          ambient: new Uniform(ambient),
-        }}
+        lights={true}
+        uniforms={uniforms}
         attach="material"
       />
+      {/* <meshLambertMaterial attach="material"/> */}
       {/* <shadowMaterial attach="material"/> */}
     </mesh>
   );

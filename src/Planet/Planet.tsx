@@ -60,7 +60,7 @@ export default (props: PlanetProps) => {
   }, [chunksRef.current, seed]);
 
   const rockColor: [number, number, number] = [0.1, 0.1, 0.08];
-  const grassColor: [number, number, number] = [0.12, 0.15, 0.08];
+  const grassColor: [number, number, number] = [0.09, 0.12, 0.08];
 
   const generateChunk = (chunk: ChunkData) => {
     console.log(`Generated chunk ${chunk.getKey()}`);
