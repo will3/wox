@@ -13,6 +13,7 @@ import {
 } from "three";
 import { meshChunk } from "./meshChunk";
 import { useFrame } from "react-three-fiber";
+import { useSceneStore } from "../stores/sceneStore";
 
 export interface ChunkProps {
   chunk: ChunkData;
@@ -29,12 +30,28 @@ export default (props: ChunkProps) => {
   useEffect(() => {
     const meshData = meshChunk(chunk);
     console.log(
-      `Meshed ${meshData.vertices.length / 3} vertices, ${meshData.indices.length / 3} triangles`
+      `Meshed ${meshData.vertices.length / 3} vertices, ${
+        meshData.indices.length / 3
+      } triangles`
     );
     setMeshData(meshData);
   }, []);
 
   const shaderMaterialRef = useRef<ShaderMaterial>();
+
+  useEffect(
+    () =>
+      useSceneStore.subscribe(
+        (lightDir) => {
+          if (shaderMaterialRef.current == null) {
+            return;
+          }
+          shaderMaterialRef.current.uniforms.lightDir = new Uniform(lightDir);
+        },
+        (state) => state.lightDir
+      ),
+    []
+  );
 
   if (meshData == null) {
     return null;
@@ -98,7 +115,7 @@ export default (props: ChunkProps) => {
           voxelCount: new Uniform(meshData.voxelCount),
           sunColor: new Uniform(sunColor),
           lightDir: new Uniform(lightDir),
-          ambient: new Uniform(ambient)
+          ambient: new Uniform(ambient),
         }}
         attach="material"
       />

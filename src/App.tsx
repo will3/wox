@@ -6,6 +6,7 @@ import { Stats } from "drei";
 import { useCameraStore } from "./stores/cameraStore";
 import { Vector3 } from "three";
 import Planet from "./Planet/Planet";
+import AlwaysLongShadaws from "./AlwaysLongShadaws";
 
 export default () => {
   const size = [5, 3, 3] as [number, number, number];
@@ -32,6 +33,7 @@ export default () => {
       >
         <CameraController />
         <Planet size={size} seed={1337} />
+        <AlwaysLongShadaws />
       </Canvas>
       <UserInput />
       <Stats />
