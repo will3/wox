@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import React, { useEffect } from "react";
 import { Canvas } from "react-three-fiber";
 import UserInput from "./UserInput";
 import CameraController from "./CameraController";

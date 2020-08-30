@@ -55,7 +55,7 @@ export default (props: PlanetProps) => {
           const position = new Vector3().fromArray([i, j, k]).add(origin);
           const v = noise.get(position) + gradient;
           chunk.set(i, j, k, v);
-          chunk.setColor(i, j, k, [1.0, 1.0, 1.0]);
+          chunk.setColor(i, j, k, [0.1, 0.1, 0.08]);
         }
       }
     }
