@@ -17,6 +17,7 @@ export default (props: PlanetProps) => {
 
   const noise = new Noise({
     scale: new Vector3(1, 0.4, 1),
+    seed: seed.toString()
   });
 
   useEffect(() => {

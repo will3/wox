@@ -1,31 +1,30 @@
 import { useEffect } from "react";
 import keycode from "keycode";
-import { useCameraStore } from "./stores/cameraStore";
+import { useStore } from "./store";
 
 export default () => {
   const zoomRate = 1.1;
 
-  const targetRotation = useCameraStore((state) => state.targetRotation);
-  const setTargetRotation = useCameraStore((state) => state.setTargetRotation);
-  const setDistance = useCameraStore((state) => state.setDistance);
-  const distance = useCameraStore((state) => state.distance);
+  const targetRotation = useStore((state) => state.camera.targetRotation);
+  const distance = useStore((state) => state.camera.distance);
+  const setCamera = useStore((state) => state.setCamera);
 
   const handleKeyUp = (e: KeyboardEvent) => {
     const key = keycode(e);
     if (key === "q") {
       const next = targetRotation.clone();
       next.y -= Math.PI / 2;
-      setTargetRotation(next);
+      setCamera({ targetRotation: next });
     } else if (key === "e") {
       const next = targetRotation.clone();
       next.y += Math.PI / 2;
-      setTargetRotation(next);
+      setCamera({ targetRotation: next });
     }
 
     if (key === "=") {
-      setDistance(distance / zoomRate);
+      setCamera({ distance: distance / zoomRate });
     } else if (key === "-") {
-      setDistance(distance * zoomRate);
+      setCamera({ distance: distance / zoomRate });
     }
   };
 

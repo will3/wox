@@ -1,17 +1,15 @@
 import { useEffect } from "react";
 import { useThree, useFrame } from "react-three-fiber";
 import { Vector3 } from "three";
-import { useCameraStore } from "./stores/cameraStore";
 import { lerpEulers } from "./math";
+import { useStore } from "./store";
 
 export default () => {
   const { camera } = useThree();
 
-  const target = useCameraStore(state => state.target);
-  const rotation = useCameraStore(state => state.rotation);
-  const distance = useCameraStore(state => state.distance);
-  const targetRotation = useCameraStore(state => state.targetRotation);
-  const setRotation = useCameraStore(state => state.setRotation);
+  const cameraState = useStore((state) => state.camera);
+  const { target, distance, rotation, targetRotation } = cameraState;
+  const setCamera = useStore((state) => state.setCamera);
 
   useEffect(() => {
     const position = new Vector3(0, 0, 1)
@@ -24,7 +22,8 @@ export default () => {
   }, [target, rotation, distance]);
 
   useFrame(() => {
-    setRotation(lerpEulers(rotation, targetRotation, 0.5));
+    const nextRotation = lerpEulers(rotation, targetRotation, 0.5);
+    setCamera({ rotation: nextRotation });
   });
 
   return null;

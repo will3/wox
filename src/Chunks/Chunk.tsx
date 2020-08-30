@@ -7,13 +7,11 @@ import {
   Uniform,
   RGBFormat,
   FloatType,
-  NearestFilter,
   Vector3,
   ShaderMaterial,
 } from "three";
 import { meshChunk } from "./meshChunk";
-import { useFrame } from "react-three-fiber";
-import { useSceneStore } from "../stores/sceneStore";
+import { useStore } from "../store";
 
 export interface ChunkProps {
   chunk: ChunkData;
@@ -41,7 +39,7 @@ export default (props: ChunkProps) => {
 
   useEffect(
     () =>
-      useSceneStore.subscribe(
+      useStore.subscribe(
         (lightDir) => {
           if (shaderMaterialRef.current == null) {
             return;
