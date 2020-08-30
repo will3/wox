@@ -1,21 +1,21 @@
 import create from "zustand";
 import { Euler, Vector3 } from "three";
 
-interface State {
+export interface State {
   camera: CameraState;
   lightDir: Vector3;
   setLightDir(lightDir: Vector3): void;
   setCamera(camera: CameraStateUpdate): void;
 }
 
-interface CameraStateUpdate {
+export interface CameraStateUpdate {
   rotation?: Euler;
   targetRotation?: Euler;
   target?: Vector3;
   distance?: number;
 }
 
-interface CameraState {
+export interface CameraState {
   rotation: Euler;
   targetRotation: Euler;
   target: Vector3;
