@@ -11,6 +11,7 @@ import Light from "./Light";
 import HighlightHover from "./HighlightHover";
 import Brush from "./Brush";
 import { chunkSize } from "./constants";
+import PlaceTrees from "./PlaceTrees";
 
 export default () => {
   const size = [5, 3, 5] as [number, number, number];
@@ -43,7 +44,8 @@ export default () => {
         <Planet size={size} seed={1337} />
         <AlwaysLongShadaws />
         <HighlightHover />
-        <Brush />
+        {/* <Brush /> */}
+        <PlaceTrees />
       </Canvas>
       <UserInput />
       <Stats />

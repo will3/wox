@@ -1,8 +1,10 @@
 import ChunkData from "./ChunkData";
+import { Vector3 } from "three";
 
 export interface FaceInfo {
   coord: [number, number, number];
   normal: number[];
+  voxelNormal: Vector3;
 }
 
 export type MeshData = {
@@ -89,10 +91,12 @@ export const meshChunk = (chunk: ChunkData): MeshData => {
 
           const key = getKey(coord[0], coord[1], coord[2]);
 
+          // TODO optimize
+          const voxelNormal = chunk.calcNormal(coord[0], coord[1], coord[2]);
+
           if (indexMap[key] == null) {
             indexMap[key] = voxelIndex;
 
-            const voxelNormal = chunk.calcNormal(coord[0], coord[1], coord[2]);
             voxelNormals.push(voxelNormal.x, voxelNormal.y, voxelNormal.z);
 
             voxelIndex++;
@@ -104,6 +108,7 @@ export const meshChunk = (chunk: ChunkData): MeshData => {
           faces[faceIndex] = faces[faceIndex + 1] = {
             coord,
             normal,
+            voxelNormal
           };
 
           faceIndex += 2;

@@ -45,6 +45,7 @@ export default () => {
     setHover({
       coord: worldCoord.toArray() as [number, number, number],
       normal: result.normal as [number, number, number],
+      voxelNormal: result.voxelNormal,
     });
   }, [mouse]);
 

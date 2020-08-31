@@ -18,6 +18,7 @@ export interface State {
 export interface HoverState {
   coord: [number, number, number];
   normal: [number, number, number];
+  voxelNormal: Vector3;
 }
 
 export interface CameraStateUpdate {
