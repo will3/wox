@@ -71,7 +71,9 @@ export default () => {
 
   useEffect(() => {
     const result = raycast(mouse, camera, scene, chunks, [Layers.ground]);
-    setHover(result ?? null);
+    if (result != null) {
+      setHover(result);
+    }
   }, [mouse]);
 
   if (hover == null) {
