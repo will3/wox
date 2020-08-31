@@ -7,7 +7,7 @@ export default class ChunksData {
   version = 1;
   layer: number;
 
-  constructor(size: number, layer: number) {
+  constructor(size: number, layer: number = 0) {
     this.size = size;
     this.layer = layer;
   }
