@@ -1,5 +1,5 @@
 import ChunkData from "./ChunkData";
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect } from "react";
 
 import {
   BufferGeometry,
@@ -17,6 +17,7 @@ import {
 import { meshChunk, MeshData } from "./meshChunk";
 import { useStore } from "../store";
 import { useFrame } from "react-three-fiber";
+import { chunk } from "lodash";
 
 export interface ChunkProps {
   chunk: ChunkData;
@@ -28,68 +29,12 @@ export default (props: ChunkProps) => {
   const vShader = document.getElementById("vertexShader")!.textContent!;
   const fShader = document.getElementById("fragmentShader")!.textContent!;
 
-  useFrame(() => {
-    if (!chunk.dirty) {
-      return;
-    }
-
-    const start = new Date().getTime();
-    const meshData = meshChunk(chunk);
-    const end = new Date().getTime();
-    console.log(
-      `Meshed ${chunk.origin.join(",")} ${
-        meshData.vertices.length / 3
-      } vertices, ${meshData.indices.length / 3} triangles ${end - start}ms`
-    );
-
-    chunk.meshData = meshData;
-
-    if (mesh.geometry != null) {
-      mesh.geometry.dispose();
-    }
-    const geometry = new BufferGeometry();
-    geometry.setIndex(meshData.indices);
-    geometry.setAttribute(
-      "position",
-      new BufferAttribute(new Float32Array(meshData.vertices), 3)
-    );
-    geometry.setAttribute(
-      "color",
-      new BufferAttribute(new Float32Array(meshData.colors), 3)
-    );
-    geometry.setAttribute(
-      "normal",
-      new BufferAttribute(new Float32Array(meshData.normals), 3)
-    );
-    geometry.setAttribute(
-      "voxelIndex",
-      new BufferAttribute(new Uint32Array(meshData.voxelIndexes), 1)
-    );
-
-    mesh.geometry = geometry;
-
-    let material = mesh.material as ShaderMaterial;
-
-    const prevTexture = material.uniforms.voxelNormals?.value;
-    if (prevTexture != null) {
-      prevTexture.dispose();
-    }
-
-    const dataTexture = new DataTexture(
-      Float32Array.from(meshData.voxelNormals),
-      meshData.voxelNormals.length / 3,
-      1,
-      RGBFormat,
-      FloatType
-    );
-
-    material.uniforms.voxelNormals = new Uniform(dataTexture);
-    material.uniforms.voxelCount = new Uniform(meshData.voxelCount);
-    material.uniformsNeedUpdate = true;
-    material.needsUpdate = true;
-
-    chunk.dirty = false;
-  });
+  useStore.subscribe(
+    () => {
+      handleMeshDataUpdated(chunk, mesh);
+    },
+    (state) => state.chunks.map[chunk.key].version
+  );
 
   useEffect(
     () =>
@@ -133,5 +78,62 @@ export default (props: ChunkProps) => {
     uniforms,
   });
 
+  handleMeshDataUpdated(chunk, mesh);
+
   return <primitive object={mesh} />;
+};
+
+const handleMeshDataUpdated = (chunk: ChunkData, mesh: Mesh) => {
+  const meshData = chunk.meshData;
+
+  console.log(`Update chunk ${chunk.key} version: ${chunk.version}`);
+
+  if (meshData == null) {
+    return;
+  }
+
+  if (mesh.geometry != null) {
+    mesh.geometry.dispose();
+  }
+
+  const geometry = new BufferGeometry();
+  geometry.setIndex(meshData.indices);
+  geometry.setAttribute(
+    "position",
+    new BufferAttribute(new Float32Array(meshData.vertices), 3)
+  );
+  geometry.setAttribute(
+    "color",
+    new BufferAttribute(new Float32Array(meshData.colors), 3)
+  );
+  geometry.setAttribute(
+    "normal",
+    new BufferAttribute(new Float32Array(meshData.normals), 3)
+  );
+  geometry.setAttribute(
+    "voxelIndex",
+    new BufferAttribute(new Uint32Array(meshData.voxelIndexes), 1)
+  );
+
+  mesh.geometry = geometry;
+
+  let material = mesh.material as ShaderMaterial;
+
+  const prevTexture = material.uniforms.voxelNormals?.value;
+  if (prevTexture != null) {
+    prevTexture.dispose();
+  }
+
+  const dataTexture = new DataTexture(
+    Float32Array.from(meshData.voxelNormals),
+    meshData.voxelNormals.length / 3,
+    1,
+    RGBFormat,
+    FloatType
+  );
+
+  material.uniforms.voxelNormals = new Uniform(dataTexture);
+  material.uniforms.voxelCount = new Uniform(meshData.voxelCount);
+  material.uniformsNeedUpdate = true;
+  material.needsUpdate = true;
 };

@@ -14,11 +14,14 @@ export default class ChunkData {
   meshData: MeshData | null = null;
   dirty = false;
   geometry: BufferGeometry | null = null;
+  version = 1;
+  key: string;
 
   constructor(origin: [number, number, number], chunks: ChunksData, size = 32) {
     this.origin = origin;
     this.size = size;
     this.chunks = chunks;
+    this.key = this.getKey();
   }
 
   get(i: number, j: number, k: number): number {
@@ -94,7 +97,7 @@ export default class ChunkData {
     return this.getColor(i, j, k);
   }
 
-  getKey() {
+  private getKey() {
     return this.origin.join(",");
   }
 

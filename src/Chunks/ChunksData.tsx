@@ -4,6 +4,7 @@ export default class ChunksData {
   map: { [key: string]: ChunkData } = {};
   size: number;
   dirty = false;
+  version = 1;
 
   constructor(size = 32) {
     this.size = size;

@@ -4,6 +4,7 @@ import { Vector3 } from "three";
 import { Noise } from "../Noise";
 import { clamp } from "../math";
 import { useStore } from "../store";
+import Mesher from "../Chunks/Mesher";
 
 export interface PlanetProps {
   size: [number, number, number];
@@ -56,7 +57,7 @@ export default (props: PlanetProps) => {
   const grassColor: [number, number, number] = [0.09, 0.12, 0.08];
 
   const generateChunk = (chunk: ChunkData) => {
-    console.log(`Generated chunk ${chunk.getKey()}`);
+    console.log(`Generated chunk ${chunk.key}`);
     const origin = new Vector3().fromArray(chunk.origin);
     for (let i = 0; i < chunk.size; i++) {
       for (let j = 0; j < chunk.size; j++) {
@@ -86,5 +87,10 @@ export default (props: PlanetProps) => {
     }
   };
 
-  return <Chunks chunksData={chunksData} />;
+  return (
+    <>
+      <Mesher />
+      <Chunks chunksData={chunksData} />
+    </>
+  );
 };
