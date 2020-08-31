@@ -6,3 +6,15 @@ test("get", () => {
   chunk.set(1, 2, 3, 1);
   expect(chunks.get(33, 34, 35)).toEqual(1);
 });
+
+test("set", () => {
+  const chunks = new ChunksData();
+  chunks.set(33, 34, 35, 1);
+  expect(chunks.get(33, 34, 35)).toEqual(1);
+});
+
+test("setColor", () => {
+  const chunks = new ChunksData();
+  chunks.setColor(33, 34, 35, [1.0, 1.0, 1.0]);
+  expect(chunks.getColor(33, 34, 35)).toEqual([1.0, 1.0, 1.0]);
+});

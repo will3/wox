@@ -3,15 +3,13 @@ import { Canvas } from "react-three-fiber";
 import UserInput from "./UserInput";
 import CameraController from "./CameraController";
 import { Stats } from "drei";
-import {
-  Vector3,
-  VSMShadowMap,
-} from "three";
+import { Vector3, VSMShadowMap } from "three";
 import Planet from "./Planet/Planet";
 import AlwaysLongShadaws from "./AlwaysLongShadaws";
 import { useStore } from "./store";
 import Light from "./Light";
 import HighlightHover from "./HighlightHover";
+import PlaceVoxel from "./PlaceVoxel";
 
 export default () => {
   const size = [3, 2, 3] as [number, number, number];
@@ -45,6 +43,7 @@ export default () => {
         <Planet size={size} seed={1237} />
         <AlwaysLongShadaws />
         <HighlightHover />
+        <PlaceVoxel />
       </Canvas>
       <UserInput />
       <Stats />

@@ -11,6 +11,8 @@ import {
   ShaderMaterial,
   UniformsUtils,
   UniformsLib,
+  Mesh,
+  BufferAttribute,
 } from "three";
 import { meshChunk, MeshData } from "./meshChunk";
 import { useStore } from "../store";
@@ -26,8 +28,6 @@ export default (props: ChunkProps) => {
   const vShader = document.getElementById("vertexShader")!.textContent!;
   const fShader = document.getElementById("fragmentShader")!.textContent!;
 
-  const [meshData, setMeshData] = useState<MeshData>();
-
   useFrame(() => {
     if (!chunk.dirty) {
       return;
@@ -39,8 +39,52 @@ export default (props: ChunkProps) => {
         meshData.vertices.length / 3
       } vertices, ${meshData.indices.length / 3} triangles`
     );
-    setMeshData(meshData);
+
     chunk.meshData = meshData;
+
+    if (mesh.geometry != null) {
+      mesh.geometry.dispose();
+    }
+    const geometry = new BufferGeometry();
+    geometry.setIndex(meshData.indices);
+    geometry.setAttribute(
+      "position",
+      new BufferAttribute(new Float32Array(meshData.vertices), 3)
+    );
+    geometry.setAttribute(
+      "color",
+      new BufferAttribute(new Float32Array(meshData.colors), 3)
+    );
+    geometry.setAttribute(
+      "normal",
+      new BufferAttribute(new Float32Array(meshData.normals), 3)
+    );
+    geometry.setAttribute(
+      "voxelIndex",
+      new BufferAttribute(new Uint32Array(meshData.voxelIndexes), 1)
+    );
+
+    mesh.geometry = geometry;
+
+    let material = mesh.material as ShaderMaterial;
+
+    const prevTexture = material.uniforms.voxelNormals?.value;
+    if (prevTexture != null) {
+      prevTexture.dispose();
+    }
+
+    const dataTexture = new DataTexture(
+      Float32Array.from(meshData.voxelNormals),
+      meshData.voxelNormals.length / 3,
+      1,
+      RGBFormat,
+      FloatType
+    );
+
+    material.uniforms.voxelNormals = new Uniform(dataTexture);
+    material.uniforms.voxelCount = new Uniform(meshData.voxelCount);
+    material.uniformsNeedUpdate = true;
+    material.needsUpdate = true;
 
     chunk.dirty = false;
   });
@@ -61,21 +105,14 @@ export default (props: ChunkProps) => {
     []
   );
 
-  if (meshData == null) {
-    return null;
-  }
-
-  if (meshData.vertices.length == null) {
-    return null;
-  }
-
-  const dataTexture = new DataTexture(
-    Float32Array.from(meshData.voxelNormals),
-    meshData.voxelNormals.length / 3,
-    1,
-    RGBFormat,
-    FloatType
-  );
+  const mesh = new Mesh();
+  mesh.position.fromArray(chunk.origin);
+  mesh.receiveShadow = true;
+  mesh.castShadow = true;
+  mesh.userData = {
+    isChunkMesh: true,
+    origin: chunk.origin,
+  };
 
   const sunColor = new Vector3(8.1, 6.0, 4.2).multiplyScalar(1.0);
   const lightDir = new Vector3(-1.0, -1.0, 1.0).normalize();
@@ -84,61 +121,18 @@ export default (props: ChunkProps) => {
   const uniforms = UniformsUtils.merge([
     UniformsLib["lights"],
     {
-      voxelNormals: new Uniform(dataTexture),
-      voxelCount: new Uniform(meshData.voxelCount),
       sunColor: new Uniform(sunColor),
       lightDir: new Uniform(lightDir),
       ambient: new Uniform(ambient),
     },
   ]);
 
-  return (
-    <mesh position={chunk.origin} receiveShadow={true} castShadow={true} userData={{
-      isChunkMesh: true,
-      origin: chunk.origin
-    }}>
-      <bufferGeometry
-        attach="geometry"
-        ref={(bufferGeometry: BufferGeometry) => {
-          if (bufferGeometry == null) {
-            return;
-          }
-          bufferGeometry.setIndex(meshData.indices);
-        }}
-      >
-        <bufferAttribute
-          attachObject={["attributes", "position"]}
-          count={meshData.vertices.length / 3}
-          array={new Float32Array(meshData.vertices)}
-          itemSize={3}
-        />
-        <bufferAttribute
-          attachObject={["attributes", "color"]}
-          count={meshData.colors.length / 3}
-          array={new Float32Array(meshData.colors)}
-          itemSize={3}
-        />
-        <bufferAttribute
-          attachObject={["attributes", "normal"]}
-          count={meshData.normals.length / 3}
-          array={new Float32Array(meshData.normals)}
-          itemSize={3}
-        />
-        <bufferAttribute
-          attachObject={["attributes", "voxelIndex"]}
-          count={meshData.voxelIndexes.length}
-          array={new Uint32Array(meshData.voxelIndexes)}
-          itemSize={1}
-        />
-      </bufferGeometry>
-      <shaderMaterial
-        ref={shaderMaterialRef}
-        vertexShader={vShader}
-        fragmentShader={fShader}
-        lights={true}
-        uniforms={uniforms}
-        attach="material"
-      />
-    </mesh>
-  );
+  mesh.material = new ShaderMaterial({
+    vertexShader: vShader,
+    fragmentShader: fShader,
+    lights: true,
+    uniforms,
+  });
+
+  return <primitive object={mesh} />;
 };

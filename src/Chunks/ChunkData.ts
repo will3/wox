@@ -1,5 +1,5 @@
 import ChunksData from "./ChunksData";
-import { Vector3 } from "three";
+import { Vector3, BufferGeometry } from "three";
 import _ from "lodash";
 import { MeshData } from "./meshChunk";
 
@@ -13,6 +13,7 @@ export default class ChunkData {
   chunks: ChunksData;
   meshData: MeshData | null = null;
   dirty = false;
+  geometry: BufferGeometry | null = null;
 
   constructor(origin: [number, number, number], chunks: ChunksData, size = 32) {
     this.origin = origin;

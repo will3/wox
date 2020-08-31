@@ -18,6 +18,18 @@ export default class ChunksData {
     return chunk.get(i - origin[0], j - origin[1], k - origin[2]);
   }
 
+  set(i: number, j: number, k: number, v: number) {
+    const origin = this.getOrigin(i, j, k);
+    const chunk = this.getOrCreateChunk(origin);
+    return chunk.set(i - origin[0], j - origin[1], k - origin[2], v);
+  }
+
+  setColor(i: number, j: number, k: number, color: [number, number, number]) {
+    const origin = this.getOrigin(i, j, k);
+    const chunk = this.getOrCreateChunk(origin);
+    return chunk.setColor(i - origin[0], j - origin[1], k - origin[2], color);
+  }
+
   getColor(i: number, j: number, k: number) {
     const origin = this.getOrigin(i, j, k);
     const chunk = this.getChunk(origin);
