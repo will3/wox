@@ -35,3 +35,15 @@ test("search outside range", () => {
   const results = quadTree.find(new Vector3(32, 32, 32), 1);
   expect(results).toHaveLength(0);
 });
+
+test("visit", () => {
+  const quadTree = new QuadTree<number>();
+  quadTree.set(new Vector3(33, 33, 33), 1);
+  const items: number[] = [];
+  quadTree.visit((item) => {
+    items.push(item);
+  });
+  expect(items).toHaveLength(1);
+  const item = items[0];
+  expect(item).toEqual(1);
+});

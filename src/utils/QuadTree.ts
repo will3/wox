@@ -104,6 +104,12 @@ export default class QuadTree<T> {
     const key = `${origin.x},${origin.y}`;
     return this.map[key];
   }
+
+  visit(callback: (entry: T) => void) {
+    for (let key in this.map) {
+      this.map[key].visit(callback);
+    }
+  }
 }
 
 class QuadChunk<T> {
@@ -121,6 +127,11 @@ class QuadChunk<T> {
   }
   private getKey(position: Vector3) {
     return `${position.x},${position.y},${position.z}`;
+  }
+  visit(callback: (entry: T) => void) {
+    for (let key in this.map) {
+      callback(this.map[key].value);
+    }
   }
 }
 

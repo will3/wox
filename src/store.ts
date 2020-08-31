@@ -4,6 +4,7 @@ import ChunksData from "./Chunks/ChunksData";
 import { chunkSize } from "./constants";
 import Layers from "./Layers";
 import QuadTree from "./utils/QuadTree";
+import { Tree } from "./Trees/Tree";
 
 export interface State {
   camera: CameraState;
@@ -18,8 +19,6 @@ export interface State {
   size: Vector3;
   treeMap: QuadTree<Tree>;
 }
-
-interface Tree {}
 
 export interface HoverState {
   coord: [number, number, number];
@@ -67,5 +66,5 @@ export const useStore = create<State>((set) => ({
   hover: null,
   setHover: (hover: HoverState) => set({ hover }),
   size: new Vector3(5, 3, 5),
-  treeMap: new QuadTree()
+  treeMap: new QuadTree(),
 }));

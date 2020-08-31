@@ -67,6 +67,24 @@ export default (props: PlanetProps) => {
       console.log(`Generate trees ${chunk.origin.join(",")}`);
       generateTree(chunk);
     });
+
+    // Average tree normals
+    treeMap.visit((tree) => {
+      const nearbyTrees = treeMap.find(tree.position, 10);
+      const averageNormal = new Vector3();
+      nearbyTrees.forEach(t => {
+        averageNormal.add(t.normal);
+      });
+      averageNormal.multiplyScalar(1 / nearbyTrees.length);
+
+      tree.actualNormal = tree.normal.clone().lerp(averageNormal, 0.2);
+    });
+
+    // Place trees
+    treeMap.visit((tree) => {
+      const { size, actualNormal, position } = tree;
+      placeTree(treeChunks, position, actualNormal!, size, bounds);
+    });
   }, [seed]);
 
   const rockColor: [number, number, number] = [0.072, 0.07, 0.075];
@@ -134,8 +152,11 @@ export default (props: PlanetProps) => {
       const otherTrees = treeMap.find(position, minDistance * size);
 
       if (otherTrees.length === 0) {
-        placeTree(treeChunks, position, face.voxelNormal, size, bounds);
-        treeMap.set(position, {});
+        treeMap.set(position, {
+          normal: voxelNormal,
+          size,
+          position,
+        });
       }
     }
   };
