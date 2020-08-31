@@ -9,7 +9,7 @@ export interface PlaceVoxelProps {
   chunks: ChunksData;
 }
 
-const PlaceVoxel = ({ chunks }: PlaceVoxelProps) => {
+const PlaceVoxelInternal = ({ chunks }: PlaceVoxelProps) => {
   let hover: HoverState | null;
 
   useStore.subscribe(
@@ -64,7 +64,7 @@ const PlaceVoxel = ({ chunks }: PlaceVoxelProps) => {
   return null;
 };
 
-export default () => {
+export default function PlaceVoxel() {
   const chunks = useStore((state) => state.chunks);
-  return <PlaceVoxel chunks={chunks} />;
+  return <PlaceVoxelInternal chunks={chunks} />;
 };

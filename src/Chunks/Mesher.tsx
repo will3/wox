@@ -1,8 +1,9 @@
 import { useStore } from "../store";
 import { useEffect } from "react";
 import { meshChunk } from "./meshChunk";
+import { useFrame } from "react-three-fiber";
 
-export default () => {
+export default function Mesher() {
   const chunks = useStore((state) => state.chunks);
 
   const handleFrame = () => {
@@ -38,12 +39,9 @@ export default () => {
     chunks.version++;
   };
 
-  useEffect(() => {
-    const handle = requestAnimationFrame(handleFrame);
-    return () => {
-      cancelAnimationFrame(handle);
-    };
+  useFrame(() => {
+    handleFrame();
   });
 
   return null;
-};
+}
