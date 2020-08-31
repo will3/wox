@@ -1,8 +1,9 @@
-import { ChunkData } from ".";
+import ChunkData from "./ChunkData";
 
 export default class ChunksData {
   map: { [key: string]: ChunkData } = {};
   size: number;
+  dirty = false;
 
   constructor(size = 32) {
     this.size = size;
@@ -47,6 +48,7 @@ export default class ChunksData {
     const key = this.getKey(origin);
     if (this.map[key] == null) {
       this.map[key] = new ChunkData(origin, this);
+      this.dirty = true;
     }
     return this.map[key];
   }

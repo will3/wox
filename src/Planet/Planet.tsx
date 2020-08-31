@@ -15,8 +15,7 @@ export default (props: PlanetProps) => {
   const maxHeight = 64;
   const chunkSize = 32;
 
-  const chunksData = useStore(state => state.chunks);
-  const chunksRef = createRef<Chunks>();
+  const chunksData = useStore((state) => state.chunks);
 
   const noise = new Noise({
     scale: new Vector3(1, 0.4, 1),
@@ -24,12 +23,6 @@ export default (props: PlanetProps) => {
   });
 
   useEffect(() => {
-    if (chunksRef.current == null) {
-      return;
-    }
-
-    const chunks = chunksRef.current;
-
     for (let i = 0; i < size[0]; i++) {
       for (let j = 0; j < size[1]; j++) {
         for (let k = 0; k < size[2]; k++) {
@@ -57,9 +50,7 @@ export default (props: PlanetProps) => {
         }
       }
     }
-
-    chunks.forceUpdate();
-  }, [chunksRef.current, seed]);
+  }, [seed]);
 
   const rockColor: [number, number, number] = [0.1, 0.1, 0.08];
   const grassColor: [number, number, number] = [0.09, 0.12, 0.08];
@@ -95,5 +86,5 @@ export default (props: PlanetProps) => {
     }
   };
 
-  return <Chunks ref={chunksRef} chunksData={chunksData}/>;
+  return <Chunks chunksData={chunksData} />;
 };

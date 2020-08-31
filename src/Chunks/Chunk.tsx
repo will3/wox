@@ -71,7 +71,7 @@ export default (props: ChunkProps) => {
   );
 
   const sunColor = new Vector3(8.1, 6.0, 4.2).multiplyScalar(1.0);
-  const lightDir = new Vector3(-1.0, -1.0, -1.0).normalize();
+  const lightDir = new Vector3(-1.0, -1.0, 1.0).normalize();
   const ambient = new Vector3(1.0, 1.0, 1.0).multiplyScalar(0.1);
 
   const uniforms = UniformsUtils.merge([
