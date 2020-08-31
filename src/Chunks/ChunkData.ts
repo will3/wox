@@ -28,7 +28,7 @@ export default class ChunkData {
     this.key = this.getKey();
   }
 
-  get(i: number, j: number, k: number): number {
+  get(i: number, j: number, k: number): number | null {
     if (
       i < 0 ||
       j < 0 ||
@@ -40,7 +40,7 @@ export default class ChunkData {
       return 0;
     }
     const index = i * this.size * this.size + j * this.size + k;
-    return this.data[index] || 0;
+    return this.data[index] ?? null;
   }
 
   getWorld(i: number, j: number, k: number): number | null {

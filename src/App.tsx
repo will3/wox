@@ -13,7 +13,7 @@ import Brush from "./Brush";
 import { chunkSize } from "./constants";
 
 export default () => {
-  const size = [3, 3, 3] as [number, number, number];
+  const size = [5, 3, 5] as [number, number, number];
 
   const setCamera = useStore((state) => state.setCamera);
 
