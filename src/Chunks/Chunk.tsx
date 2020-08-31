@@ -14,6 +14,7 @@ import {
 } from "three";
 import { meshChunk, MeshData } from "./meshChunk";
 import { useStore } from "../store";
+import { useFrame } from "react-three-fiber";
 
 export interface ChunkProps {
   chunk: ChunkData;
@@ -27,7 +28,11 @@ export default (props: ChunkProps) => {
 
   const [meshData, setMeshData] = useState<MeshData>();
 
-  useEffect(() => {
+  useFrame(() => {
+    if (!chunk.dirty) {
+      return;
+    }
+
     const meshData = meshChunk(chunk);
     console.log(
       `Meshed ${chunk.origin.join(",")} ${
@@ -36,7 +41,9 @@ export default (props: ChunkProps) => {
     );
     setMeshData(meshData);
     chunk.meshData = meshData;
-  }, []);
+
+    chunk.dirty = false;
+  });
 
   const shaderMaterialRef = useRef<ShaderMaterial>();
 

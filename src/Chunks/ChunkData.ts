@@ -12,6 +12,7 @@ export default class ChunkData {
   size = 32;
   chunks: ChunksData;
   meshData: MeshData | null = null;
+  dirty = false;
 
   constructor(origin: [number, number, number], chunks: ChunksData, size = 32) {
     this.origin = origin;
@@ -56,6 +57,7 @@ export default class ChunkData {
   set(i: number, j: number, k: number, v: number) {
     const index = i * this.size * this.size + j * this.size + k;
     this.data[index] = v;
+    this.dirty = true;
   }
 
   setColor(i: number, j: number, k: number, color: Color) {
