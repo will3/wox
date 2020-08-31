@@ -33,11 +33,13 @@ export default (props: ChunkProps) => {
       return;
     }
 
+    const start = new Date().getTime();
     const meshData = meshChunk(chunk);
+    const end = new Date().getTime();
     console.log(
       `Meshed ${chunk.origin.join(",")} ${
         meshData.vertices.length / 3
-      } vertices, ${meshData.indices.length / 3} triangles`
+      } vertices, ${meshData.indices.length / 3} triangles ${end - start}ms`
     );
 
     chunk.meshData = meshData;
@@ -89,16 +91,13 @@ export default (props: ChunkProps) => {
     chunk.dirty = false;
   });
 
-  const shaderMaterialRef = useRef<ShaderMaterial>();
-
   useEffect(
     () =>
       useStore.subscribe(
         (lightDir) => {
-          if (shaderMaterialRef.current == null) {
-            return;
-          }
-          shaderMaterialRef.current.uniforms.lightDir = new Uniform(lightDir);
+          const material = mesh.material as ShaderMaterial;
+          material.uniforms.lightDir = new Uniform(lightDir);
+          material.uniformsNeedUpdate = true;
         },
         (state) => state.lightDir
       ),
