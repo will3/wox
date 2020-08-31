@@ -10,11 +10,11 @@ export interface State {
   mouse: Vector2;
   setMouse(mouse: Vector2): void;
   chunks: ChunksData;
-  highlight: HighlightState | null;
-  setHighlight(highlight: HighlightState | null): void;
+  hover: HoverState | null;
+  setHover(hover: HoverState | null): void;
 }
 
-export interface HighlightState {
+export interface HoverState {
   coord: [number, number, number];
   normal: [number, number, number];
 }
@@ -53,6 +53,6 @@ export const useStore = create<State>((set) => ({
     set({ mouse });
   },
   chunks: new ChunksData(),
-  highlight: null,
-  setHighlight: (highlight: HighlightState) => set({ highlight }),
+  hover: null,
+  setHover: (hover: HoverState) => set({ hover }),
 }));

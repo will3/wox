@@ -8,8 +8,8 @@ export default () => {
   const mouse = useStore((state) => state.mouse);
   const { camera, scene } = useThree();
   const chunks = useStore((state) => state.chunks);
-  const setHighlight = useStore((state) => state.setHighlight);
-  const highlight = useStore((state) => state.highlight);
+  const setHover = useStore((state) => state.setHover);
+  const hover = useStore((state) => state.hover);
 
   useEffect(() => {
     const ray = new Raycaster();
@@ -42,20 +42,20 @@ export default () => {
       .fromArray(chunk.origin)
       .add(new Vector3().fromArray(result.coord));
 
-    setHighlight({
+    setHover({
       coord: worldCoord.toArray() as [number, number, number],
       normal: result.normal as [number, number, number],
     });
   }, [mouse]);
 
-  if (highlight == null) {
+  if (hover == null) {
     return null;
   }
 
   const coordCenter = new Vector3()
-    .fromArray(highlight.coord)
+    .fromArray(hover.coord)
     .add(new Vector3(0.5, 0.5, 0.5));
-  const normalVector = new Vector3().fromArray(highlight.normal);
+  const normalVector = new Vector3().fromArray(hover.normal);
 
   const position = coordCenter
     .clone()
