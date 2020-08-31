@@ -14,10 +14,8 @@ import {
   Mesh,
   BufferAttribute,
 } from "three";
-import { meshChunk, MeshData } from "./meshChunk";
 import { useStore } from "../store";
-import { useFrame } from "react-three-fiber";
-import { chunk } from "lodash";
+import _ from "lodash";
 
 export interface ChunkProps {
   chunk: ChunkData;
@@ -29,61 +27,69 @@ export default (props: ChunkProps) => {
   const vShader = document.getElementById("vertexShader")!.textContent!;
   const fShader = document.getElementById("fragmentShader")!.textContent!;
 
+  const mesh = chunk.mesh;
+
+  console.log(`Rerender chunk ${props.chunk.origin.join(",")}`);
+
   useStore.subscribe(
     () => {
-      handleMeshDataUpdated(chunk, mesh);
+      handleMeshDataUpdated(chunk);
     },
     (state) => state.chunks.map[chunk.key].version
   );
 
+  const handleLightDirChanged = (lightDir: Vector3) => {
+    const material = mesh.material as ShaderMaterial;
+    material.uniforms.lightDir = new Uniform(lightDir);
+    material.uniformsNeedUpdate = true;
+    material.needsUpdate = true;
+  };
+
   useEffect(
     () =>
       useStore.subscribe(
-        (lightDir) => {
-          const material = mesh.material as ShaderMaterial;
-          material.uniforms.lightDir = new Uniform(lightDir);
-          material.uniformsNeedUpdate = true;
-        },
+        (lightDir) => handleLightDirChanged(lightDir as Vector3),
         (state) => state.lightDir
       ),
     []
   );
 
-  const mesh = new Mesh();
-  mesh.position.fromArray(chunk.origin);
-  mesh.receiveShadow = true;
-  mesh.castShadow = true;
-  mesh.userData = {
-    isChunkMesh: true,
-    origin: chunk.origin,
-  };
+  useEffect(() => {
+    mesh.position.fromArray(chunk.origin);
+    mesh.receiveShadow = true;
+    mesh.castShadow = true;
+    mesh.userData = {
+      isChunkMesh: true,
+      origin: chunk.origin,
+    };
 
-  const sunColor = new Vector3(8.1, 6.0, 4.2).multiplyScalar(1.0);
-  const lightDir = new Vector3(-1.0, -1.0, 1.0).normalize();
-  const ambient = new Vector3(1.0, 1.0, 1.0).multiplyScalar(0.1);
+    const sunColor = new Vector3(8.1, 6.0, 4.2).multiplyScalar(1.0);
+    const lightDir = new Vector3(-1.0, -1.0, 1.0).normalize();
+    const ambient = new Vector3(1.0, 1.0, 1.0).multiplyScalar(0.1);
 
-  const uniforms = UniformsUtils.merge([
-    UniformsLib["lights"],
-    {
-      sunColor: new Uniform(sunColor),
-      lightDir: new Uniform(lightDir),
-      ambient: new Uniform(ambient),
-    },
-  ]);
+    const uniforms = UniformsUtils.merge([
+      UniformsLib["lights"],
+      {
+        sunColor: new Uniform(sunColor),
+        lightDir: new Uniform(lightDir),
+        ambient: new Uniform(ambient),
+      },
+    ]);
 
-  mesh.material = new ShaderMaterial({
-    vertexShader: vShader,
-    fragmentShader: fShader,
-    lights: true,
-    uniforms,
-  });
+    mesh.material = new ShaderMaterial({
+      vertexShader: vShader,
+      fragmentShader: fShader,
+      lights: true,
+      uniforms,
+    });
 
-  handleMeshDataUpdated(chunk, mesh);
+    handleMeshDataUpdated(chunk);
+  }, []);
 
   return <primitive object={mesh} />;
 };
 
-const handleMeshDataUpdated = (chunk: ChunkData, mesh: Mesh) => {
+const handleMeshDataUpdated = (chunk: ChunkData) => {
   const meshData = chunk.meshData;
 
   console.log(`Update chunk ${chunk.key} version: ${chunk.version}`);
@@ -91,6 +97,8 @@ const handleMeshDataUpdated = (chunk: ChunkData, mesh: Mesh) => {
   if (meshData == null) {
     return;
   }
+
+  const mesh = chunk.mesh;
 
   if (mesh.geometry != null) {
     mesh.geometry.dispose();
@@ -124,15 +132,20 @@ const handleMeshDataUpdated = (chunk: ChunkData, mesh: Mesh) => {
     prevTexture.dispose();
   }
 
-  const dataTexture = new DataTexture(
-    Float32Array.from(meshData.voxelNormals),
-    meshData.voxelNormals.length / 3,
-    1,
-    RGBFormat,
-    FloatType
-  );
+  const voxelNormals = meshData.voxelNormals;
+  if (voxelNormals.length > 0) {
+    const textureSize = voxelNormals.length / 3;
+    const dataTexture = new DataTexture(
+      Float32Array.from(voxelNormals),
+      textureSize,
+      1,
+      RGBFormat,
+      FloatType
+    );
 
-  material.uniforms.voxelNormals = new Uniform(dataTexture);
+    material.uniforms.voxelNormals = new Uniform(dataTexture);
+  }
+
   material.uniforms.voxelCount = new Uniform(meshData.voxelCount);
   material.uniformsNeedUpdate = true;
   material.needsUpdate = true;

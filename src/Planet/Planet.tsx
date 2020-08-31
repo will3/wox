@@ -5,6 +5,7 @@ import { Noise } from "../Noise";
 import { clamp } from "../math";
 import { useStore } from "../store";
 import Mesher from "../Chunks/Mesher";
+import { chunkSize } from "../constants";
 
 export interface PlanetProps {
   size: [number, number, number];
@@ -14,7 +15,6 @@ export interface PlanetProps {
 export default (props: PlanetProps) => {
   const { size, seed } = props;
   const maxHeight = 64;
-  const chunkSize = 32;
 
   const chunksData = useStore((state) => state.chunks);
 

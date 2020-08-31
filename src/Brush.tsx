@@ -1,15 +1,16 @@
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { useStore, HoverState } from "./store";
 import ChunksData from "./Chunks/ChunksData";
 import React from "react";
 import { Vector3 } from "three";
 import { useFrame } from "react-three-fiber";
+import { calcSphereStroke } from "./math";
 
-export interface PlaceVoxelProps {
+export interface BrushProps {
   chunks: ChunksData;
 }
 
-const PlaceVoxelInternal = ({ chunks }: PlaceVoxelProps) => {
+const BrushInternal = ({ chunks }: BrushProps) => {
   let hover: HoverState | null;
 
   useStore.subscribe(
@@ -20,6 +21,9 @@ const PlaceVoxelInternal = ({ chunks }: PlaceVoxelProps) => {
   );
 
   let isDown = false;
+
+  const stroke = useMemo(() => calcSphereStroke(1.5), []);
+
   const handleMouseDown = (e: MouseEvent) => {
     if (e.button === 0) {
       isDown = true;
@@ -38,12 +42,17 @@ const PlaceVoxelInternal = ({ chunks }: PlaceVoxelProps) => {
         return;
       }
 
-      const { coord, normal } = hover;
-      const next = new Vector3()
-        .fromArray(coord)
-        .add(new Vector3().fromArray(normal));
-      chunks.set(next.x, next.y, next.z, 0.01);
-      chunks.setColor(next.x, next.y, next.z, [1.0, 1.0, 1.0]);
+      const { coord } = hover;
+
+      for (let voxel of stroke) {
+        const next = new Vector3()
+          .fromArray(coord)
+          .add(voxel.coord);
+
+        const value = chunks.get(next.x, next.y, next.z) ?? 0;
+        chunks.set(next.x, next.y, next.z, value + voxel.value * 0.1);
+        chunks.setColor(next.x, next.y, next.z, [0.1, 0.1, 0.1]);
+      }
     }
   });
 
@@ -64,7 +73,7 @@ const PlaceVoxelInternal = ({ chunks }: PlaceVoxelProps) => {
   return null;
 };
 
-export default function PlaceVoxel() {
+export default function Brush() {
   const chunks = useStore((state) => state.chunks);
-  return <PlaceVoxelInternal chunks={chunks} />;
-};
+  return <BrushInternal chunks={chunks} />;
+}

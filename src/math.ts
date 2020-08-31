@@ -1,4 +1,4 @@
-import { Euler } from "three";
+import { Euler, Vector3 } from "three";
 
 export const lerp = (a: number, b: number, r: number) => {
   return a + (b - a) * r;
@@ -21,4 +21,27 @@ export const clamp = (v: number, min: number, max: number) => {
     return max;
   }
   return v;
+};
+
+export const calcSphereStroke = (radius: number) => {
+  const r = Math.ceil(radius);
+
+  const result = [];
+  for (let i = -r; i <= r; i++) {
+    for (let j = -r; j <= r; j++) {
+      for (let k = -r; k <= r; k++) {
+        const dis = Math.sqrt(i * i + j * j + k * k);
+        const value = 1 - dis / radius;
+        if (value < 0) {
+          continue;
+        }
+        result.push({
+          coord: new Vector3(i, j, k),
+          value,
+        });
+      }
+    }
+  }
+
+  return result;
 };

@@ -1,6 +1,7 @@
 import create from "zustand";
 import { Euler, Vector3, Vector2 } from "three";
 import ChunksData from "./Chunks/ChunksData";
+import { chunkSize } from "./constants";
 
 export interface State {
   camera: CameraState;
@@ -52,7 +53,7 @@ export const useStore = create<State>((set) => ({
   setMouse: (mouse: Vector2) => {
     set({ mouse });
   },
-  chunks: new ChunksData(),
+  chunks: new ChunksData(chunkSize),
   hover: null,
   setHover: (hover: HoverState) => set({ hover }),
 }));

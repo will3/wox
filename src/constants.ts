@@ -1,0 +1,1 @@
+export const chunkSize = 32;

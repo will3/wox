@@ -1,5 +1,5 @@
 import ChunksData from "./ChunksData";
-import { Vector3, BufferGeometry } from "three";
+import { Vector3, BufferGeometry, Mesh } from "three";
 import _ from "lodash";
 import { MeshData } from "./meshChunk";
 
@@ -9,15 +9,19 @@ export default class ChunkData {
   data: number[] = [];
   color: Color[] = [];
   origin: [number, number, number];
-  size = 32;
+  size: number;
   chunks: ChunksData;
   meshData: MeshData | null = null;
   dirty = false;
-  geometry: BufferGeometry | null = null;
   version = 1;
   key: string;
+  mesh: Mesh = new Mesh();
 
-  constructor(origin: [number, number, number], chunks: ChunksData, size = 32) {
+  constructor(
+    origin: [number, number, number],
+    chunks: ChunksData,
+    size: number
+  ) {
     this.origin = origin;
     this.size = size;
     this.chunks = chunks;

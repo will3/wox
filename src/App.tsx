@@ -9,11 +9,11 @@ import AlwaysLongShadaws from "./AlwaysLongShadaws";
 import { useStore } from "./store";
 import Light from "./Light";
 import HighlightHover from "./HighlightHover";
-import PlaceVoxel from "./PlaceVoxel";
+import Brush from "./Brush";
+import { chunkSize } from "./constants";
 
 export default () => {
-  const size = [3, 2, 3] as [number, number, number];
-  const chunkSize = 32;
+  const size = [3, 3, 3] as [number, number, number];
 
   const setCamera = useStore((state) => state.setCamera);
 
@@ -40,10 +40,10 @@ export default () => {
       >
         <Light />
         <CameraController />
-        <Planet size={size} seed={1237} />
+        <Planet size={size} seed={1337} />
         <AlwaysLongShadaws />
         <HighlightHover />
-        <PlaceVoxel />
+        <Brush />
       </Canvas>
       <UserInput />
       <Stats />

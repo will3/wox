@@ -6,7 +6,7 @@ export default class ChunksData {
   dirty = false;
   version = 1;
 
-  constructor(size = 32) {
+  constructor(size: number) {
     this.size = size;
   }
 
@@ -26,6 +26,9 @@ export default class ChunksData {
   }
 
   setColor(i: number, j: number, k: number, color: [number, number, number]) {
+    if (i < 0 || j < 0 || k < 0) {
+      return;
+    }
     const origin = this.getOrigin(i, j, k);
     const chunk = this.getOrCreateChunk(origin);
     return chunk.setColor(i - origin[0], j - origin[1], k - origin[2], color);
@@ -60,7 +63,7 @@ export default class ChunksData {
   getOrCreateChunk(origin: [number, number, number]) {
     const key = this.getKey(origin);
     if (this.map[key] == null) {
-      this.map[key] = new ChunkData(origin, this);
+      this.map[key] = new ChunkData(origin, this, this.size);
       this.dirty = true;
     }
     return this.map[key];
