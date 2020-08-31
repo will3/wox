@@ -11,6 +11,7 @@ import Planet from "./Planet/Planet";
 import AlwaysLongShadaws from "./AlwaysLongShadaws";
 import { useStore } from "./store";
 import Light from "./Light";
+import HighlightHover from "./HighlightHover";
 
 export default () => {
   const size = [3, 2, 3] as [number, number, number];
@@ -43,6 +44,7 @@ export default () => {
         <CameraController />
         <Planet size={size} seed={1237} />
         <AlwaysLongShadaws />
+        <HighlightHover />
       </Canvas>
       <UserInput />
       <Stats />

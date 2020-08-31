@@ -1,6 +1,6 @@
 import ChunkData from "./ChunkData";
 import React, { useEffect, useState, useRef } from "react";
-import MeshData from "./MeshData";
+
 import {
   BufferGeometry,
   DataTexture,
@@ -9,11 +9,10 @@ import {
   FloatType,
   Vector3,
   ShaderMaterial,
-  mergeUniforms,
-  UniformsLib,
   UniformsUtils,
+  UniformsLib,
 } from "three";
-import { meshChunk } from "./meshChunk";
+import { meshChunk, MeshData } from "./meshChunk";
 import { useStore } from "../store";
 
 export interface ChunkProps {
@@ -36,6 +35,7 @@ export default (props: ChunkProps) => {
       } vertices, ${meshData.indices.length / 3} triangles`
     );
     setMeshData(meshData);
+    chunk.meshData = meshData;
   }, []);
 
   const shaderMaterialRef = useRef<ShaderMaterial>();
@@ -86,7 +86,10 @@ export default (props: ChunkProps) => {
   ]);
 
   return (
-    <mesh position={chunk.origin} receiveShadow={true} castShadow={true}>
+    <mesh position={chunk.origin} receiveShadow={true} castShadow={true} userData={{
+      isChunkMesh: true,
+      origin: chunk.origin
+    }}>
       <bufferGeometry
         attach="geometry"
         ref={(bufferGeometry: BufferGeometry) => {
@@ -129,8 +132,6 @@ export default (props: ChunkProps) => {
         uniforms={uniforms}
         attach="material"
       />
-      {/* <meshLambertMaterial attach="material"/> */}
-      {/* <shadowMaterial attach="material"/> */}
     </mesh>
   );
 };

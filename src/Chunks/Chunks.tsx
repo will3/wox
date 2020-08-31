@@ -3,20 +3,18 @@ import _ from "lodash";
 import Chunk from "./Chunk";
 import ChunksData from "./ChunksData";
 
-export default class Chunks extends Component {
-  chunksData = new ChunksData();
+export interface ChunksProps {
+  chunksData: ChunksData;
+}
 
-  get chunks() {
-    return this.chunksData;
-  }
-
+export default class Chunks extends Component<ChunksProps> {
   render() {
     return (
       <>
-        {_.values(this.chunksData.map).map((chunk) => {
+        {_.values(this.props.chunksData.map).map((chunk) => {
           return <Chunk key={chunk.getKey()} chunk={chunk} />;
         })}
       </>
     );
   }
-};
+}

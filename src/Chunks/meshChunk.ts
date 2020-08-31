@@ -1,5 +1,20 @@
-import MeshData from "./MeshData";
 import ChunkData from "./ChunkData";
+
+export interface FaceInfo {
+  coord: [number, number, number];
+  normal: number[];
+}
+
+export type MeshData = {
+  vertices: number[];
+  colors: number[];
+  indices: number[];
+  normals: number[];
+  voxelIndexes: number[];
+  voxelNormals: number[];
+  voxelCount: number;
+  faces: FaceInfo[];
+};
 
 export const meshChunk = (chunk: ChunkData): MeshData => {
   const vertices: number[] = [];
@@ -10,7 +25,10 @@ export const meshChunk = (chunk: ChunkData): MeshData => {
   const size = chunk.size;
   const indexMap: { [key: string]: number } = {};
   const voxelNormals: number[] = [];
+  const faces: FaceInfo[] = [];
+
   let voxelIndex = 0;
+  let faceIndex = 0;
 
   for (let d = 0; d < 3; d++) {
     for (let i = 0; i < size; i++) {
@@ -82,6 +100,13 @@ export const meshChunk = (chunk: ChunkData): MeshData => {
 
           const vi = indexMap[key];
           voxelIndexes.push(vi, vi, vi, vi);
+
+          faces[faceIndex] = faces[faceIndex + 1] = {
+            coord,
+            normal,
+          };
+
+          faceIndex += 2;
         }
       }
     }
@@ -95,6 +120,7 @@ export const meshChunk = (chunk: ChunkData): MeshData => {
     voxelIndexes,
     voxelNormals,
     voxelCount: voxelIndex,
+    faces,
   };
 };
 
@@ -102,7 +128,12 @@ const getKey = (i: number, j: number, k: number) => {
   return `${i}-${j}-${k}`;
 };
 
-const getVector = (d: number, i: number, j: number, k: number) => {
+const getVector = (
+  d: number,
+  i: number,
+  j: number,
+  k: number
+): [number, number, number] => {
   if (d === 0) {
     return [i, j, k];
   } else if (d === 1) {

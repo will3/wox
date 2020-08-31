@@ -1,6 +1,7 @@
 import ChunksData from "./ChunksData";
 import { Vector3 } from "three";
 import _ from "lodash";
+import { MeshData } from "./meshChunk";
 
 export type Color = [number, number, number];
 
@@ -10,6 +11,7 @@ export default class ChunkData {
   origin: [number, number, number];
   size = 32;
   chunks: ChunksData;
+  meshData: MeshData | null = null;
 
   constructor(origin: [number, number, number], chunks: ChunksData, size = 32) {
     this.origin = origin;

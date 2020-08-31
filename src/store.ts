@@ -1,11 +1,22 @@
 import create from "zustand";
-import { Euler, Vector3 } from "three";
+import { Euler, Vector3, Vector2 } from "three";
+import ChunksData from "./Chunks/ChunksData";
 
 export interface State {
   camera: CameraState;
   lightDir: Vector3;
   setLightDir(lightDir: Vector3): void;
   setCamera(camera: CameraStateUpdate): void;
+  mouse: Vector2;
+  setMouse(mouse: Vector2): void;
+  chunks: ChunksData;
+  highlight: HighlightState | null;
+  setHighlight(highlight: HighlightState | null): void;
+}
+
+export interface HighlightState {
+  coord: [number, number, number];
+  normal: [number, number, number];
 }
 
 export interface CameraStateUpdate {
@@ -37,4 +48,11 @@ export const useStore = create<State>((set) => ({
       const next: CameraState = { ...state.camera, ...camera };
       return { camera: next };
     }),
+  mouse: new Vector2(),
+  setMouse: (mouse: Vector2) => {
+    set({ mouse });
+  },
+  chunks: new ChunksData(),
+  highlight: null,
+  setHighlight: (highlight: HighlightState) => set({ highlight }),
 }));

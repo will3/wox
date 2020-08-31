@@ -3,6 +3,7 @@ import { Chunks, ChunkData } from "../Chunks";
 import { Vector3 } from "three";
 import { Noise } from "../Noise";
 import { clamp } from "../math";
+import { useStore } from "../store";
 
 export interface PlanetProps {
   size: [number, number, number];
@@ -14,6 +15,7 @@ export default (props: PlanetProps) => {
   const maxHeight = 64;
   const chunkSize = 32;
 
+  const chunksData = useStore(state => state.chunks);
   const chunksRef = createRef<Chunks>();
 
   const noise = new Noise({
@@ -36,7 +38,7 @@ export default (props: PlanetProps) => {
             number,
             number
           ];
-          const chunk = chunks.chunks.getOrCreateChunk(origin);
+          const chunk = chunksData.getOrCreateChunk(origin);
           generateChunk(chunk);
         }
       }
@@ -50,7 +52,7 @@ export default (props: PlanetProps) => {
             number,
             number
           ];
-          const chunk = chunks.chunks.getChunk(origin);
+          const chunk = chunksData.getChunk(origin);
           generateGrass(chunk);
         }
       }
@@ -93,5 +95,5 @@ export default (props: PlanetProps) => {
     }
   };
 
-  return <Chunks ref={chunksRef} />;
+  return <Chunks ref={chunksRef} chunksData={chunksData}/>;
 };
