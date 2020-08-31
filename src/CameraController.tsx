@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useThree, useFrame } from "react-three-fiber";
 import { Vector3 } from "three";
-import { lerpEulers } from "./math";
+import { lerpEulers } from "./utils/math";
 import { useStore } from "./store";
 
 export default () => {

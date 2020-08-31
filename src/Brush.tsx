@@ -4,7 +4,8 @@ import ChunksData from "./Chunks/ChunksData";
 import React from "react";
 import { Vector3 } from "three";
 import { useFrame } from "react-three-fiber";
-import { calcSphereStroke } from "./math";
+import { calcSphereStroke } from "./utils/math";
+import Layers from "./Layers";
 
 export interface BrushProps {
   chunks: ChunksData;
@@ -45,9 +46,7 @@ const BrushInternal = ({ chunks }: BrushProps) => {
       const { coord } = hover;
 
       for (let voxel of stroke) {
-        const next = new Vector3()
-          .fromArray(coord)
-          .add(voxel.coord);
+        const next = new Vector3().fromArray(coord).add(voxel.coord);
 
         const value = chunks.get(next.x, next.y, next.z) ?? 0;
         chunks.set(next.x, next.y, next.z, value + voxel.value * 0.1);
@@ -74,6 +73,6 @@ const BrushInternal = ({ chunks }: BrushProps) => {
 };
 
 export default function Brush() {
-  const chunks = useStore((state) => state.chunks);
+  const chunks = useStore((state) => state.chunks[Layers.ground]);
   return <BrushInternal chunks={chunks} />;
 }

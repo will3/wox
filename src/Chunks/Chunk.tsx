@@ -35,7 +35,7 @@ export default (props: ChunkProps) => {
     () => {
       handleMeshDataUpdated(chunk);
     },
-    (state) => state.chunks.map[chunk.key].version
+    () => chunk.version
   );
 
   const handleLightDirChanged = (lightDir: Vector3) => {
@@ -61,6 +61,7 @@ export default (props: ChunkProps) => {
     mesh.userData = {
       isChunkMesh: true,
       origin: chunk.origin,
+      layer: chunk.layer
     };
 
     const sunColor = new Vector3(8.1, 6.0, 4.2).multiplyScalar(1.0);
@@ -99,6 +100,8 @@ const handleMeshDataUpdated = (chunk: ChunkData) => {
   }
 
   const mesh = chunk.mesh;
+
+  mesh.layers.enable(chunk.layer);
 
   if (mesh.geometry != null) {
     mesh.geometry.dispose();

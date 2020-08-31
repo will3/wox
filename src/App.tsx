@@ -11,7 +11,7 @@ import Light from "./Light";
 import HighlightHover from "./HighlightHover";
 import Brush from "./Brush";
 import { chunkSize } from "./constants";
-import PlaceTrees from "./PlaceTrees";
+import PlaceTrees from "./Trees/PlaceTrees";
 
 export default () => {
   const size = [5, 3, 5] as [number, number, number];

@@ -16,16 +16,19 @@ export default class ChunkData {
   version = 1;
   key: string;
   mesh: Mesh = new Mesh();
+  layer: number;
 
   constructor(
     origin: [number, number, number],
     chunks: ChunksData,
-    size: number
+    size: number,
+    layer: number
   ) {
     this.origin = origin;
     this.size = size;
     this.chunks = chunks;
     this.key = this.getKey();
+    this.layer = layer;
   }
 
   get(i: number, j: number, k: number): number | null {

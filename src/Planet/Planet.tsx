@@ -2,10 +2,11 @@ import React, { useEffect, createRef } from "react";
 import { Chunks, ChunkData } from "../Chunks";
 import { Vector3 } from "three";
 import { Noise } from "../Noise";
-import { clamp } from "../math";
+import { clamp } from "../utils/math";
 import { useStore } from "../store";
 import Mesher from "../Chunks/Mesher";
 import { chunkSize } from "../constants";
+import Layers from "../Layers";
 
 export interface PlanetProps {
   size: [number, number, number];
@@ -16,7 +17,7 @@ export default (props: PlanetProps) => {
   const { size, seed } = props;
   const maxHeight = 64;
 
-  const chunksData = useStore((state) => state.chunks);
+  const groundChunks = useStore((state) => state.chunks[Layers.ground]);
 
   const noise = new Noise({
     scale: new Vector3(1, 0.4, 1),
@@ -32,7 +33,7 @@ export default (props: PlanetProps) => {
             number,
             number
           ];
-          const chunk = chunksData.getOrCreateChunk(origin);
+          const chunk = groundChunks.getOrCreateChunk(origin);
           generateChunk(chunk);
         }
       }
@@ -46,15 +47,15 @@ export default (props: PlanetProps) => {
             number,
             number
           ];
-          const chunk = chunksData.getChunk(origin);
+          const chunk = groundChunks.getChunk(origin);
           generateGrass(chunk);
         }
       }
     }
   }, [seed]);
 
-  const rockColor: [number, number, number] = [0.1, 0.1, 0.08];
-  const grassColor: [number, number, number] = [0.09, 0.12, 0.08];
+  const rockColor: [number, number, number] = [0.072, 0.07, 0.075];
+  const grassColor: [number, number, number] = [0.08, 0.10, 0.065];
 
   const generateChunk = (chunk: ChunkData) => {
     console.log(`Generated chunk ${chunk.key}`);
@@ -90,7 +91,8 @@ export default (props: PlanetProps) => {
   return (
     <>
       <Mesher />
-      <Chunks chunksData={chunksData} />
+      <Chunks layer={Layers.ground} />
+      <Chunks layer={Layers.trees} />
     </>
   );
 };

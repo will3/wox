@@ -5,17 +5,18 @@ import ChunksData from "./ChunksData";
 import { useStore } from "../store";
 
 export interface ChunksProps {
-  chunksData: ChunksData;
+  layer: number;
 }
 
-export default ({ chunksData }: ChunksProps) => {
-  const version = useStore(state => state.chunks.version);
+export default ({ layer }: ChunksProps) => {
+  const version = useStore(state => state.chunks[layer].version);
+  const chunks = useStore(store => store.chunks[layer]);
 
   console.log(`Rerender chunks version: ${version}`);
 
   return (
     <>
-      {_.values(chunksData.map).map((chunk) => {
+      {_.values(chunks.map).map((chunk) => {
         return <Chunk key={chunk.key} chunk={chunk} />;
       })}
     </>

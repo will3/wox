@@ -1,8 +1,66 @@
 import { useEffect } from "react";
-import { useStore } from "./store";
+import { useStore, HoverState } from "./store";
 import { useThree } from "react-three-fiber";
-import { Raycaster, Color, Vector3, Vector2, Euler, Quaternion } from "three";
+import {
+  Raycaster,
+  Color,
+  Vector3,
+  Quaternion,
+  Vector2,
+  Camera,
+  Scene,
+} from "three";
 import React from "react";
+import ChunksData from "./Chunks/ChunksData";
+import Layers from "./Layers";
+
+const raycast = (
+  mouse: Vector2,
+  camera: Camera,
+  scene: Scene,
+  chunks: ChunksData[],
+  layers: number[]
+) => {
+  const ray = new Raycaster();
+  for (const layer of layers) {
+    ray.layers.enable(layer);
+  }
+
+  ray.setFromCamera(mouse, camera);
+  const intersects = ray.intersectObjects(scene.children);
+  if (intersects.length === 0) {
+    return;
+  }
+
+  const intersect = intersects[0];
+  const userData = intersect.object.userData;
+  if (!userData.isChunkMesh) {
+    return;
+  }
+
+  const { origin, layer } = userData;
+  const faceIndex = intersect.faceIndex;
+  if (faceIndex == null) {
+    return;
+  }
+
+  const chunk = chunks[layer].getChunk(origin);
+  if (chunk == null || chunk.meshData == null) {
+    return;
+  }
+
+  const result = chunk.meshData.faces[faceIndex];
+
+  const worldCoord = new Vector3()
+    .fromArray(chunk.origin)
+    .add(new Vector3().fromArray(result.coord));
+
+  return {
+    coord: worldCoord.toArray() as [number, number, number],
+    normal: result.normal as [number, number, number],
+    voxelNormal: result.voxelNormal,
+  } as HoverState;
+};
 
 export default () => {
   const mouse = useStore((state) => state.mouse);
@@ -12,41 +70,8 @@ export default () => {
   const hover = useStore((state) => state.hover);
 
   useEffect(() => {
-    const ray = new Raycaster();
-    ray.setFromCamera(mouse, camera);
-    const intersects = ray.intersectObjects(scene.children);
-    if (intersects.length === 0) {
-      return;
-    }
-
-    const intersect = intersects[0];
-    const userData = intersect.object.userData;
-    if (!userData.isChunkMesh) {
-      return;
-    }
-
-    const origin = userData.origin;
-    const faceIndex = intersect.faceIndex;
-    if (faceIndex == null) {
-      return;
-    }
-
-    const chunk = chunks.getChunk(origin);
-    if (chunk == null || chunk.meshData == null) {
-      return;
-    }
-
-    const result = chunk.meshData.faces[faceIndex];
-
-    const worldCoord = new Vector3()
-      .fromArray(chunk.origin)
-      .add(new Vector3().fromArray(result.coord));
-
-    setHover({
-      coord: worldCoord.toArray() as [number, number, number],
-      normal: result.normal as [number, number, number],
-      voxelNormal: result.voxelNormal,
-    });
+    const result = raycast(mouse, camera, scene, chunks, [Layers.ground]);
+    setHover(result ?? null);
   }, [mouse]);
 
   if (hover == null) {

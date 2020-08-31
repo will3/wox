@@ -5,9 +5,11 @@ export default class ChunksData {
   size: number;
   dirty = false;
   version = 1;
+  layer: number;
 
-  constructor(size: number) {
+  constructor(size: number, layer: number) {
     this.size = size;
+    this.layer = layer;
   }
 
   get(i: number, j: number, k: number) {
@@ -63,7 +65,7 @@ export default class ChunksData {
   getOrCreateChunk(origin: [number, number, number]) {
     const key = this.getKey(origin);
     if (this.map[key] == null) {
-      this.map[key] = new ChunkData(origin, this, this.size);
+      this.map[key] = new ChunkData(origin, this, this.size, this.layer);
       this.dirty = true;
     }
     return this.map[key];
