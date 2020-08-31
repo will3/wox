@@ -15,7 +15,7 @@ export default function PlaceTrees() {
 
     const { coord, voxelNormal } = hover;
 
-    placeTree(chunks, new Vector3().fromArray(coord), voxelNormal);
+    placeTree(chunks, new Vector3().fromArray(coord), voxelNormal, 1);
   };
 
   useEffect(() => {

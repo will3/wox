@@ -3,6 +3,7 @@ import { Euler, Vector3, Vector2 } from "three";
 import ChunksData from "./Chunks/ChunksData";
 import { chunkSize } from "./constants";
 import Layers from "./Layers";
+import QuadTree from "./utils/QuadTree";
 
 export interface State {
   camera: CameraState;
@@ -14,7 +15,11 @@ export interface State {
   chunks: ChunksData[];
   hover: HoverState | null;
   setHover(hover: HoverState | null): void;
+  size: Vector3;
+  treeMap: QuadTree<Tree>;
 }
+
+interface Tree {}
 
 export interface HoverState {
   coord: [number, number, number];
@@ -55,7 +60,12 @@ export const useStore = create<State>((set) => ({
   setMouse: (mouse: Vector2) => {
     set({ mouse });
   },
-  chunks: [new ChunksData(chunkSize, Layers.ground), new ChunksData(chunkSize, Layers.trees)],
+  chunks: [
+    new ChunksData(chunkSize, Layers.ground),
+    new ChunksData(chunkSize, Layers.trees),
+  ],
   hover: null,
   setHover: (hover: HoverState) => set({ hover }),
+  size: new Vector3(5, 3, 5),
+  treeMap: new QuadTree()
 }));

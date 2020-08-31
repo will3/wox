@@ -2,14 +2,17 @@ import ChunksData from "../Chunks/ChunksData";
 import { Vector3, Quaternion, Matrix4, Vector2 } from "three";
 import { clamp } from "lodash";
 import { sdVerticalCapsule, opTx, sdCone } from "../utils/sdf";
+import { Bounds } from "../utils/Bounds";
 
 const placeTree = (
   chunks: ChunksData,
   coord: Vector3,
-  voxelNormal: Vector3
+  voxelNormal: Vector3,
+  size: number,
+  bounds?: Bounds
 ) => {
   const lower = new Vector3(-5, -2, -5);
-  const upper = new Vector3(5, 14, 5);
+  const upper = new Vector3(5, 16, 5);
 
   for (let i = lower.x; i <= upper.x; i++) {
     for (let j = lower.y; j <= upper.y; j++) {
@@ -26,15 +29,23 @@ const placeTree = (
           rotation,
           new Vector3(1, 1, 1)
         );
-        const trunk = clamp(-sdVerticalCapsule(opTx(p, trunkM), 4, 0.6), 0, 1);
+        const coneHeight = 10 * size;
+        const height = 12 * size;
+        const trunkHeight = coneHeight * 0.5;
+
+        const trunk = clamp(
+          -sdVerticalCapsule(opTx(p, trunkM), trunkHeight, 0.6),
+          0,
+          1
+        );
 
         const leafsM = new Matrix4().compose(
-          new Vector3(0, 12, 0).applyQuaternion(rotation),
+          new Vector3(0, height, 0).applyQuaternion(rotation),
           rotation,
           new Vector3(1, 1, 1)
         );
         const leafs = clamp(
-          -sdCone(opTx(p, leafsM), new Vector2(3.0, 1.0), 10),
+          -sdCone(opTx(p, leafsM), new Vector2(3.0, 1.0), coneHeight),
           0,
           1
         );
@@ -51,6 +62,19 @@ const placeTree = (
         }
 
         const isLeafs = leafs > trunk;
+
+        if (bounds != null) {
+          if (
+            worldCoord.x > bounds.max.x ||
+            worldCoord.x < bounds.min.x ||
+            worldCoord.y > bounds.max.y ||
+            worldCoord.y < bounds.min.y ||
+            worldCoord.z > bounds.max.z ||
+            worldCoord.z < bounds.min.z
+          ) {
+            continue;
+          }
+        }
 
         chunks.set(
           worldCoord.x,

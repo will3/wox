@@ -46,7 +46,8 @@ export default class QuadTree<T> {
   getOriginsToSearch(position: Vector3, distance: number) {
     const origin = this.getOrigin(position);
 
-    const origins = [];
+    const origins = [origin];
+
     for (var i = -1; i <= 1; i++) {
       for (var j = -1; j <= 1; j++) {
         const chunk = origin
@@ -54,24 +55,24 @@ export default class QuadTree<T> {
           .add(new Vector2(i, j).multiplyScalar(this.size));
 
         if (i === 0 && j === 0) {
+          continue;
+        }
+
+        const min = chunk.clone().add(new Vector2(-distance, -distance));
+        const rect = {
+          min,
+          max: min
+            .clone()
+            .add(new Vector2(this.size, this.size))
+            .add(new Vector2(distance, distance)),
+        };
+        const result = intersectRectangle(
+          new Vector2(position.x, position.z),
+          rect.min,
+          rect.max
+        );
+        if (result) {
           origins.push(chunk);
-        } else {
-          const min = chunk.clone().add(new Vector2(-distance, -distance));
-          const rect = {
-            min,
-            max: min
-              .clone()
-              .add(new Vector2(this.size, this.size))
-              .add(new Vector2(distance, distance)),
-          };
-          const result = intersectRectangle(
-            new Vector2(position.x, position.z),
-            rect.min,
-            rect.max
-          );
-          if (result) {
-            origins.push(chunk);
-          }
         }
       }
     }

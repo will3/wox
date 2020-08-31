@@ -70,4 +70,10 @@ export default class ChunksData {
     }
     return this.map[key];
   }
+
+  visitChunk(callback: (chunk: ChunkData) => void) {
+    for (let key in this.map) {
+      callback(this.map[key]);
+    }
+  }
 }

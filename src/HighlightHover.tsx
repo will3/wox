@@ -23,7 +23,8 @@ const raycast = (
 ) => {
   const ray = new Raycaster();
   for (const layer of layers) {
-    ray.layers.enable(layer);
+    ray.layers.disableAll();
+    ray.layers.enable(layer + 1);
   }
 
   ray.setFromCamera(mouse, camera);
@@ -49,7 +50,10 @@ const raycast = (
     return;
   }
 
-  const result = chunk.meshData.faces[faceIndex];
+  const result = chunk.getFaceInfo(faceIndex);
+  if (result == null) {
+    return;
+  }
 
   const worldCoord = new Vector3()
     .fromArray(chunk.origin)

@@ -14,15 +14,14 @@ import { chunkSize } from "./constants";
 import PlaceTrees from "./Trees/PlaceTrees";
 
 export default () => {
-  const size = [5, 3, 5] as [number, number, number];
-
+  const size = useStore(state => state.size);
   const setCamera = useStore((state) => state.setCamera);
 
   useEffect(() => {
     const target = new Vector3(
-      (size[0] * chunkSize) / 2,
+      (size.x * chunkSize) / 2,
       chunkSize / 2,
-      (size[2] * chunkSize) / 2
+      (size.z * chunkSize) / 2
     );
     setCamera({ target });
   }, []);

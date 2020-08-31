@@ -14,19 +14,7 @@ export default function Mesher() {
       for (let id in chunks.map) {
         const chunk = chunks.map[id];
         if (chunk.dirty) {
-          const start = new Date().getTime();
-          chunk.meshData = meshChunk(chunk);
-          const end = new Date().getTime();
-
-          console.log(
-            `Meshed ${chunk.layer} ${chunk.origin.join(",")} ${
-              chunk.meshData.vertices.length / 3
-            } vertices, ${chunk.meshData.indices.length / 3} triangles ${
-              end - start
-            }ms`
-          );
-
-          chunk.version++;
+          chunk.updateMeshData();
           chunk.dirty = false;
         }
       }

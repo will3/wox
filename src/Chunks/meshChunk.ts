@@ -16,6 +16,7 @@ export type MeshData = {
   voxelNormals: number[];
   voxelCount: number;
   faces: FaceInfo[];
+  upFaces: number[];
 };
 
 export const meshChunk = (chunk: ChunkData): MeshData => {
@@ -28,6 +29,7 @@ export const meshChunk = (chunk: ChunkData): MeshData => {
   const indexMap: { [key: string]: number } = {};
   const voxelNormals: number[] = [];
   const faces: FaceInfo[] = [];
+  const upFaces: number[] = [];
 
   let voxelIndex = 0;
   let faceIndex = 0;
@@ -105,13 +107,17 @@ export const meshChunk = (chunk: ChunkData): MeshData => {
           const vi = indexMap[key];
           voxelIndexes.push(vi, vi, vi, vi);
 
-          faces[faceIndex] = faces[faceIndex + 1] = {
+          faces[faceIndex] = {
             coord,
             normal,
-            voxelNormal
+            voxelNormal,
           };
 
-          faceIndex += 2;
+          if (d === 1 && front) {
+            upFaces.push(faceIndex);
+          }
+
+          faceIndex++;
         }
       }
     }
@@ -126,6 +132,7 @@ export const meshChunk = (chunk: ChunkData): MeshData => {
     voxelNormals,
     voxelCount: voxelIndex,
     faces,
+    upFaces,
   };
 };
 

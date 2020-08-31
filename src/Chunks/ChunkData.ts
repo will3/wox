@@ -1,7 +1,7 @@
 import ChunksData from "./ChunksData";
 import { Vector3, BufferGeometry, Mesh } from "three";
 import _ from "lodash";
-import { MeshData } from "./meshChunk";
+import { MeshData, FaceInfo, meshChunk } from "./meshChunk";
 
 export type Color = [number, number, number];
 
@@ -110,9 +110,32 @@ export default class ChunkData {
 
   calcNormal(i: number, j: number, k: number) {
     return new Vector3(
-      this.getWorld(i + 1, j, k)! - this.getWorld(i - 1, j, k)!,
-      this.getWorld(i, j + 1, k)! - this.getWorld(i, j - 1, k)!,
-      this.getWorld(i, j, k + 1)! - this.getWorld(i, j, k - 1)!
+      (this.getWorld(i + 1, j, k) ?? 0) - (this.getWorld(i - 1, j, k) ?? 0),
+      (this.getWorld(i, j + 1, k) ?? 0) - (this.getWorld(i, j - 1, k) ?? 0),
+      (this.getWorld(i, j, k + 1) ?? 0) - (this.getWorld(i, j, k - 1) ?? 0)
     ).normalize();
+  }
+
+  getFaceInfo(faceIndex: number): FaceInfo | null {
+    if (this.meshData == null) {
+      return null;
+    }
+    return this.meshData.faces[Math.floor(faceIndex / 2)];
+  }
+
+  updateMeshData() {
+    const start = new Date().getTime();
+    this.meshData = meshChunk(this);
+    const end = new Date().getTime();
+
+    console.log(
+      `Meshed ${this.layer} ${this.origin.join(",")} ${
+        this.meshData.vertices.length / 3
+      } vertices, ${this.meshData.indices.length / 3} triangles ${
+        end - start
+      }ms`
+    );
+
+    this.version++;
   }
 }
