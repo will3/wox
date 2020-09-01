@@ -12,7 +12,7 @@ const placeTree = (
   bounds?: Bounds
 ) => {
   const lower = new Vector3(-5, -2, -5);
-  const upper = new Vector3(5, 16, 5);
+  const upper = new Vector3(5, 18, 5);
 
   for (let i = lower.x; i <= upper.x; i++) {
     for (let j = lower.y; j <= upper.y; j++) {
@@ -21,7 +21,7 @@ const placeTree = (
 
         const rotation = new Quaternion().setFromUnitVectors(
           new Vector3(0, 1, 0),
-          new Vector3(0, 1, 0).lerp(voxelNormal.clone().multiplyScalar(-1), 0.3)
+          new Vector3(0, 1, 0).lerp(voxelNormal.clone().multiplyScalar(-1), 0.35)
         );
 
         const trunkM = new Matrix4().compose(
@@ -45,7 +45,7 @@ const placeTree = (
           new Vector3(1, 1, 1)
         );
         const leafs = clamp(
-          -sdCone(opTx(p, leafsM), new Vector2(3.0, 1.0), coneHeight),
+          -sdCone(opTx(p, leafsM), new Vector2(3.5, 1.0), coneHeight),
           0,
           1
         );
