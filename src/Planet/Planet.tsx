@@ -139,11 +139,11 @@ export default (props: PlanetProps) => {
 
       const position = new Vector3().fromArray(face.coord).add(origin);
       const relY = position.y / maxHeight;
-      const yFactor = Math.pow(1 - relY, 0.75);
+      const yFactor = Math.pow(1 - relY, 0.9);
       const voxelNormal = face.voxelNormal;
-      const up = clamp(new Vector3(0, -1, 0).dot(voxelNormal), 0, 1);
+      const up = 1 - clamp(new Vector3(0, -1, 0).dot(voxelNormal), 0, 1);
 
-      const v = (-Math.abs(treeNoise.get(position)) * yFactor) / up + 0.2;
+      const v = (-Math.abs(treeNoise.get(position)) * yFactor) * up + 0.2;
       if (v > 0) {
         continue;
       }
