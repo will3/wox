@@ -4,7 +4,7 @@ import ChunksData from "./Chunks/ChunksData";
 import { chunkSize } from "./constants";
 import Layers from "./Layers";
 import QuadTree from "./utils/QuadTree";
-import { Tree } from "./Trees/Tree";
+import { TreeData } from "./Trees/TreeData";
 import { WaterfallData } from "./Waterfalls/WaterfallData";
 
 export interface State {
@@ -18,7 +18,7 @@ export interface State {
   hover: HoverState | null;
   setHover(hover: HoverState | null): void;
   size: Vector3;
-  treeMap: QuadTree<Tree>;
+  treeMap: QuadTree<TreeData>;
   sunColor: Color;
   ambient: Color;
   waterLevel: number;
