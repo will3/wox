@@ -138,7 +138,7 @@ export default (props: PlanetProps) => {
       return;
     }
 
-    const minDistance = 4;
+    const minDistance = 6;
 
     for (let i = 0; i < meshData.upFaces.length / 24; i++) {
       const index = Math.floor(meshData.upFaces.length * rng());

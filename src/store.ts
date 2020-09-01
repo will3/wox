@@ -80,7 +80,7 @@ export const useStore = create<State>((set) => ({
   ],
   hover: null,
   setHover: (hover: HoverState) => set({ hover }),
-  size: new Vector3(5, 3, 5),
+  size: new Vector3(3, 3, 3),
   treeMap: new QuadTree(),
   sunColor: new Color(8.1, 6.0, 4.2),
   ambient: new Color(0.1, 0.1, 0.1),
