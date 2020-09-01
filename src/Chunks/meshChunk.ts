@@ -17,6 +17,7 @@ export type MeshData = {
   voxelCount: number;
   faces: FaceInfo[];
   upFaces: number[];
+  ao: number[];
 };
 
 export const meshChunk = (chunk: ChunkData): MeshData => {
@@ -30,6 +31,7 @@ export const meshChunk = (chunk: ChunkData): MeshData => {
   const voxelNormals: number[] = [];
   const faces: FaceInfo[] = [];
   const upFaces: number[] = [];
+  const ao: number[] = [];
 
   let voxelIndex = 0;
   let faceIndex = 0;
@@ -38,8 +40,8 @@ export const meshChunk = (chunk: ChunkData): MeshData => {
     for (let i = 0; i < size; i++) {
       for (let j = 0; j < size; j++) {
         for (let k = 0; k < size; k++) {
-          const a = getInDimension(chunk, d, i, j, k);
-          const b = getInDimension(chunk, d, i + 1, j, k);
+          const a = getWorld(chunk, d, i, j, k);
+          const b = getWorld(chunk, d, i + 1, j, k);
 
           if (a == null || b == null) {
             continue;
@@ -118,6 +120,23 @@ export const meshChunk = (chunk: ChunkData): MeshData => {
           }
 
           faceIndex++;
+
+          var aoI = front ? i + 1 : i;
+          var v00 = getWorld(chunk, d, aoI, j - 1, k - 1);
+          var v01 = getWorld(chunk, d, aoI, j, k - 1);
+          var v02 = getWorld(chunk, d, aoI, j + 1, k - 1);
+          var v10 = getWorld(chunk, d, aoI, j - 1, k);
+          var v12 = getWorld(chunk, d, aoI, j + 1, k);
+          var v20 = getWorld(chunk, d, aoI, j - 1, k + 1);
+          var v21 = getWorld(chunk, d, aoI, j, k + 1);
+          var v22 = getWorld(chunk, d, aoI, j + 1, k + 1);
+
+          ao.push(
+            calcAo(v10, v01, v00),
+            calcAo(v01, v12, v02),
+            calcAo(v12, v21, v22),
+            calcAo(v21, v10, v20)
+          );
         }
       }
     }
@@ -133,6 +152,7 @@ export const meshChunk = (chunk: ChunkData): MeshData => {
     voxelCount: voxelIndex,
     faces,
     upFaces,
+    ao
   };
 };
 
@@ -154,7 +174,7 @@ const getVector = (
   return [j, k, i];
 };
 
-const getInDimension = (
+const getWorld = (
   chunk: ChunkData,
   d: number,
   i: number,
@@ -177,4 +197,28 @@ const getFaceNormal = (d: number, front: boolean) => {
     return [0, dir, 0];
   }
   return [0, 0, dir];
+};
+
+const calcAo = (s1F: number | null, s2F: number | null, cf: number | null) => {
+  var s1 = s1F != null && s1F > 0;
+  var s2 = s2F != null && s2F > 0;
+  var c = cf != null && cf > 0;
+
+  if (s1 && s2) {
+    return 1.0;
+  }
+
+  var count = 0;
+  if (s1) count++;
+  if (s2) count++;
+  if (c) count++;
+
+  switch (count) {
+    case 0:
+      return 0.0;
+    case 1:
+      return 0.33;
+    default:
+      return 0.66;
+  }
 };

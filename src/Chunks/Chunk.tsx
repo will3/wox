@@ -75,7 +75,7 @@ export default (props: ChunkProps) => {
         sunColor: new Uniform(sunColor),
         lightDir: new Uniform(lightDir),
         ambient: new Uniform(ambient),
-        normalBias: new Uniform(chunk.chunks.normalBias)
+        normalBias: new Uniform(chunk.chunks.normalBias),
       },
     ]);
 
@@ -126,6 +126,10 @@ const handleMeshDataUpdated = (chunk: ChunkData) => {
   geometry.setAttribute(
     "voxelIndex",
     new BufferAttribute(new Uint32Array(meshData.voxelIndexes), 1)
+  );
+  geometry.setAttribute(
+    "ao",
+    new BufferAttribute(new Float32Array(meshData.ao), 1)
   );
 
   mesh.geometry = geometry;
