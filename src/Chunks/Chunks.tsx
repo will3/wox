@@ -1,16 +1,15 @@
-import React, { Component, useState } from "react";
+import React from "react";
 import _ from "lodash";
 import Chunk from "./Chunk";
 import ChunksData from "./ChunksData";
 import { useStore } from "../store";
 
 export interface ChunksProps {
-  layer: number;
+  chunks: ChunksData;
 }
 
-export default ({ layer }: ChunksProps) => {
-  const version = useStore(state => state.chunks[layer].version);
-  const chunks = useStore(store => store.chunks[layer]);
+export default ({ chunks }: ChunksProps) => {
+  const version = useStore(_ => chunks.version);
 
   console.log(`Rerender chunks version: ${version}`);
 

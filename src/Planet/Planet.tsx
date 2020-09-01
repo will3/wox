@@ -72,7 +72,7 @@ export default (props: PlanetProps) => {
     treeMap.visit((tree) => {
       const nearbyTrees = treeMap.find(tree.position, 10);
       const averageNormal = new Vector3();
-      nearbyTrees.forEach(t => {
+      nearbyTrees.forEach((t) => {
         averageNormal.add(t.normal);
       });
       averageNormal.multiplyScalar(1 / nearbyTrees.length);
@@ -143,7 +143,7 @@ export default (props: PlanetProps) => {
       const voxelNormal = face.voxelNormal;
       const up = 1 - clamp(new Vector3(0, -1, 0).dot(voxelNormal), 0, 1);
 
-      const v = (-Math.abs(treeNoise.get(position)) * yFactor) * up + 0.2;
+      const v = -Math.abs(treeNoise.get(position)) * yFactor * up + 0.2;
       if (v > 0) {
         continue;
       }
@@ -163,9 +163,7 @@ export default (props: PlanetProps) => {
 
   return (
     <>
-      <Mesher />
-      <Chunks layer={Layers.ground} />
-      <Chunks layer={Layers.trees} />
+      <Mesher chunksList={[groundChunks, treeChunks]} />
     </>
   );
 };

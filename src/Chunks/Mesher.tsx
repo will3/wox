@@ -1,11 +1,28 @@
-import { useStore } from "../store";
-import { useEffect } from "react";
-import { meshChunk } from "./meshChunk";
-import { useFrame } from "react-three-fiber";
+import { useEffect, useRef } from "react";
 import ChunksData from "./ChunksData";
+import Chunks from "./Chunks";
+import React from "react";
 
-export default function Mesher() {
-  const chunksList = useStore((state) => state.chunks);
+export interface MesherData {
+  chunksList: ChunksData[];
+}
+
+export default function Mesher({ chunksList }: MesherData) {
+  const ref = useRef<number>();
+
+  const animate = () => {
+    handleFrame();
+    ref.current = requestAnimationFrame(animate);
+  };
+
+  useEffect(() => {
+    ref.current = requestAnimationFrame(animate);
+    return () => {
+      if (ref.current != null) {
+        cancelAnimationFrame(ref.current);
+      }
+    };
+  }, []);
 
   const handleFrame = () => {
     for (let chunks of chunksList) {
@@ -30,9 +47,11 @@ export default function Mesher() {
     chunks.version++;
   };
 
-  useFrame(() => {
-    handleFrame();
-  });
-
-  return null;
+  return (
+    <>
+      {chunksList.map((chunks) => (
+        <Chunks chunks={chunks} />
+      ))}
+    </>
+  );
 }
