@@ -17,6 +17,7 @@ export default class ChunkData {
   key: string;
   mesh: Mesh = new Mesh();
   layer: number;
+  isWater = false;
 
   constructor(
     origin: [number, number, number],
@@ -123,9 +124,9 @@ export default class ChunkData {
     return this.meshData.faces[Math.floor(faceIndex / 2)];
   }
 
-  updateMeshData() {
+  updateMeshData(waterLevel: number) {
     const start = new Date().getTime();
-    this.meshData = meshChunk(this);
+    this.meshData = meshChunk(this, waterLevel);
     const end = new Date().getTime();
 
     console.log(

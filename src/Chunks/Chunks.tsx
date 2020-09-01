@@ -8,8 +8,8 @@ export interface ChunksProps {
   chunks: ChunksData;
 }
 
-export default ({ chunks }: ChunksProps) => {
-  const version = useStore(_ => chunks.version);
+export default function Chunks({ chunks }: ChunksProps) {
+  const version = useStore((_) => chunks.version);
 
   console.log(`Rerender chunks version: ${version}`);
 
@@ -20,4 +20,4 @@ export default ({ chunks }: ChunksProps) => {
       })}
     </>
   );
-};
+}

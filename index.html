@@ -11,6 +11,10 @@
       uniform vec3 lightDir;
       uniform vec3 ambient;
       uniform float normalBias;
+      uniform float skyBias;
+      uniform float isWater;
+      uniform float waterAlpha;
+
       attribute vec3 color;
       attribute uint voxelIndex;
       attribute float ao;
@@ -32,7 +36,7 @@
         vec2 uv = vec2(float(voxelIndex) / voxelCount, 0.5);
         vec3 nor = texture2D(voxelNormals, uv).xyz;
         vSunDif = bias(clamp(dot(lightDir, nor), 0.0, 1.0), normalBias);
-        vSkyDif = sqrt(bias(clamp(dot(vec3(0.0, -1.0, 0.0), nor), 0.0, 1.0), 0.5));
+        vSkyDif = sqrt(bias(clamp(dot(vec3(0.0, -1.0, 0.0), nor), 0.0, 1.0), skyBias));
 
         vColor = color;
         vAo = ao;
@@ -52,6 +56,8 @@
     <script id="fragmentShader" type="x-shader/x-fragment">
       uniform vec3 sunColor;
       uniform vec3 ambient;
+      uniform float isWater;
+      uniform float waterAlpha;
 
       varying vec3 vColor;
       varying float vSunDif;
@@ -75,7 +81,8 @@
 
         vec3 color = vColor * lin * (1.0 - vAo * 0.12);
 
-        gl_FragColor = vec4(color, 1.0);
+        float a = isWater == 1.0 ? waterAlpha : 1.0;
+        gl_FragColor = vec4(color, a);
       }
     </script>
     <div id="root">

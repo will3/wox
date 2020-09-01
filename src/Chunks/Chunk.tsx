@@ -20,7 +20,7 @@ export interface ChunkProps {
   chunk: ChunkData;
 }
 
-export default (props: ChunkProps) => {
+export default function Chunk(props: ChunkProps) {
   const { chunk } = props;
 
   const vShader = document.getElementById("vertexShader")!.textContent!;
@@ -32,6 +32,7 @@ export default (props: ChunkProps) => {
 
   const sunColor = useStore((state) => state.sunColor);
   const ambient = useStore((state) => state.ambient);
+  const waterAlpha = useStore((state) => state.waterAlpha);
 
   useStore.subscribe(
     () => {
@@ -76,6 +77,9 @@ export default (props: ChunkProps) => {
         lightDir: new Uniform(lightDir),
         ambient: new Uniform(ambient),
         normalBias: new Uniform(chunk.chunks.normalBias),
+        skyBias: new Uniform(chunk.chunks.skyBias),
+        waterAlpha: new Uniform(waterAlpha),
+        isWater: new Uniform(chunk.chunks.isWater ? 1.0 : 0.0),
       },
     ]);
 
@@ -84,13 +88,14 @@ export default (props: ChunkProps) => {
       fragmentShader: fShader,
       lights: true,
       uniforms,
+      transparent: chunk.chunks.isWater,
     });
 
     handleMeshDataUpdated(chunk);
   }, []);
 
   return <primitive object={mesh} />;
-};
+}
 
 const handleMeshDataUpdated = (chunk: ChunkData) => {
   const meshData = chunk.meshData;

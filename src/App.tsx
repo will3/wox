@@ -35,7 +35,7 @@ export default () => {
           type: VSMShadowMap,
         }}
         onCreated={(props) => {
-          props.gl.setClearColor(0x333333);
+          props.gl.setClearColor(0x000000);
         }}
       >
         <Light />

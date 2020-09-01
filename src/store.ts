@@ -20,6 +20,9 @@ export interface State {
   treeMap: QuadTree<Tree>;
   sunColor: Color;
   ambient: Color;
+  waterLevel: number;
+  waterColor: Color;
+  waterAlpha: number;
 }
 
 export interface HoverState {
@@ -47,6 +50,11 @@ const initialRotation = new Euler(-Math.PI / 4, Math.PI / 4, 0, "YXZ");
 const treesChunk = new ChunksData(chunkSize, Layers.trees);
 treesChunk.normalBias = 0.8;
 
+const waterChunk = new ChunksData(chunkSize, Layers.water);
+waterChunk.isWater = true;
+waterChunk.normalBias = 1.0;
+waterChunk.skyBias = 1.0;
+
 export const useStore = create<State>((set) => ({
   camera: {
     rotation: initialRotation,
@@ -68,6 +76,7 @@ export const useStore = create<State>((set) => ({
   chunks: [
     new ChunksData(chunkSize, Layers.ground),
     treesChunk,
+    waterChunk,
   ],
   hover: null,
   setHover: (hover: HoverState) => set({ hover }),
@@ -75,4 +84,7 @@ export const useStore = create<State>((set) => ({
   treeMap: new QuadTree(),
   sunColor: new Color(8.1, 6.0, 4.2),
   ambient: new Color(0.1, 0.1, 0.1),
+  waterColor: new Color(0.08, 0.12, 0.2),
+  waterAlpha: 0.4,
+  waterLevel: 12
 }));

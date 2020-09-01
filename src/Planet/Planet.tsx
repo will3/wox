@@ -1,6 +1,6 @@
 import React, { useEffect, createRef } from "react";
 import { Chunks, ChunkData } from "../Chunks";
-import { Vector3 } from "three";
+import { Vector3, Color } from "three";
 import { Noise } from "../Noise";
 import { useStore } from "../store";
 import Mesher from "../Chunks/Mesher";
@@ -9,6 +9,7 @@ import Layers from "../Layers";
 import seedrandom from "seedrandom";
 import placeTree from "../Trees/placeTree";
 import { clamp } from "../utils/math";
+import { chunk } from "lodash";
 
 export interface PlanetProps {
   size: Vector3;
@@ -21,7 +22,10 @@ export default (props: PlanetProps) => {
 
   const groundChunks = useStore((state) => state.chunks[Layers.ground]);
   const treeChunks = useStore((state) => state.chunks[Layers.trees]);
+  const waterChunks = useStore((state) => state.chunks[Layers.water]);
   const treeMap = useStore((state) => state.treeMap);
+  const waterLevel = useStore((state) => state.waterLevel);
+  const waterColor = useStore((state) => state.waterColor);
 
   const rng = seedrandom(seed.toString());
 
@@ -60,7 +64,7 @@ export default (props: PlanetProps) => {
     });
 
     groundChunks.visitChunk((chunk) => {
-      chunk.updateMeshData();
+      chunk.updateMeshData(waterLevel);
     });
 
     groundChunks.visitChunk((chunk) => {
@@ -84,6 +88,10 @@ export default (props: PlanetProps) => {
     treeMap.visit((tree) => {
       const { size, actualNormal, position } = tree;
       placeTree(treeChunks, position, actualNormal!, size, bounds);
+    });
+
+    groundChunks.visitChunk((chunk) => {
+      generateWater(chunk.origin);
     });
   }, [seed]);
 
@@ -138,6 +146,9 @@ export default (props: PlanetProps) => {
       const face = meshData.faces[faceIndex];
 
       const position = new Vector3().fromArray(face.coord).add(origin);
+      if (position.y < waterLevel + 3) {
+        continue;
+      }
       const relY = position.y / maxHeight;
       const yFactor = Math.pow(1 - relY, 0.9);
       const voxelNormal = face.voxelNormal;
@@ -161,9 +172,42 @@ export default (props: PlanetProps) => {
     }
   };
 
+  const generateWater = (origin: [number, number, number]) => {
+    if (origin[1] > waterLevel) {
+      return;
+    }
+
+    const groundChunk = groundChunks.getChunk(origin);
+    const chunk = waterChunks.getOrCreateChunk(origin);
+
+    for (let i = 0; i < chunk.size; i++) {
+      for (let j = 0; j < chunk.size; j++) {
+        for (let k = 0; k < chunk.size; k++) {
+          const absY = j + origin[1];
+          if (absY > waterLevel) {
+            chunk.set(i, j, k, 0);
+            continue;
+          }
+          const v = groundChunk.get(i, j, k)!;
+          if (v > 0) {
+            chunk.set(i, j, k, 0);
+            continue;
+          }
+          chunk.set(i, j, k, 1);
+          chunk.setColor(
+            i,
+            j,
+            k,
+            waterColor.toArray() as [number, number, number]
+          );
+        }
+      }
+    }
+  };
+
   return (
     <>
-      <Mesher chunksList={[groundChunks, treeChunks]} />
+      <Mesher chunksList={[groundChunks, treeChunks, waterChunks]} />
     </>
   );
 };

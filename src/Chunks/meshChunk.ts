@@ -20,7 +20,7 @@ export type MeshData = {
   ao: number[];
 };
 
-export const meshChunk = (chunk: ChunkData): MeshData => {
+export const meshChunk = (chunk: ChunkData, waterLevel: number): MeshData => {
   const vertices: number[] = [];
   const colors: number[] = [];
   const indices: number[] = [];
@@ -37,6 +37,9 @@ export const meshChunk = (chunk: ChunkData): MeshData => {
   let faceIndex = 0;
 
   for (let d = 0; d < 3; d++) {
+    if (chunk.isWater && d != 1) {
+      continue;
+    }
     for (let i = 0; i < size; i++) {
       for (let j = 0; j < size; j++) {
         for (let k = 0; k < size; k++) {
@@ -53,6 +56,10 @@ export const meshChunk = (chunk: ChunkData): MeshData => {
 
           const front = a > 0;
 
+          if (chunk.isWater && !front) {
+            continue;
+          }
+
           const i2 = i + 1;
           const v1 = getVector(d, i2, j, k);
           const v2 = getVector(d, i2, j + 1, k);
@@ -68,6 +75,16 @@ export const meshChunk = (chunk: ChunkData): MeshData => {
             : getVector(d, i + 1, j, k);
 
           const color = chunk.getColorWorld(coord[0], coord[1], coord[2]);
+
+          const absY = coord[1] + chunk.origin[1];
+
+          if (!chunk.isWater && absY < waterLevel) {
+            const factor = Math.pow(0.75, waterLevel - absY);
+            color[0] *= factor;
+            color[1] *= factor;
+            color[2] *= factor;
+          }
+
           colors.push(...color, ...color, ...color, ...color);
 
           if (front) {
@@ -152,7 +169,7 @@ export const meshChunk = (chunk: ChunkData): MeshData => {
     voxelCount: voxelIndex,
     faces,
     upFaces,
-    ao
+    ao,
   };
 };
 

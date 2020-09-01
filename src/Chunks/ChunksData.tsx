@@ -7,6 +7,8 @@ export default class ChunksData {
   version = 1;
   layer: number;
   normalBias = 0.5;
+  skyBias = 0.5;
+  isWater = false;
 
   constructor(size: number, layer: number = 0) {
     this.size = size;
@@ -66,7 +68,9 @@ export default class ChunksData {
   getOrCreateChunk(origin: [number, number, number]) {
     const key = this.getKey(origin);
     if (this.map[key] == null) {
-      this.map[key] = new ChunkData(origin, this, this.size, this.layer);
+      const chunk = new ChunkData(origin, this, this.size, this.layer);
+      this.map[key] = chunk;
+      chunk.isWater = this.isWater;
       this.dirty = true;
     }
     return this.map[key];

@@ -2,6 +2,7 @@ import { useEffect, useRef } from "react";
 import ChunksData from "./ChunksData";
 import Chunks from "./Chunks";
 import React from "react";
+import { useStore } from "../store";
 
 export interface MesherData {
   chunksList: ChunksData[];
@@ -9,6 +10,7 @@ export interface MesherData {
 
 export default function Mesher({ chunksList }: MesherData) {
   const ref = useRef<number>();
+  const waterLevel = useStore((state) => state.waterLevel);
 
   const animate = () => {
     handleFrame();
@@ -31,7 +33,7 @@ export default function Mesher({ chunksList }: MesherData) {
       for (let id in chunks.map) {
         const chunk = chunks.map[id];
         if (chunk.dirty) {
-          chunk.updateMeshData();
+          chunk.updateMeshData(waterLevel);
           chunk.dirty = false;
         }
       }
@@ -49,8 +51,8 @@ export default function Mesher({ chunksList }: MesherData) {
 
   return (
     <>
-      {chunksList.map((chunks) => (
-        <Chunks chunks={chunks} />
+      {chunksList.map((chunks, index) => (
+        <Chunks key={index} chunks={chunks} />
       ))}
     </>
   );
