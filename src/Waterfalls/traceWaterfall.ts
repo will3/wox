@@ -2,9 +2,9 @@ import { Vector2, Vector3 } from "three";
 import ChunksData from "../Chunks/ChunksData";
 
 export interface WaterfallPoint {
-    coord: Vector3;
-    value: number;
-  }
+  coord: Vector3;
+  value: number;
+}
 
 const ring = [
   new Vector2(-1, -1),
@@ -17,7 +17,16 @@ const ring = [
   new Vector2(1, 0),
 ];
 
-const generateWaterfall = (position: Vector3, groundChunks: ChunksData): WaterfallPoint[] => {
+export interface TraceWaterfallResult {
+  points: WaterfallPoint[];
+  reachedWater: boolean;
+}
+
+const traceWaterfall = (
+  position: Vector3,
+  groundChunks: ChunksData,
+  waterLevel: number
+): TraceWaterfallResult => {
   let count = 0;
 
   const value = groundChunks.get(position.x, position.y, position.z)!;
@@ -28,17 +37,25 @@ const generateWaterfall = (position: Vector3, groundChunks: ChunksData): Waterfa
 
   const results: WaterfallPoint[] = [pointer];
 
+  let reachedWater = false;
   do {
     const next = findNext(pointer.coord, groundChunks);
     if (next == null) {
       break;
     }
     results.push(next);
+    if (next.coord.y <= waterLevel) {
+      reachedWater = true;
+      break;
+    }
     pointer = next;
     count++;
   } while (count < 100);
 
-  return results;
+  return {
+    points: results,
+    reachedWater,
+  };
 };
 
 const findNext = (
@@ -149,4 +166,4 @@ const findDownSolid = (
   return null;
 };
 
-export default generateWaterfall;
+export default traceWaterfall;

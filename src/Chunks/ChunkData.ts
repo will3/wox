@@ -3,11 +3,9 @@ import { Vector3, BufferGeometry, Mesh } from "three";
 import _ from "lodash";
 import { MeshData, FaceInfo, meshChunk } from "./meshChunk";
 
-export type Color = [number, number, number];
-
 export default class ChunkData {
   data: number[] = [];
-  color: Color[] = [];
+  color: number[][] = [];
   origin: [number, number, number];
   size: number;
   chunks: ChunksData;
@@ -72,7 +70,7 @@ export default class ChunkData {
     this.dirty = true;
   }
 
-  setColor(i: number, j: number, k: number, color: Color) {
+  setColor(i: number, j: number, k: number, color: number[]) {
     const index = i * this.size * this.size + j * this.size + k;
     this.color[index] = color;
     this.dirty = true;

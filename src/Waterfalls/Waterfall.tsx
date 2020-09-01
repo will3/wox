@@ -4,7 +4,7 @@ import { useStore } from "../store";
 import Layers from "../Layers";
 import { Vector3, Color } from "three";
 import ChunksData from "../Chunks/ChunksData";
-import generateWaterfall, { WaterfallPoint } from "./generateWaterfall";
+import { WaterfallPoint } from "./traceWaterfall";
 
 export interface WaterfallProps {
   data: WaterfallData;
@@ -15,19 +15,18 @@ export function Waterfall({ data }: WaterfallProps) {
   const waterColor = useStore((state) => state.waterColor);
 
   useEffect(() => {
-    const results = generateWaterfall(data.position, groundChunks);
-    applyWaterfall(results, groundChunks, waterColor);
+    applyWaterfall(data.points, groundChunks, waterColor);
   }, []);
 
   return null;
 }
 
 const applyWaterfall = (
-  results: WaterfallPoint[],
+  points: WaterfallPoint[],
   groundChunks: ChunksData,
   waterColor: Color
 ) => {
-  for (let pointer of results) {
+  for (let pointer of points) {
     const coord = pointer.coord;
     const v = groundChunks.get(coord.x, coord.y, coord.z)!;
     if (v < 0) {

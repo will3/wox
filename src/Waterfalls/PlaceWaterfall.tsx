@@ -1,9 +1,13 @@
 import { useStore, HoverState } from "../store";
 import { useEffect, useCallback } from "react";
 import { Vector3 } from "three";
+import traceWaterfall from "./traceWaterfall";
+import Layers from "../Layers";
 
 export default function PlaceWaterfall() {
   const addWaterfall = useStore((state) => state.addWaterfall);
+  const groundChunks = useStore((state) => state.chunks[Layers.ground]);
+  const waterLevel = useStore((state) => state.waterLevel);
 
   let hover: HoverState | null = null;
   useStore.subscribe<HoverState | null>(
@@ -23,9 +27,13 @@ export default function PlaceWaterfall() {
     }
 
     const position = new Vector3().fromArray(hover.coord);
+
+    const result = traceWaterfall(position, groundChunks, waterLevel);
+
     addWaterfall({
       key: position.toArray().join(","),
       position,
+      points: result.points,
     });
   }, []);
 
