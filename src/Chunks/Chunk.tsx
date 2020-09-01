@@ -11,7 +11,6 @@ import {
   ShaderMaterial,
   UniformsUtils,
   UniformsLib,
-  Mesh,
   BufferAttribute,
 } from "three";
 import { useStore } from "../store";
@@ -31,6 +30,9 @@ export default (props: ChunkProps) => {
 
   console.log(`Rerender chunk ${props.chunk.origin.join(",")}`);
 
+  const sunColor = useStore((state) => state.sunColor);
+  const ambient = useStore((state) => state.ambient);
+
   useStore.subscribe(
     () => {
       handleMeshDataUpdated(chunk);
@@ -39,6 +41,7 @@ export default (props: ChunkProps) => {
   );
 
   const handleLightDirChanged = (lightDir: Vector3) => {
+    console.log("handle light dir changed");
     const material = mesh.material as ShaderMaterial;
     material.uniforms.lightDir = new Uniform(lightDir);
     material.uniformsNeedUpdate = true;
@@ -64,9 +67,7 @@ export default (props: ChunkProps) => {
       layer: chunk.layer,
     };
 
-    const sunColor = new Vector3(8.1, 6.0, 4.2).multiplyScalar(1.0);
     const lightDir = new Vector3(-1.0, -1.0, 1.0).normalize();
-    const ambient = new Vector3(1.0, 1.0, 1.0).multiplyScalar(0.1);
 
     const uniforms = UniformsUtils.merge([
       UniformsLib["lights"],
@@ -74,6 +75,7 @@ export default (props: ChunkProps) => {
         sunColor: new Uniform(sunColor),
         lightDir: new Uniform(lightDir),
         ambient: new Uniform(ambient),
+        normalBias: new Uniform(chunk.chunks.normalBias)
       },
     ]);
 

@@ -6,6 +6,7 @@ export default class ChunksData {
   dirty = false;
   version = 1;
   layer: number;
+  normalBias = 0.5;
 
   constructor(size: number, layer: number = 0) {
     this.size = size;

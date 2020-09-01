@@ -10,6 +10,7 @@
       uniform vec3 sunColor;
       uniform vec3 lightDir;
       uniform vec3 ambient;
+      uniform float normalBias;
       attribute vec3 color;
       attribute uint voxelIndex;
       varying vec3 vColor;
@@ -20,11 +21,15 @@
       #include <fog_pars_vertex>
       #include <shadowmap_pars_vertex>
 
+      float bias(float v, float amount) {
+        return amount + (1.0 - amount) * v;
+      }
+
       void main() {
         vec2 uv = vec2(float(voxelIndex) / voxelCount, 0.5);
         vec3 nor = texture2D(voxelNormals, uv).xyz;
-        vSunDif = clamp(0.5 + 0.5 * dot(lightDir, nor), 0.0, 1.0);
-        vSkyDif = sqrt(clamp(0.5 + 0.5 * dot(-nor, vec3(0.0, 1.0, 0.0)), 0.0, 1.0));
+        vSunDif = bias(clamp(dot(lightDir, nor), 0.0, 1.0), normalBias);
+        vSkyDif = sqrt(bias(clamp(dot(vec3(0.0, -1.0, 0.0), nor), 0.0, 1.0), 0.5));
 
         vColor = color;
 

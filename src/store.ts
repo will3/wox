@@ -1,5 +1,5 @@
 import create from "zustand";
-import { Euler, Vector3, Vector2 } from "three";
+import { Euler, Vector3, Vector2, Color } from "three";
 import ChunksData from "./Chunks/ChunksData";
 import { chunkSize } from "./constants";
 import Layers from "./Layers";
@@ -18,6 +18,8 @@ export interface State {
   setHover(hover: HoverState | null): void;
   size: Vector3;
   treeMap: QuadTree<Tree>;
+  sunColor: Color;
+  ambient: Color;
 }
 
 export interface HoverState {
@@ -41,6 +43,10 @@ export interface CameraState {
 }
 
 const initialRotation = new Euler(-Math.PI / 4, Math.PI / 4, 0, "YXZ");
+
+const treesChunk = new ChunksData(chunkSize, Layers.trees);
+treesChunk.normalBias = 0.8;
+
 export const useStore = create<State>((set) => ({
   camera: {
     rotation: initialRotation,
@@ -61,10 +67,12 @@ export const useStore = create<State>((set) => ({
   },
   chunks: [
     new ChunksData(chunkSize, Layers.ground),
-    new ChunksData(chunkSize, Layers.trees),
+    treesChunk,
   ],
   hover: null,
   setHover: (hover: HoverState) => set({ hover }),
   size: new Vector3(5, 3, 5),
   treeMap: new QuadTree(),
+  sunColor: new Color(8.1, 6.0, 4.2),
+  ambient: new Color(0.1, 0.1, 0.1),
 }));
