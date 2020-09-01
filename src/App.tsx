@@ -9,9 +9,8 @@ import AlwaysLongShadaws from "./AlwaysLongShadaws";
 import { useStore } from "./store";
 import Light from "./Light";
 import HighlightHover from "./HighlightHover";
-import Brush from "./Brush";
 import { chunkSize } from "./constants";
-import PlaceTrees from "./Trees/PlaceTrees";
+import PlaceWaterfall from "./Waterfalls/PlaceWaterfall";
 
 export default () => {
   const size = useStore(state => state.size);
@@ -44,7 +43,8 @@ export default () => {
         <AlwaysLongShadaws />
         <HighlightHover />
         {/* <Brush /> */}
-        <PlaceTrees />
+        {/* <PlaceTrees /> */}
+        <PlaceWaterfall />
       </Canvas>
       <UserInput />
       <Stats />

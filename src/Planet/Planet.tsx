@@ -9,7 +9,7 @@ import Layers from "../Layers";
 import seedrandom from "seedrandom";
 import placeTree from "../Trees/placeTree";
 import { clamp } from "../utils/math";
-import { chunk } from "lodash";
+import Waterfalls from "../Waterfalls/Waterfalls";
 
 export interface PlanetProps {
   size: Vector3;
@@ -26,6 +26,7 @@ export default (props: PlanetProps) => {
   const treeMap = useStore((state) => state.treeMap);
   const waterLevel = useStore((state) => state.waterLevel);
   const waterColor = useStore((state) => state.waterColor);
+  const waterfalls = useStore((state) => state.waterfalls);
 
   const rng = seedrandom(seed.toString());
 
@@ -208,6 +209,7 @@ export default (props: PlanetProps) => {
   return (
     <>
       <Mesher chunksList={[groundChunks, treeChunks, waterChunks]} />
+      <Waterfalls waterfalls={waterfalls}/>
     </>
   );
 };

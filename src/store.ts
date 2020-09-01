@@ -5,6 +5,7 @@ import { chunkSize } from "./constants";
 import Layers from "./Layers";
 import QuadTree from "./utils/QuadTree";
 import { Tree } from "./Trees/Tree";
+import { WaterfallData } from "./Waterfalls/WaterfallData";
 
 export interface State {
   camera: CameraState;
@@ -23,6 +24,8 @@ export interface State {
   waterLevel: number;
   waterColor: Color;
   waterAlpha: number;
+  addWaterfall(waterfall: WaterfallData): void;
+  waterfalls: { [key: string]: WaterfallData };
 }
 
 export interface HoverState {
@@ -73,11 +76,7 @@ export const useStore = create<State>((set) => ({
   setMouse: (mouse: Vector2) => {
     set({ mouse });
   },
-  chunks: [
-    new ChunksData(chunkSize, Layers.ground),
-    treesChunk,
-    waterChunk,
-  ],
+  chunks: [new ChunksData(chunkSize, Layers.ground), treesChunk, waterChunk],
   hover: null,
   setHover: (hover: HoverState) => set({ hover }),
   size: new Vector3(3, 3, 3),
@@ -86,5 +85,13 @@ export const useStore = create<State>((set) => ({
   ambient: new Color(0.1, 0.1, 0.1),
   waterColor: new Color(0.08, 0.12, 0.2),
   waterAlpha: 0.4,
-  waterLevel: 12
+  waterLevel: 12,
+  addWaterfall: (waterfall: WaterfallData) =>
+    set((state) => {
+      const waterfalls = Object.assign({}, state.waterfalls, {
+        [waterfall.key]: waterfall,
+      });
+      return { waterfalls };
+    }),
+  waterfalls: {},
 }));

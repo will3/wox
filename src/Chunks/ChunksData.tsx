@@ -81,4 +81,16 @@ export default class ChunksData {
       callback(this.map[key]);
     }
   }
+
+  isSurface(i: number, j: number, k: number) {
+    return (
+      (this.get(i, j, k) ?? 0) > 0 &&
+      ((this.get(i + 1, j, k) ?? 0) < 0 ||
+        (this.get(i - 1, j, k) ?? 0) < 0 ||
+        (this.get(i, j + 1, k) ?? 0) < 0 ||
+        (this.get(i, j - 1, k) ?? 0) < 0 ||
+        (this.get(i, j, k + 1) ?? 0) < 0 ||
+        (this.get(i, j, k - 1) ?? 0) < 0)
+    );
+  }
 }

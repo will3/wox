@@ -75,6 +75,7 @@ export default class ChunkData {
   setColor(i: number, j: number, k: number, color: Color) {
     const index = i * this.size * this.size + j * this.size + k;
     this.color[index] = color;
+    this.dirty = true;
   }
 
   getColor(i: number, j: number, k: number) {
