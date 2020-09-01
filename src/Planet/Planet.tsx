@@ -272,7 +272,7 @@ const generateWaterfalls = (
     return;
   }
 
-  const density = 1 / 96;
+  const density = 1 / 420;
 
   for (let i = 0; i < meshData.upFaces.length * density; i++) {
     const index = Math.floor(meshData.upFaces.length * rng());
