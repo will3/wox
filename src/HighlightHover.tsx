@@ -55,14 +55,15 @@ const raycast = (
     return;
   }
 
+  const voxelData = chunk.meshData.voxels[result.voxelIndex];
   const worldCoord = new Vector3()
     .fromArray(chunk.origin)
-    .add(new Vector3().fromArray(result.coord));
+    .add(voxelData.coord);
 
   return {
     coord: worldCoord.toArray() as [number, number, number],
     normal: result.normal as [number, number, number],
-    voxelNormal: result.voxelNormal,
+    voxelNormal: voxelData.voxelNormal,
   } as HoverState;
 };
 

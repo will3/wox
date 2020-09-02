@@ -203,13 +203,14 @@ const generateTrees = (
     const faceIndex = meshData.upFaces[index];
     const face = meshData.faces[faceIndex];
 
-    const position = new Vector3().fromArray(face.coord).add(origin);
+    const voxel = meshData.voxels[face.voxelIndex];
+    const position = voxel.coord.clone().add(origin);
     if (position.y < waterLevel + 3) {
       continue;
     }
     const relY = position.y / maxHeight;
     const yFactor = Math.pow(1 - relY, 0.9);
-    const voxelNormal = face.voxelNormal;
+    const voxelNormal = voxel.voxelNormal;
     const up = 1 - clamp(new Vector3(0, -1, 0).dot(voxelNormal), 0, 1);
 
     const v = -Math.abs(treeNoise.get(position)) * yFactor * up + 0.2;
@@ -286,8 +287,9 @@ const generateWaterfalls = (
     const index = Math.floor(meshData.upFaces.length * rng());
     const faceIndex = meshData.upFaces[index];
     const face = meshData.faces[faceIndex];
+    const voxel = meshData.voxels[face.voxelIndex];
 
-    const position = new Vector3().fromArray(face.coord).add(origin);
+    const position = voxel.coord.clone().add(origin);
     const relY = 1 - position.y / maxHeight;
     const yFactor = clamp((relY - 0.5) * 2, 0, 1);
 

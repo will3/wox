@@ -2,8 +2,12 @@ import ChunkData from "./ChunkData";
 import { Vector3 } from "three";
 
 export interface FaceInfo {
-  coord: [number, number, number];
   normal: number[];
+  voxelIndex: number;
+}
+
+export interface VoxelInfo {
+  coord: Vector3;
   voxelNormal: Vector3;
 }
 
@@ -17,6 +21,7 @@ export type MeshData = {
   voxelCount: number;
   faces: FaceInfo[];
   upFaces: number[];
+  voxels: VoxelInfo[];
   ao: number[];
 };
 
@@ -32,6 +37,7 @@ export const meshChunk = (chunk: ChunkData, waterLevel: number): MeshData => {
   const faces: FaceInfo[] = [];
   const upFaces: number[] = [];
   const ao: number[] = [];
+  const voxels: VoxelInfo[] = [];
 
   let voxelIndex = 0;
   let faceIndex = 0;
@@ -127,8 +133,12 @@ export const meshChunk = (chunk: ChunkData, waterLevel: number): MeshData => {
           voxelIndexes.push(vi, vi, vi, vi);
 
           faces[faceIndex] = {
-            coord,
             normal,
+            voxelIndex: vi,
+          };
+
+          voxels[vi] = {
+            coord: new Vector3().fromArray(coord),
             voxelNormal,
           };
 
@@ -170,6 +180,7 @@ export const meshChunk = (chunk: ChunkData, waterLevel: number): MeshData => {
     faces,
     upFaces,
     ao,
+    voxels,
   };
 };
 
