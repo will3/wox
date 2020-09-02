@@ -1,7 +1,7 @@
 import { useStore, HoverState } from "../store";
 import { useEffect, useCallback } from "react";
 import { Vector3 } from "three";
-import traceWaterfall from "./traceWaterfall";
+import traceWaterfall from "../Waterfalls/traceWaterfall";
 import Layers from "../Layers";
 
 export default function PlaceWaterfall() {

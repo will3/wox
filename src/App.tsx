@@ -10,8 +10,8 @@ import { useStore } from "./store";
 import Light from "./Light";
 import HighlightHover from "./HighlightHover";
 import { chunkSize } from "./constants";
-import PlaceWaterfall from "./Waterfalls/PlaceWaterfall";
-import PlaceTrees from "./Trees/PlaceTrees";
+import PlaceWaterfall from "./Brushes/PlaceWaterfall";
+import PlaceTrees from "./Brushes/PlaceTrees";
 
 export default () => {
   const size = useStore(state => state.size);

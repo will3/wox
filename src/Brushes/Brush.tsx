@@ -1,11 +1,11 @@
 import { useEffect, useMemo } from "react";
-import { useStore, HoverState } from "./store";
-import ChunksData from "./Chunks/ChunksData";
+import { useStore, HoverState } from "../store";
+import ChunksData from "../Chunks/ChunksData";
 import React from "react";
 import { Vector3 } from "three";
 import { useFrame } from "react-three-fiber";
-import { calcSphereStroke } from "./utils/math";
-import Layers from "./Layers";
+import { calcSphereStroke } from "../utils/math";
+import Layers from "../Layers";
 
 export interface BrushProps {
   chunks: ChunksData;
