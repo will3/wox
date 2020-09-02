@@ -72,7 +72,7 @@ export default (props: PlanetProps) => {
     }
 
     groundChunks.visitChunk((chunk) => {
-      generateGrass(chunk, grassColor);
+      generateGrass(chunk, grassColor, waterLevel);
     });
 
     groundChunks.visitChunk((chunk) => {
@@ -159,10 +159,18 @@ const generateChunk = (
   }
 };
 
-const generateGrass = (chunk: ChunkData, grassColor: Color) => {
+const generateGrass = (
+  chunk: ChunkData,
+  grassColor: Color,
+  waterLevel: number
+) => {
   for (let i = 0; i < chunk.size; i++) {
     for (let j = 0; j < chunk.size; j++) {
       for (let k = 0; k < chunk.size; k++) {
+        const absY = chunk.origin[1] + j;
+        if (absY <= waterLevel) {
+          continue;
+        }
         const normal = chunk.calcNormal(i, j, k);
         const dot = new Vector3(0, -1, 0).dot(normal);
         if (dot > 0.5) {
@@ -280,7 +288,7 @@ const generateWaterfalls = (
     const face = meshData.faces[faceIndex];
 
     const position = new Vector3().fromArray(face.coord).add(origin);
-    const relY = 1 - position.y / maxHeight; 
+    const relY = 1 - position.y / maxHeight;
     const yFactor = clamp((relY - 0.5) * 2, 0, 1);
 
     const v = -Math.abs(waterfallNoise.get(position)) * yFactor;

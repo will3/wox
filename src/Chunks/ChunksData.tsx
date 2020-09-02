@@ -1,4 +1,5 @@
 import ChunkData from "./ChunkData";
+import { Vector3 } from "three";
 
 export default class ChunksData {
   map: { [key: string]: ChunkData } = {};
@@ -9,6 +10,7 @@ export default class ChunksData {
   normalBias = 0.5;
   skyBias = 0.5;
   isWater = false;
+  offset = new Vector3();
 
   constructor(size: number, layer: number = 0) {
     this.size = size;

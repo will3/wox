@@ -19,7 +19,7 @@ export default () => {
   useEffect(() => {
     const target = new Vector3(
       (size.x * chunkSize) / 2,
-      chunkSize / 2,
+      (size.y - 1) * chunkSize / 2,
       (size.z * chunkSize) / 2
     );
     setCamera({ target });

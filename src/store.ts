@@ -57,6 +57,7 @@ const waterChunk = new ChunksData(chunkSize, Layers.water);
 waterChunk.isWater = true;
 waterChunk.normalBias = 1.0;
 waterChunk.skyBias = 1.0;
+waterChunk.offset = new Vector3(0, -0.5, 0);
 
 export const useStore = create<State>((set) => ({
   camera: {
