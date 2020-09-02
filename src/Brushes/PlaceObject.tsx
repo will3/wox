@@ -2,11 +2,15 @@ import { useStore } from "../store";
 import { HoverState } from "../HoverState";
 import { useEffect } from "react";
 import { Vector3 } from "three";
-import Layers from "../Layers";
-import placeTree from "../Trees/placeTree";
+import ChunksData from "../Chunks/ChunksData";
+import { VoxelInfo } from "../Chunks/VoxelInfo";
 
-export default function PlaceTrees() {
-  const chunks = useStore((state) => state.chunks[Layers.trees]);
+export interface PlaceObjectProps {
+  place(chunks: ChunksData[], coord: Vector3, voxel: VoxelInfo): void;
+}
+
+export default function PlaceObject({ place }: PlaceObjectProps) {
+  const chunks = useStore((state) => state.chunks);
 
   let hover: HoverState | null = null;
 
@@ -24,7 +28,7 @@ export default function PlaceTrees() {
 
     const { coord, voxel } = hover;
 
-    placeTree(chunks, new Vector3().fromArray(coord), voxel.voxelNormal, 1);
+    place(chunks, new Vector3().fromArray(coord), voxel);
   };
 
   useEffect(() => {

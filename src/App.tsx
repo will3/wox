@@ -11,16 +11,20 @@ import Light from "./Light";
 import HighlightHover from "./HighlightHover";
 import { chunkSize } from "./constants";
 import PlaceWaterfall from "./Brushes/PlaceWaterfall";
-import PlaceTrees from "./Brushes/PlaceTrees";
+import PlaceObject from "./Brushes/PlaceObject";
+import ChunksData from "./Chunks/ChunksData";
+import { VoxelInfo } from "./Chunks/VoxelInfo";
+import placeTree from "./Trees/placeTree";
+import Layers from "./Layers";
 
 export default () => {
-  const size = useStore(state => state.size);
+  const size = useStore((state) => state.size);
   const setCamera = useStore((state) => state.setCamera);
 
   useEffect(() => {
     const target = new Vector3(
       (size.x * chunkSize) / 2,
-      (size.y - 1) * chunkSize / 2,
+      ((size.y - 1) * chunkSize) / 2,
       (size.z * chunkSize) / 2
     );
     setCamera({ target });
@@ -44,7 +48,11 @@ export default () => {
         <AlwaysLongShadaws />
         <HighlightHover />
         {/* <Brush /> */}
-        <PlaceTrees />
+        <PlaceObject
+          place={(chunks: ChunksData[], coord: Vector3, voxel: VoxelInfo) => {
+            placeTree(chunks[Layers.trees], coord, voxel.voxelNormal, 1);
+          }}
+        />
         {/* <PlaceWaterfall /> */}
       </Canvas>
       <UserInput />
