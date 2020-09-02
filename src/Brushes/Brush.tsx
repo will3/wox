@@ -1,5 +1,6 @@
 import { useEffect, useMemo } from "react";
-import { useStore, HoverState } from "../store";
+import { useStore } from "../store";
+import { HoverState } from "../HoverState";
 import ChunksData from "../Chunks/ChunksData";
 import React from "react";
 import { Vector3 } from "three";

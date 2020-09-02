@@ -6,6 +6,7 @@ import Layers from "./Layers";
 import QuadTree from "./utils/QuadTree";
 import { TreeData } from "./Trees/TreeData";
 import { WaterfallData } from "./Waterfalls/WaterfallData";
+import { HoverState } from "./HoverState";
 
 export interface State {
   camera: CameraState;
@@ -26,12 +27,6 @@ export interface State {
   waterAlpha: number;
   addWaterfall(waterfall: WaterfallData): void;
   waterfalls: { [key: string]: WaterfallData };
-}
-
-export interface HoverState {
-  coord: [number, number, number];
-  normal: [number, number, number];
-  voxelNormal: Vector3;
 }
 
 export interface CameraStateUpdate {

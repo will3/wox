@@ -1,5 +1,6 @@
 import { useEffect } from "react";
-import { useStore, HoverState } from "./store";
+import { useStore } from "./store";
+import { HoverState } from "./HoverState";
 import { useThree } from "react-three-fiber";
 import {
   Raycaster,
@@ -50,20 +51,23 @@ const raycast = (
     return;
   }
 
-  const result = chunk.getFaceInfo(faceIndex);
-  if (result == null) {
+  const face = chunk.getFaceInfo(faceIndex);
+  if (face == null) {
     return;
   }
 
-  const voxelData = chunk.meshData.voxels[result.voxelIndex];
-  const worldCoord = new Vector3()
-    .fromArray(chunk.origin)
-    .add(voxelData.coord);
+  if (chunk.meshData == null) {
+    return;
+  }
+
+  const voxel = chunk.meshData.voxels[face.voxelIndex];
+  const worldCoord = new Vector3().fromArray(chunk.origin).add(voxel.coord);
 
   return {
     coord: worldCoord.toArray() as [number, number, number],
-    normal: result.normal as [number, number, number],
-    voxelNormal: voxelData.voxelNormal,
+    layer,
+    face,
+    voxel,
   } as HoverState;
 };
 
@@ -88,7 +92,7 @@ export default () => {
   const coordCenter = new Vector3()
     .fromArray(hover.coord)
     .add(new Vector3(0.5, 0.5, 0.5));
-  const normalVector = new Vector3().fromArray(hover.normal);
+  const normalVector = new Vector3().fromArray(hover.face.normal);
 
   const position = coordCenter
     .clone()

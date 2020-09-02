@@ -1,29 +1,8 @@
 import ChunkData from "./ChunkData";
 import { Vector3 } from "three";
-
-export interface FaceInfo {
-  normal: number[];
-  voxelIndex: number;
-}
-
-export interface VoxelInfo {
-  coord: Vector3;
-  voxelNormal: Vector3;
-}
-
-export type MeshData = {
-  vertices: number[];
-  colors: number[];
-  indices: number[];
-  normals: number[];
-  voxelIndexes: number[];
-  voxelNormals: number[];
-  voxelCount: number;
-  faces: FaceInfo[];
-  upFaces: number[];
-  voxels: VoxelInfo[];
-  ao: number[];
-};
+import { MeshData } from "./MeshData";
+import { FaceInfo } from "./FaceInfo";
+import { VoxelInfo } from "./VoxelInfo";
 
 export const meshChunk = (chunk: ChunkData, waterLevel: number): MeshData => {
   const vertices: number[] = [];

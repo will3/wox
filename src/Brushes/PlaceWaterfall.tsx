@@ -1,4 +1,5 @@
-import { useStore, HoverState } from "../store";
+import { useStore } from "../store";
+import { HoverState } from "../HoverState";
 import { useEffect, useCallback } from "react";
 import { Vector3 } from "three";
 import traceWaterfall from "../Waterfalls/traceWaterfall";

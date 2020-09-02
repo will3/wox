@@ -1,4 +1,5 @@
-import { useStore, HoverState } from "../store";
+import { useStore } from "../store";
+import { HoverState } from "../HoverState";
 import { useEffect } from "react";
 import { Vector3 } from "three";
 import Layers from "../Layers";
@@ -21,9 +22,9 @@ export default function PlaceTrees() {
       return;
     }
 
-    const { coord, voxelNormal } = hover;
+    const { coord, voxel } = hover;
 
-    placeTree(chunks, new Vector3().fromArray(coord), voxelNormal, 1);
+    placeTree(chunks, new Vector3().fromArray(coord), voxel.voxelNormal, 1);
   };
 
   useEffect(() => {

@@ -1,7 +1,9 @@
 import ChunksData from "./ChunksData";
 import { Vector3, BufferGeometry, Mesh } from "three";
 import _ from "lodash";
-import { MeshData, FaceInfo, meshChunk } from "./meshChunk";
+import { meshChunk } from "./meshChunk";
+import { FaceInfo } from "./FaceInfo";
+import { MeshData } from "./MeshData";
 
 export default class ChunkData {
   data: number[] = [];
