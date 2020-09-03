@@ -16,6 +16,7 @@ import ChunksData from "./Chunks/ChunksData";
 import { VoxelInfo } from "./Chunks/VoxelInfo";
 import placeTree from "./Trees/placeTree";
 import Layers from "./Layers";
+import placeRock from "./Brushes/placeRock";
 
 export default () => {
   const size = useStore((state) => state.size);
@@ -49,9 +50,7 @@ export default () => {
         <HighlightHover />
         {/* <Brush /> */}
         <PlaceObject
-          place={(chunks: ChunksData[], coord: Vector3, voxel: VoxelInfo) => {
-            placeTree(chunks[Layers.trees], coord, voxel.voxelNormal, 1);
-          }}
+          place={placeRock}
         />
         {/* <PlaceWaterfall /> */}
       </Canvas>

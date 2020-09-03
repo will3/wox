@@ -1,9 +1,12 @@
 import { useStore } from "../store";
 import { HoverState } from "../HoverState";
 import { useEffect } from "react";
-import { Vector3 } from "three";
+import {
+  Vector3,
+} from "three";
 import ChunksData from "../Chunks/ChunksData";
 import { VoxelInfo } from "../Chunks/VoxelInfo";
+import { useThree } from "react-three-fiber";
 
 export interface PlaceObjectProps {
   place(chunks: ChunksData[], coord: Vector3, voxel: VoxelInfo): void;
@@ -20,6 +23,8 @@ export default function PlaceObject({ place }: PlaceObjectProps) {
     },
     (state) => state.hover
   );
+
+  const { scene } = useThree();
 
   const handleMouseDown = () => {
     if (hover == null) {

@@ -1,4 +1,4 @@
-import { Euler, Vector3 } from "three";
+import { Euler, Vector3, Quaternion } from "three";
 
 export const lerp = (a: number, b: number, r: number) => {
   return a + (b - a) * r;
@@ -44,4 +44,15 @@ export const calcSphereStroke = (radius: number) => {
   }
 
   return result;
+};
+
+export const randomVector = (rng: seedrandom.prng) => {
+  const a = 2 * Math.PI * rng();
+  const z = rng() * 2 - 1;
+  const r = Math.sqrt(1 - z * z);
+  return new Vector3(r * Math.cos(a), r * Math.sin(a), z);
+};
+
+export const randomQuaternion = (rng: seedrandom.prng) => {
+  return new Quaternion().setFromUnitVectors(new Vector3(0, 1, 0), randomVector(rng));
 };

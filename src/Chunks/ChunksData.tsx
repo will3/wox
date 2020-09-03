@@ -32,7 +32,7 @@ export default class ChunksData {
     return chunk.set(i - origin[0], j - origin[1], k - origin[2], v);
   }
 
-  setColor(i: number, j: number, k: number, color: [number, number, number]) {
+  setColor(i: number, j: number, k: number, color: number[]) {
     if (i < 0 || j < 0 || k < 0) {
       return;
     }
