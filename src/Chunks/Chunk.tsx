@@ -15,6 +15,7 @@ import {
 } from "three";
 import { useStore } from "../store";
 import _ from "lodash";
+import { vertexShader, fragmentShader } from "./voxelShader";
 
 export interface ChunkProps {
   chunk: ChunkData;
@@ -22,9 +23,6 @@ export interface ChunkProps {
 
 export default function Chunk(props: ChunkProps) {
   const { chunk } = props;
-
-  const vShader = document.getElementById("vertexShader")!.textContent!;
-  const fShader = document.getElementById("fragmentShader")!.textContent!;
 
   const mesh = chunk.mesh;
 
@@ -87,8 +85,8 @@ export default function Chunk(props: ChunkProps) {
     ]);
 
     mesh.material = new ShaderMaterial({
-      vertexShader: vShader,
-      fragmentShader: fShader,
+      vertexShader,
+      fragmentShader,
       lights: true,
       uniforms,
       transparent: chunk.chunks.isWater,
