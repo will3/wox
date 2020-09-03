@@ -15,11 +15,11 @@ export default () => {
     const key = keycode(e);
     if (key === "q") {
       const next = targetRotation.clone();
-      next.y -= Math.PI / 4;
+      next.y -= Math.PI / 2;
       setCamera({ targetRotation: next });
     } else if (key === "e") {
       const next = targetRotation.clone();
-      next.y += Math.PI / 4;
+      next.y += Math.PI / 2;
       setCamera({ targetRotation: next });
     }
 
