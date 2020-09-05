@@ -30,7 +30,7 @@ void main() {
     vec2 uv = vec2(float(voxelIndex) / voxelCount, 0.5);
     vec3 nor = texture2D(voxelNormals, uv).xyz;
     vSunDif = bias(clamp(dot(lightDir, nor), 0.0, 1.0), normalBias);
-    vSkyDif = sqrt(bias(clamp(dot(vec3(0.0, -1.0, 0.0), nor), 0.0, 1.0), skyBias));
+    vSkyDif = bias(clamp(dot(vec3(0.0, -1.0, 0.0), nor), 0.0, 1.0), skyBias);
 
     vColor = color;
     vAo = ao;

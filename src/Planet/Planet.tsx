@@ -37,7 +37,7 @@ export default (props: PlanetProps) => {
   const rng = seedrandom(seed.toString());
 
   const noise = new Noise({
-    scale: new Vector3(1, 0.4, 1),
+    scale: new Vector3(1, 0.6, 1),
     seed: rng().toString(),
   });
 
