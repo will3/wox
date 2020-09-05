@@ -1,5 +1,5 @@
 import ChunksData from "../Chunks/ChunksData";
-import { Vector3, Quaternion, Matrix4, Vector2 } from "three";
+import { Vector3, Quaternion, Matrix4, Vector2, Color } from "three";
 import { clamp } from "lodash";
 import { sdVerticalCapsule, opTx, sdCone } from "../utils/sdf";
 import { Bounds } from "../utils/Bounds";
@@ -13,6 +13,8 @@ const placeTree = (
 ) => {
   const lower = new Vector3(-5, -2, -5);
   const upper = new Vector3(5, 18, 5);
+  const leafColor = new Color(0.06, 0.09, 0.04);
+  const trunkColor = new Color(0.05, 0.05, 0.05);
 
   for (let i = lower.x; i <= upper.x; i++) {
     for (let j = lower.y; j <= upper.y; j++) {
@@ -83,13 +85,10 @@ const placeTree = (
           Math.max(value, trunk, leafs)
         );
 
-        const leafColor = [0.06, 0.09, 0.04] as [number, number, number];
-        const trunkColor = [0.05, 0.05, 0.05] as [number, number, number];
-
         if (isLeafs) {
-          chunks.setColor(worldCoord.x, worldCoord.y, worldCoord.z, leafColor);
+          chunks.setColor(worldCoord.x, worldCoord.y, worldCoord.z, leafColor.toArray());
         } else {
-          chunks.setColor(worldCoord.x, worldCoord.y, worldCoord.z, trunkColor);
+          chunks.setColor(worldCoord.x, worldCoord.y, worldCoord.z, trunkColor.toArray());
         }
       }
     }
