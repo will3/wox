@@ -7,6 +7,7 @@ import QuadTree from "./utils/QuadTree";
 import { TreeData } from "./Trees/TreeData";
 import { WaterfallData } from "./Waterfalls/WaterfallData";
 import { HoverState } from "./HoverState";
+import Curve from "./utils/Curve";
 
 export interface State {
   camera: CameraState;
@@ -27,6 +28,7 @@ export interface State {
   waterAlpha: number;
   addWaterfall(waterfall: WaterfallData): void;
   waterfalls: { [key: string]: WaterfallData };
+  groundCurve: Curve;
 }
 
 export interface CameraStateUpdate {
@@ -82,6 +84,7 @@ export const useStore = create<State>((set) => ({
   waterColor: new Color(0.08, 0.12, 0.2),
   waterAlpha: 0.4,
   waterLevel: 12,
+  groundCurve: new Curve([-1, -0.4, 0.2, 3], [-1, 0, 0.1, 3]),
   addWaterfall: (waterfall: WaterfallData) =>
     set((state) => {
       const waterfalls = Object.assign({}, state.waterfalls, {

@@ -15,6 +15,7 @@ import { TreeData } from "../Trees/TreeData";
 import ChunksData from "../Chunks/ChunksData";
 import traceWaterfall from "../Waterfalls/traceWaterfall";
 import { WaterfallData } from "../Waterfalls/WaterfallData";
+import Curve from "../utils/Curve";
 
 export interface PlanetProps {
   size: Vector3;
@@ -33,6 +34,7 @@ export default (props: PlanetProps) => {
   const waterColor = useStore((state) => state.waterColor);
   const waterfalls = useStore((state) => state.waterfalls);
   const addWaterfall = useStore((state) => state.addWaterfall);
+  const groundCurve = useStore(state => state.groundCurve);
 
   const rng = seedrandom(seed.toString());
 
@@ -66,7 +68,7 @@ export default (props: PlanetProps) => {
             number
           ];
           const chunk = groundChunks.getOrCreateChunk(origin);
-          generateChunk(chunk, maxHeight, noise, rockColor);
+          generateChunk(chunk, maxHeight, noise, rockColor, groundCurve);
         }
       }
     }
@@ -125,7 +127,7 @@ export default (props: PlanetProps) => {
     });
   }, [seed]);
 
-  const rockColor = new Color(0.072, 0.07, 0.075);
+  const rockColor = new Color(0.072, 0.08, 0.09);
   const grassColor = new Color(0.08, 0.1, 0.065);
 
   return (
@@ -140,7 +142,8 @@ const generateChunk = (
   chunk: ChunkData,
   maxHeight: number,
   noise: Noise,
-  rockColor: Color
+  rockColor: Color,
+  groundCurve: Curve
 ) => {
   console.log(`Generated chunk ${chunk.key}`);
   const origin = new Vector3().fromArray(chunk.origin);
@@ -151,7 +154,9 @@ const generateChunk = (
       for (let k = 0; k < chunk.size; k++) {
         const gradient = (-relY * 2 + 1) * 0.75;
         const position = new Vector3().fromArray([i, j, k]).add(origin);
-        const v = noise.get(position) + gradient;
+        let nv = noise.get(position);
+        nv = groundCurve.sample(nv);
+        const v = nv + gradient;
         chunk.setColor(i, j, k, rockColor.toArray());
         chunk.set(i, j, k, v);
       }

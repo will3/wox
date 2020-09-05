@@ -5,9 +5,9 @@ import Layers from "../Layers";
 import seedrandom from "seedrandom";
 
 export default (chunksList: ChunksData[], coord: Vector3, voxel: VoxelInfo) => {
-    var hw = 2;
-    var hl = 2;
-    var height = 5;
+    var hw = 3;
+    var hl = 3;
+    var height = 6;
   var lower = new Vector3(-hw, -1, -hl);
   var upper = new Vector3(hw, height, hl);
 
