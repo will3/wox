@@ -32,7 +32,6 @@ export default (props: PlanetProps) => {
   const treeMap = useStore((state) => state.treeMap);
   const waterLevel = useStore((state) => state.waterLevel);
   const waterColor = useStore((state) => state.waterColor);
-  const waterfalls = useStore((state) => state.waterfalls);
   const addWaterfall = useStore((state) => state.addWaterfall);
   const groundCurve = useStore(state => state.groundCurve);
 
@@ -133,7 +132,7 @@ export default (props: PlanetProps) => {
   return (
     <>
       <Mesher chunksList={[groundChunks, treeChunks, waterChunks]} />
-      <Waterfalls waterfalls={waterfalls} />
+      <Waterfalls />
     </>
   );
 };
