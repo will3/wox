@@ -29,7 +29,7 @@
     "react-three-fiber": "^4.2.18",
     "seedrandom": "^3.0.5",
     "simplex-noise": "^2.4.0",
-    "three": "^0.119.1",
+    "three": "^0.120.1",
     "zustand": "^3.0.2"
   },
   "engines": {

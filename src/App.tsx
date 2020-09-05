@@ -10,7 +10,6 @@ import { useStore } from "./store";
 import Light from "./Light";
 import HighlightHover from "./HighlightHover";
 import { chunkSize } from "./constants";
-import PlaceWaterfall from "./Brushes/PlaceWaterfall";
 import PlaceObject from "./Brushes/PlaceObject";
 import ChunksData from "./Chunks/ChunksData";
 import { VoxelInfo } from "./Chunks/VoxelInfo";
@@ -50,9 +49,7 @@ export default () => {
         <AlwaysLongShadaws />
         <HighlightHover />
         {/* <Brush /> */}
-        <PlaceObject
-          place={placeHouse}
-        />
+        <PlaceObject place={placeHouse} />
         {/* <PlaceWaterfall /> */}
       </Canvas>
       <UserInput />

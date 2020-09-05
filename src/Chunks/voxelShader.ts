@@ -70,7 +70,7 @@ varying float vAo;
 void main() {
     vec3 lin = vec3(0.0);
     float shadow = getShadowMask();
-    lin += vSunDif * sunColor * 0.8 * shadow;
+    lin += vSunDif * sunColor * shadow;
     lin += vSkyDif * vec3(1.30, 1.40, 1.80) * 1.5;
     lin += ambient;
 
