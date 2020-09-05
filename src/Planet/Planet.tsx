@@ -218,7 +218,7 @@ const generateTrees = (
       continue;
     }
 
-    const size = 1 + Math.pow(rng(), 1.5) * 0.2;
+    const size = 1 + Math.pow(rng(), 1.5) * 0.5;
     const otherTrees = treeMap.find(position, minDistance * size);
 
     if (otherTrees.length === 0) {

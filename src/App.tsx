@@ -17,6 +17,7 @@ import { VoxelInfo } from "./Chunks/VoxelInfo";
 import Layers from "./Layers";
 import placeRock from "./Brushes/placeRock";
 import placeTree from "./Brushes/placeTree";
+import placeHouse from "./Brushes/placeHouse";
 
 export default () => {
   const size = useStore((state) => state.size);
@@ -50,7 +51,7 @@ export default () => {
         <HighlightHover />
         {/* <Brush /> */}
         <PlaceObject
-          place={placeTree}
+          place={placeHouse}
         />
         {/* <PlaceWaterfall /> */}
       </Canvas>
