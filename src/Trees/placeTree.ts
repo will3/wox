@@ -45,7 +45,7 @@ const placeTree = (
           new Vector3(1, 1, 1)
         );
         const leafs = clamp(
-          -sdCone(opTx(p, leafsM), new Vector2(3.5, 1.0), coneHeight),
+          -sdCone(opTx(p, leafsM), new Vector2(3.7, 1.0), coneHeight),
           0,
           1
         );
