@@ -14,9 +14,9 @@ import PlaceWaterfall from "./Brushes/PlaceWaterfall";
 import PlaceObject from "./Brushes/PlaceObject";
 import ChunksData from "./Chunks/ChunksData";
 import { VoxelInfo } from "./Chunks/VoxelInfo";
-import placeTree from "./Trees/placeTree";
 import Layers from "./Layers";
 import placeRock from "./Brushes/placeRock";
+import placeTree from "./Brushes/placeTree";
 
 export default () => {
   const size = useStore((state) => state.size);
@@ -50,7 +50,7 @@ export default () => {
         <HighlightHover />
         {/* <Brush /> */}
         <PlaceObject
-          place={placeRock}
+          place={placeTree}
         />
         {/* <PlaceWaterfall /> */}
       </Canvas>
