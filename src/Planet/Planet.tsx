@@ -177,7 +177,7 @@ const generateGrass = (
         }
         const normal = chunk.calcNormal(i, j, k);
         const dot = new Vector3(0, -1, 0).dot(normal);
-        if (dot > 0.5) {
+        if (dot > 0.75) {
           chunk.setColor(i, j, k, grassColor.toArray());
         }
       }
