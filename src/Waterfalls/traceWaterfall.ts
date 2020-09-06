@@ -74,12 +74,21 @@ const findNext = (
   }
 
   const first = findInRing(from, groundChunks, -1);
+  if (first === "never") {
+    return null;
+  }
+
   if (first != null) {
     console.log("found point in first ring");
     return first;
   }
 
   const second = findInRing(from, groundChunks, 0);
+
+  if (second === "never") {
+    return null;
+  }
+
   if (second != null) {
     console.log("found point in second ring");
     return second;
@@ -93,7 +102,7 @@ const findInRing = (
   from: Vector3,
   groundChunks: ChunksData,
   y: number
-): WaterfallPoint | null => {
+): WaterfallPoint | null | "never" => {
   const results: WaterfallPoint[] = [];
   const v = groundChunks.get(from.x, from.y, from.z)!;
 
@@ -106,7 +115,11 @@ const findInRing = (
 
     const value = groundChunks.get(coord.x, coord.y, coord.z);
 
-    if (value == null || value < 0) {
+    if (value == null) {
+      return "never";
+    }
+
+    if (value < 0) {
       continue;
     }
 
