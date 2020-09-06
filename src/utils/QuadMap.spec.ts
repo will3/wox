@@ -1,16 +1,16 @@
-import QuadTree from "./QuadTree";
+import QuadMap from "./QuadMap";
 import { Vector3, Vector2 } from "three";
 
 test("get", () => {
-  const quadTree = new QuadTree();
-  quadTree.set(new Vector3(33, 34, 35), 123);
-  const result = quadTree.get(new Vector3(33, 34, 35));
+  const quadMap = new QuadMap();
+  quadMap.set(new Vector3(33, 34, 35), 123);
+  const result = quadMap.get(new Vector3(33, 34, 35));
   expect(result).toEqual(123);
 });
 
 test("getOriginsToSearch", () => {
-  const quadTree = new QuadTree();
-  const origins = quadTree
+  const quadMap = new QuadMap();
+  const origins = quadMap
     .getOriginsToSearch(new Vector3(32, 0, 32), 1)
     .map((x) => `${x.x},${x.y}`);
 
@@ -21,26 +21,26 @@ test("getOriginsToSearch", () => {
 });
 
 test("search within range", () => {
-  const quadTree = new QuadTree();
-  quadTree.set(new Vector3(33, 33, 33), 1);
-  const results = quadTree.find(new Vector3(32, 32, 32), 2);
+  const quadMap = new QuadMap();
+  quadMap.set(new Vector3(33, 33, 33), 1);
+  const results = quadMap.find(new Vector3(32, 32, 32), 2);
   expect(results).toHaveLength(1);
   const result = results[0];
   expect(result).toEqual(1);
 });
 
 test("search outside range", () => {
-  const quadTree = new QuadTree();
-  quadTree.set(new Vector3(33, 33, 33), 1);
-  const results = quadTree.find(new Vector3(32, 32, 32), 1);
+  const quadMap = new QuadMap();
+  quadMap.set(new Vector3(33, 33, 33), 1);
+  const results = quadMap.find(new Vector3(32, 32, 32), 1);
   expect(results).toHaveLength(0);
 });
 
 test("visit", () => {
-  const quadTree = new QuadTree<number>();
-  quadTree.set(new Vector3(33, 33, 33), 1);
+  const quadMap = new QuadMap<number>();
+  quadMap.set(new Vector3(33, 33, 33), 1);
   const items: number[] = [];
-  quadTree.visit((item) => {
+  quadMap.visit((item) => {
     items.push(item);
   });
   expect(items).toHaveLength(1);

@@ -10,7 +10,7 @@ import seedrandom from "seedrandom";
 import placeTree from "../Trees/placeTree";
 import { clamp } from "../utils/math";
 import Waterfalls from "../Waterfalls/Waterfalls";
-import QuadTree from "../utils/QuadTree";
+import QuadMap from "../utils/QuadMap";
 import { TreeData } from "../Trees/TreeData";
 import ChunksData from "../Chunks/ChunksData";
 import traceWaterfall from "../Waterfalls/traceWaterfall";
@@ -191,7 +191,7 @@ const generateTrees = (
   waterLevel: number,
   treeNoise: Noise,
   maxHeight: number,
-  treeMap: QuadTree<TreeData>
+  treeMap: QuadMap<TreeData>
 ) => {
   const meshData = chunk.meshData!;
   const origin = new Vector3().fromArray(chunk.origin);

@@ -3,7 +3,7 @@ import { Euler, Vector3, Vector2, Color } from "three";
 import ChunksData from "./Chunks/ChunksData";
 import { chunkSize } from "./constants";
 import Layers from "./Layers";
-import QuadTree from "./utils/QuadTree";
+import QuadMap from "./utils/QuadMap";
 import { TreeData } from "./Trees/TreeData";
 import { WaterfallData } from "./Waterfalls/WaterfallData";
 import { HoverState } from "./HoverState";
@@ -20,7 +20,7 @@ export interface State {
   hover: HoverState | null;
   setHover(hover: HoverState | null): void;
   size: Vector3;
-  treeMap: QuadTree<TreeData>;
+  treeMap: QuadMap<TreeData>;
   sunColor: Color;
   ambient: Color;
   waterLevel: number;
@@ -78,7 +78,7 @@ export const useStore = create<State>((set) => ({
   hover: null,
   setHover: (hover: HoverState) => set({ hover }),
   size: new Vector3(5, 3, 5),
-  treeMap: new QuadTree(),
+  treeMap: new QuadMap(),
   sunColor: new Color(8.1, 6.0, 4.2),
   ambient: new Color(0.1, 0.1, 0.1),
   waterColor: new Color(0.08, 0.12, 0.2),

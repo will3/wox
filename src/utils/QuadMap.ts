@@ -6,7 +6,7 @@ const intersectRectangle = (point: Vector2, min: Vector2, max: Vector2) => {
   );
 };
 
-export default class QuadTree<T> {
+export default class QuadMap<T> {
   map: { [id: string]: QuadChunk<T> } = {};
   size = 32;
 
