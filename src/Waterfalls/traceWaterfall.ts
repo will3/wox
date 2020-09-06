@@ -109,14 +109,14 @@ const findInRing = (
   for (const point of ring) {
     const coord = from.clone().add(new Vector3(point.x, y, point.y));
 
-    if (!groundChunks.isSurface(coord.x, coord.y, coord.z)) {
-      continue;
-    }
-
     const value = groundChunks.get(coord.x, coord.y, coord.z);
 
     if (value == null) {
       return "never";
+    }
+
+    if (!groundChunks.isSurface(coord.x, coord.y, coord.z)) {
+      continue;
     }
 
     if (value < 0) {
