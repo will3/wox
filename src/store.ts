@@ -92,7 +92,7 @@ export const useStore = create<State>((set, get) => ({
   waterColor: new Color(0.08, 0.12, 0.2),
   waterAlpha: 0.4,
   waterLevel: 12,
-  groundCurve: new Curve([-1, -0.4, 0.3, 2], [-1, -0.45, -0.35, 2]),
+  groundCurve: new Curve([-1, -0.4, 0.5, 2], [-1, -0.45, -0.35, 1]),
   addWaterfall: (waterfall: WaterfallData) =>
     set((state) => {
       const waterfalls = Object.assign({}, state.waterfalls, {
