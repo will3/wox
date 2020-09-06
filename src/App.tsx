@@ -45,7 +45,7 @@ export default () => {
       >
         <Light />
         <CameraController />
-        <Planet size={size} seed={1337} />
+        <Planet size={size} seed={1237} />
         <AlwaysLongShadaws />
         <HighlightHover />
         {/* <Brush /> */}
