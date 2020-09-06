@@ -16,7 +16,11 @@ export default () => {
   const lightDir = useStore((state) => state.lightDir);
 
   useFrame(() => {
-    const forward = new Vector3(0, 0, 1).applyEuler(camera.rotation).projectOnPlane(new Vector3(0, 1, 0)).normalize();
+    const forward = new Vector3(0, 0, 1)
+      .applyEuler(camera.rotation)
+      .projectOnPlane(new Vector3(0, 1, 0))
+      .normalize();
+
     const up = new Vector3(0, 1, 0);
     const right = forward.cross(up);
 

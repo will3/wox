@@ -29,6 +29,14 @@ export interface State {
   addWaterfall(waterfall: WaterfallData): void;
   waterfalls: { [key: string]: WaterfallData };
   groundCurve: Curve;
+  houseMap: QuadMap<HouseData>;
+  addHouse(coord: Vector3): void;
+}
+
+export interface HouseData {
+  coord: Vector3;
+  id: string;
+  y: number;
 }
 
 export interface CameraStateUpdate {
@@ -56,7 +64,7 @@ waterChunk.normalBias = 1.0;
 waterChunk.skyBias = 1.0;
 waterChunk.offset = new Vector3(0, -0.5, 0);
 
-export const useStore = create<State>((set) => ({
+export const useStore = create<State>((set, get) => ({
   camera: {
     rotation: initialRotation,
     targetRotation: initialRotation,
@@ -93,4 +101,19 @@ export const useStore = create<State>((set) => ({
       return { waterfalls };
     }),
   waterfalls: {},
+  houseMap: new QuadMap(),
+  addHouse: (coord: Vector3) => {
+    const buildingCoord = new Vector3(
+      Math.floor(coord.x / 4) * 4,
+      Math.floor(coord.y / 4) * 4,
+      Math.floor(coord.z / 4) * 4
+    );
+    const id = buildingCoord.toArray().join(",");
+
+    get().houseMap.set(coord, {
+      id,
+      coord: buildingCoord,
+      y: coord.y
+    });
+  },
 }));

@@ -1,15 +1,15 @@
 import ChunksData from "../Chunks/ChunksData";
 import { Vector3, Color, Euler } from "three";
-import { VoxelInfo } from "../Chunks/VoxelInfo";
 import Layers from "../Layers";
 import seedrandom from "seedrandom";
 
-export default (chunksList: ChunksData[], coord: Vector3, voxel: VoxelInfo) => {
-    var hw = 3;
-    var hl = 3;
-    var height = 6;
+export default (chunksList: ChunksData[], coord: Vector3, y: number) => {
+  var hw = 3;
+  var hl = 3;
+  var height = 6;
   var lower = new Vector3(-hw, -1, -hl);
   var upper = new Vector3(hw, height, hl);
+  const offset = new Vector3(hw, y - coord.y, hl);
 
   const chunks = chunksList[Layers.ground];
   const rng = seedrandom();
@@ -49,16 +49,18 @@ export default (chunksList: ChunksData[], coord: Vector3, voxel: VoxelInfo) => {
         const isDoor = i == 0 && j < 3 && (k === hl || k === -hl);
         const roofHue = k % 2;
 
-        var worldCoord = new Vector3(x, y, z).add(coord);
+        var worldCoord = new Vector3(x, y, z).add(coord).add(offset);
         chunks.set(worldCoord.x, worldCoord.y, worldCoord.z, 1);
 
         var color;
         if (isChimney) {
           color = new Color(0.12, 0.13, 0.15);
         } else if (isRoof) {
-          color = new Color(0.1, 0.1, 0.1).multiplyScalar(roofHue === 0 ? 0.85: 1.0);
+          color = new Color(0.1, 0.1, 0.1).multiplyScalar(
+            roofHue === 0 ? 0.85 : 1.0
+          );
         } else if (isDoor) {
-            color = new Color(0.1, 0.1, 0.1);
+          color = new Color(0.1, 0.1, 0.1);
         } else {
           color = new Color(0.18, 0.18, 0.18);
         }

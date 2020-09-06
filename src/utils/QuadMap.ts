@@ -7,13 +7,15 @@ const intersectRectangle = (point: Vector2, min: Vector2, max: Vector2) => {
 };
 
 export default class QuadMap<T> {
-  map: { [id: string]: QuadChunk<T> } = {};
+  columns: { [id: string]: QuadChunk<T> } = {};
   size = 32;
+  version = 0;
 
   set(position: Vector3, value: T) {
     const origin = this.getOrigin(position);
     const chunk = this.getOrCreateChunk(origin);
     chunk.set(position, value);
+    this.version++;
   }
 
   get(position: Vector3): T | undefined {
@@ -31,8 +33,8 @@ export default class QuadMap<T> {
       if (chunk == null) {
         continue;
       }
-      for (const id in chunk.map) {
-        const entry = chunk.map[id];
+      for (const id in chunk.items) {
+        const entry = chunk.items[id];
         const dis = entry.position.distanceTo(position);
         if (dis < distance) {
           results.push(entry.value);
@@ -89,53 +91,61 @@ export default class QuadMap<T> {
 
   private getOrCreateChunk(origin: Vector2) {
     const key = `${origin.x},${origin.y}`;
-    let chunk = this.map[key];
+    let chunk = this.columns[key];
     if (chunk != null) {
       return chunk;
     }
 
-    chunk = new QuadChunk();
-    this.map[key] = chunk;
+    chunk = new QuadChunk(origin);
+    this.columns[key] = chunk;
 
     return chunk;
   }
 
   private getChunk(origin: Vector2) {
     const key = `${origin.x},${origin.y}`;
-    return this.map[key];
+    return this.columns[key];
   }
 
   visit(callback: (entry: T) => void) {
-    for (let key in this.map) {
-      this.map[key].visit(callback);
+    for (let key in this.columns) {
+      this.columns[key].visit(callback);
     }
   }
 }
 
-class QuadChunk<T> {
-  map: { [key: string]: Entry<T> } = {};
+export class QuadChunk<T> {
+  origin: Vector2;
+  key: string;
+
+  constructor(origin: Vector2) {
+    this.origin = origin;
+    this.key = this.origin.toArray().join(",");
+  }
+
+  items: { [key: string]: Entry<T> } = {};
   set(position: Vector3, value: T) {
     const key = this.getKey(position);
-    this.map[key] = {
+    this.items[key] = {
       position,
       value,
     };
   }
   get(position: Vector3): T | undefined {
     const key = this.getKey(position);
-    return this.map[key].value;
+    return this.items[key].value;
   }
   private getKey(position: Vector3) {
     return `${position.x},${position.y},${position.z}`;
   }
   visit(callback: (entry: T) => void) {
-    for (let key in this.map) {
-      callback(this.map[key].value);
+    for (let key in this.items) {
+      callback(this.items[key].value);
     }
   }
 }
 
-interface Entry<T> {
+export interface Entry<T> {
   position: Vector3;
   value: T;
 }

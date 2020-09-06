@@ -16,11 +16,15 @@ import { VoxelInfo } from "./Chunks/VoxelInfo";
 import Layers from "./Layers";
 import placeRock from "./Brushes/placeRock";
 import placeTree from "./Brushes/placeTree";
-import placeHouse from "./Brushes/placeHouse";
+// import placeHouse from "./Brushes/placeHouse";
+import ObjectLayer from "./ObjectLayer";
+import House from "./House";
 
 export default () => {
   const size = useStore((state) => state.size);
   const setCamera = useStore((state) => state.setCamera);
+  const houseMap = useStore((state) => state.houseMap);
+  const addHouse = useStore((state) => state.addHouse);
 
   useEffect(() => {
     const target = new Vector3(
@@ -49,8 +53,18 @@ export default () => {
         <AlwaysLongShadaws />
         <HighlightHover />
         {/* <Brush /> */}
-        <PlaceObject place={placeHouse} />
+        <PlaceObject
+          place={(_chunks, coord, _voxel) => {
+            addHouse(coord);
+          }}
+        />
         {/* <PlaceWaterfall /> */}
+        <ObjectLayer
+          map={houseMap}
+          renderItem={(house) => (
+            <House key={house.id} coord={house.coord} y={house.y} />
+          )}
+        />
       </Canvas>
       <UserInput />
       <Stats />
