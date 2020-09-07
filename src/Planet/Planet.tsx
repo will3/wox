@@ -33,7 +33,7 @@ export default (props: PlanetProps) => {
   const waterLevel = useStore((state) => state.waterLevel);
   const waterColor = useStore((state) => state.waterColor);
   const addWaterfall = useStore((state) => state.addWaterfall);
-  const groundCurve = useStore(state => state.groundCurve);
+  const groundCurve = useStore((state) => state.groundCurve);
 
   const rng = seedrandom(seed.toString());
 
@@ -57,19 +57,31 @@ export default (props: PlanetProps) => {
     max: size.clone().multiplyScalar(chunkSize),
   };
 
+  const addGrounds = useStore((state) => state.addGrounds);
+  const incrementGroundVersion = useStore(
+    (state) => state.incrementGroundVersion
+  );
+
   useEffect(() => {
+    const origins: Vector3[] = [];
+
     for (let i = 0; i < size.x; i++) {
       for (let j = 0; j < size.y; j++) {
         for (let k = 0; k < size.z; k++) {
-          const origin = [i, j, k].map((x) => x * chunkSize) as [
-            number,
-            number,
-            number
-          ];
-          const chunk = groundChunks.getOrCreateChunk(origin);
-          generateChunk(chunk, maxHeight, noise, rockColor, groundCurve);
+          origins.push(new Vector3(i, j, k).multiplyScalar(chunkSize));
         }
       }
+    }
+
+    addGrounds(origins);
+
+    for (const origin of origins) {
+      const chunk = groundChunks.getOrCreateChunk(
+        origin.toArray() as [number, number, number]
+      );
+      generateGround(chunk, maxHeight, noise, rockColor, groundCurve);
+      const id = origin.toArray().join(",");
+      incrementGroundVersion(id);
     }
 
     groundChunks.visitChunk((chunk) => {
@@ -137,7 +149,7 @@ export default (props: PlanetProps) => {
   );
 };
 
-const generateChunk = (
+const generateGround = (
   chunk: ChunkData,
   maxHeight: number,
   noise: Noise,

@@ -31,6 +31,9 @@ export interface State {
   groundCurve: Curve;
   houseMap: QuadMap<HouseData>;
   addHouse(coord: Vector3): void;
+  grounds: { byId: { [id: string]: GroundData } };
+  addGrounds(origins: Vector3[]): void;
+  incrementGroundVersion(id: string): void;
 }
 
 export interface HouseData {
@@ -51,6 +54,11 @@ export interface CameraState {
   targetRotation: Euler;
   target: Vector3;
   distance: number;
+}
+
+export interface GroundData {
+  origin: Vector3;
+  version: number;
 }
 
 const initialRotation = new Euler(-Math.PI / 4, Math.PI / 4, 0, "YXZ");
@@ -113,7 +121,32 @@ export const useStore = create<State>((set, get) => ({
     get().houseMap.set(coord, {
       id,
       coord: buildingCoord,
-      y: coord.y
+      y: coord.y,
     });
+  },
+  grounds: {
+    byId: {},
+  },
+  addGrounds(origins: Vector3[]) {
+    const grounds = get().grounds;
+
+    const byId = grounds.byId;
+    for (const origin of origins) {
+      const key = origin.toArray().join(",");
+      if (byId[key] == null) {
+        byId[key] = {
+          origin,
+          version: 0,
+        };
+      }
+    }
+
+    set({ grounds });
+  },
+  incrementGroundVersion(id: string) {
+    const grounds = get().grounds;
+    grounds.byId[id].version++;
+
+    set({ grounds });
   },
 }));
