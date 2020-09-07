@@ -48,7 +48,7 @@ export default (props: PlanetProps) => {
   });
 
   const treeNoise = new Noise({
-    frequency: 0.005,
+    frequency: 0.0025,
     seed: rng().toString(),
   });
 
@@ -213,12 +213,13 @@ const generateTrees = (
       continue;
     }
     const relY = position.y / maxHeight;
-    const yFactor = Math.pow(1 - relY, 0.9);
+    // const yFactor = Math.pow(1 - relY, 0.9);
     const voxelNormal = voxel.voxelNormal;
-    const up = 1 - clamp(new Vector3(0, -1, 0).dot(voxelNormal), 0, 1);
-
-    const v = -Math.abs(treeNoise.get(position)) * yFactor * up + 0.2;
-    if (v > 0) {
+    // const up = 1 - clamp(new Vector3(0, -1, 0).dot(voxelNormal), 0, 1);
+    const nv = treeNoise.get(position);
+    //const v = -Math.abs(nv) * yFactor * up + 0.2;
+    const v = -Math.abs(nv) + 0.4;
+    if (v < 0) {
       continue;
     }
 
