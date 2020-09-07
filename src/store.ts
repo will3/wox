@@ -8,7 +8,6 @@ import { TreeData } from "./Trees/TreeData";
 import { WaterfallData } from "./Waterfalls/WaterfallData";
 import { HoverState } from "./HoverState";
 import Curve from "./utils/Curve";
-import { GridData } from "./Grid/Grid";
 
 export interface State {
   camera: CameraState;
@@ -30,26 +29,42 @@ export interface State {
   addWaterfall(waterfall: WaterfallData): void;
   waterfalls: { [key: string]: WaterfallData };
   groundCurve: Curve;
-  houseMap: QuadMap<HouseData>;
-  addHouse(coord: Vector3): void;
+  houses: { byId: { [id: string]: HouseData } };
+  addHouse(house: HouseData): void;
   grounds: { byId: { [id: string]: GroundData } };
   addGrounds(origins: Vector3[]): void;
   incrementGroundVersion(id: string): void;
   grids: {
-    byColumn: {
-      [id: string]: {
-        origin: Vector2;
-        byId: { [id: string]: GridData };
-      };
+    byId: { [id: string]: GridData };
+  };
+  gridColumns: {
+    byId: {
+      [id: string]: GridColumnData;
     };
   };
-  setGrids(column: Vector2, gridList: { [id: string]: GridData }): void;
+  setGrids(columnId: string, grids: GridData[]): void;
+  addGridColumns(origins: Vector2[]): void;
+  gridIds: string[];
+  setGridIds(gridIds: string[]): void;
+}
+
+export interface GridData {
+  id: string;
+  origin: Vector2;
+  coords: Vector3[];
+  minY: number;
+  maxY: number;
+}
+
+export interface GridColumnData {
+  id: string;
+  origin: Vector2;
+  gridIds: string[];
 }
 
 export interface HouseData {
-  coord: Vector3;
   id: string;
-  y: number;
+  gridIds: string[];
 }
 
 export interface CameraStateUpdate {
@@ -119,20 +134,12 @@ export const useStore = create<State>((set, get) => ({
       return { waterfalls };
     }),
   waterfalls: {},
-  houseMap: new QuadMap(),
-  addHouse: (coord: Vector3) => {
-    const buildingCoord = new Vector3(
-      Math.floor(coord.x / 4) * 4,
-      Math.floor(coord.y / 4) * 4,
-      Math.floor(coord.z / 4) * 4
-    );
-    const id = buildingCoord.toArray().join(",");
-
-    get().houseMap.set(coord, {
-      id,
-      coord: buildingCoord,
-      y: coord.y,
-    });
+  houses: { byId: {} },
+  addHouse: (house: HouseData) => {
+    const id = house.id;
+    const houses = { ...get().houses };
+    houses.byId[id] = house;
+    set({ houses });
   },
   grounds: {
     byId: {},
@@ -159,14 +166,37 @@ export const useStore = create<State>((set, get) => ({
 
     set({ grounds });
   },
-  setGrids(column: Vector2, gridList: { [id: string]: GridData }) {
-    const grids = { ...get().grids };
-    const byColumn = grids.byColumn;
-    const columnKey = column.toArray().join(",");
-    byColumn[columnKey] = { origin: column, byId: gridList };
-    set({ grids });
+  setGrids(columnId: string, grids: GridData[]) {
+    const existingGrids = { ...get().grids };
+    for (const grid of grids) {
+      existingGrids.byId[grid.id] = grid;
+    }
+    set({ grids: existingGrids });
+
+    const gridColumns = { ...get().gridColumns };
+    gridColumns.byId[columnId].gridIds = grids.map((x) => x.id);
+    set({ gridColumns });
+  },
+  addGridColumns(origins: Vector2[]) {
+    const gridColumns = { ...get().gridColumns };
+    for (const origin of origins) {
+      const id = origin.toArray().join(",");
+      gridColumns.byId[id] = {
+        id,
+        origin,
+        gridIds: [],
+      };
+    }
+    set({ gridColumns });
   },
   grids: {
-    byColumn: {},
+    byId: {},
+  },
+  gridColumns: {
+    byId: {},
+  },
+  gridIds: [],
+  setGridIds(gridIds: string[]) {
+    set({ gridIds });
   },
 }));

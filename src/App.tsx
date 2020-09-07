@@ -17,14 +17,15 @@ import Layers from "./Layers";
 import placeRock from "./Brushes/placeRock";
 import placeTree from "./Brushes/placeTree";
 // import placeHouse from "./Brushes/placeHouse";
-import ObjectLayer from "./ObjectLayer";
-import House from "./House";
-import Grid from "./Grid/Grid";
+import Structure from "./Structure";
+import GridLayer from "./Grid/GridLayer";
+import HighlightGrid from "./HighlightGrid";
+import PlaceStructure from "./PlaceStructure";
+import Structures from "./Structures";
 
 export default () => {
   const size = useStore((state) => state.size);
   const setCamera = useStore((state) => state.setCamera);
-  const houseMap = useStore((state) => state.houseMap);
   const addHouse = useStore((state) => state.addHouse);
 
   useEffect(() => {
@@ -52,21 +53,24 @@ export default () => {
         <CameraController />
         <Planet size={size} seed={1337} />
         <AlwaysLongShadaws />
-        <HighlightHover />
+        {/* <HighlightHover /> */}
+        <HighlightGrid />
+        <PlaceStructure />
         {/* <Brush /> */}
-        <PlaceObject
+        {/* <PlaceObject
           place={(_chunks, coord, _voxel) => {
             addHouse(coord);
           }}
-        />
+        /> */}
         {/* <PlaceWaterfall /> */}
-        <ObjectLayer
+        {/* <ObjectLayer
           map={houseMap}
           renderItem={(house) => (
-            <House key={house.id} coord={house.coord} y={house.y} />
+            <House key={house.id} gridIds={house.gridIds} />
           )}
-        />
-        <Grid />
+        /> */}
+        <GridLayer />
+        <Structures />
       </Canvas>
       <UserInput />
       <Stats />

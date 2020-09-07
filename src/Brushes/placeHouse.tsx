@@ -2,14 +2,34 @@ import ChunksData from "../Chunks/ChunksData";
 import { Vector3, Color, Euler } from "three";
 import Layers from "../Layers";
 import seedrandom from "seedrandom";
+import { GridData } from "../store";
+import _ from "lodash";
 
-export default (chunksList: ChunksData[], coord: Vector3, y: number) => {
+export default (chunksList: ChunksData[], grids: GridData[]) => {
   var hw = 3;
   var hl = 3;
-  var height = 6;
+  var height = 7;
+  var doorHeight = 4;
   var lower = new Vector3(-hw, -1, -hl);
   var upper = new Vector3(hw, height, hl);
-  const offset = new Vector3(hw, y - coord.y, hl);
+
+  const minY = _(grids)
+    .map((grid) => grid.coords)
+    .flatten()
+    .minBy((coord) => coord.y)!.y;
+
+  const origins = grids.map((grid) => grid.origin);
+  const coord = new Vector3(
+    _(origins)
+      .map((origin) => origin.x)
+      .min(),
+    0,
+    _(origins)
+      .map((origin) => origin.y)
+      .min()
+  );
+
+  const offset = new Vector3(hw, minY, hl);
 
   const chunks = chunksList[Layers.ground];
   const rng = seedrandom();
@@ -46,7 +66,7 @@ export default (chunksList: ChunksData[], coord: Vector3, y: number) => {
         }
 
         const isRoof = disCorner === hw;
-        const isDoor = i == 0 && j < 3 && (k === hl || k === -hl);
+        const isDoor = i == 0 && j < doorHeight && (k === hl || k === -hl);
         const roofHue = k % 2;
 
         var worldCoord = new Vector3(x, y, z).add(coord).add(offset);

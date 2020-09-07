@@ -1,60 +1,34 @@
-import { useStore } from "../store";
-import _ from "lodash";
-import { Vector2, Vector3 } from "three";
-import { useMemo, useEffect } from "react";
-import React from "react";
-import { chunkSize } from "../constants";
-import Layers from "../Layers";
+import { Vector2, Vector3, Mesh, Geometry, Face3 } from "three";
 import ChunksData from "../Chunks/ChunksData";
-
-export default function Grid() {
-  const size = useStore((state) => state.size);
-  const groundChunks = useStore((state) => state.chunks[Layers.ground]);
-
-  const columns = useMemo(() => {
-    const columns = [];
-    for (let i = 0; i < size.x; i++) {
-      for (let k = 0; k < size.z; k++) {
-        columns.push(new Vector2(i, k).multiplyScalar(chunkSize));
-      }
-    }
-    return columns;
-  }, [size]);
-
-  return (
-    <>
-      {columns.map((column) => (
-        <GridChunk
-          key={column.toArray().join(",")}
-          origin={column}
-          size={size}
-          groundChunks={groundChunks}
-        />
-      ))}
-    </>
-  );
-}
+import { GridColumnData, useStore, GridData } from "../store";
+import { useEffect } from "react";
+import { chunkSize } from "../constants";
+import { gridSize } from "./constants";
+import _ from "lodash";
 
 interface GridChunkProps {
   origin: Vector2;
   size: Vector3;
   groundChunks: ChunksData;
+  column: GridColumnData;
 }
 
-export interface GridData {
-  origin: Vector2;
-  coords: Vector3[];
-}
-
-export const gridSize = 4;
-
-function GridChunk({ origin, size, groundChunks }: GridChunkProps) {
+export default function GridChunk({
+  origin,
+  size,
+  groundChunks,
+  column,
+}: GridChunkProps) {
   console.log(`Grid chunk ${origin.toArray().join(",")}`);
 
   const setGrids = useStore((state) => state.setGrids);
 
+  const geometry = new Geometry();
+  const mesh = new Mesh();
+
   useEffect(() => {
     const grids: { [id: string]: GridData } = {};
+
     for (let j = 0; j < size.y; j++) {
       const co = new Vector3(origin.x, j * chunkSize, origin.y);
       const chunk = groundChunks.getChunk(
@@ -65,7 +39,7 @@ function GridChunk({ origin, size, groundChunks }: GridChunkProps) {
       for (const faceIndex of meshData.upFaces) {
         const face = meshData.faces[faceIndex];
         const voxel = meshData.voxels[face.voxelIndex];
-        const coord = voxel.coord;
+        const coord = voxel.coord.clone().add(co);
         const go = new Vector2(
           Math.floor(coord.x / gridSize) * gridSize,
           Math.floor(coord.z / gridSize) * gridSize
@@ -73,15 +47,25 @@ function GridChunk({ origin, size, groundChunks }: GridChunkProps) {
         const key = go.toArray().join(",");
         if (grids[key] == null) {
           grids[key] = {
+            id: go.toArray().join(","),
             origin: go,
             coords: [],
+            minY: 0,
+            maxY: 0,
           };
         }
         grids[key].coords.push(coord);
       }
     }
 
-    setGrids(origin, grids);
+    for (let key in grids) {
+      const grid = grids[key];
+      const ys = grid.coords.map((g) => g.y);
+      grid.minY = _(ys).min() || 0;
+      grid.maxY = _(ys).max() || 0;
+    }
+
+    setGrids(column.id, _.values(grids));
   }, []);
 
   return null;
