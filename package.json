@@ -1,7 +1,7 @@
 {
   "name": "wox",
   "version": "1.0.0",
-  "main": "index.html",
+  "main": "server.js",
   "license": "MIT",
   "scripts": {
     "start": "node server.js",
