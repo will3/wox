@@ -1,75 +1,10 @@
 import { useEffect } from "react";
 import { useStore } from "./store";
-import { HoverState } from "./HoverState";
 import { useThree } from "react-three-fiber";
-import {
-  Raycaster,
-  Color,
-  Vector3,
-  Quaternion,
-  Vector2,
-  Camera,
-  Scene,
-} from "three";
+import { Color, Vector3, Quaternion } from "three";
 import React from "react";
-import ChunksData from "./Chunks/ChunksData";
 import Layers from "./Layers";
-
-const raycast = (
-  mouse: Vector2,
-  camera: Camera,
-  scene: Scene,
-  chunks: ChunksData[],
-  layers: number[]
-) => {
-  const ray = new Raycaster();
-  for (const layer of layers) {
-    ray.layers.disableAll();
-    ray.layers.enable(layer + 1);
-  }
-
-  ray.setFromCamera(mouse, camera);
-  const intersects = ray.intersectObjects(scene.children);
-  if (intersects.length === 0) {
-    return;
-  }
-
-  const intersect = intersects[0];
-  const userData = intersect.object.userData;
-  if (!userData.isChunkMesh) {
-    return;
-  }
-
-  const { origin, layer } = userData;
-  const faceIndex = intersect.faceIndex;
-  if (faceIndex == null) {
-    return;
-  }
-
-  const chunk = chunks[layer].getChunk(origin);
-  if (chunk == null || chunk.meshData == null) {
-    return;
-  }
-
-  const face = chunk.getFaceInfo(faceIndex);
-  if (face == null) {
-    return;
-  }
-
-  if (chunk.meshData == null) {
-    return;
-  }
-
-  const voxel = chunk.meshData.voxels[face.voxelIndex];
-  const worldCoord = new Vector3().fromArray(chunk.origin).add(voxel.coord);
-
-  return {
-    coord: worldCoord.toArray() as [number, number, number],
-    layer,
-    face,
-    voxel,
-  } as HoverState;
-};
+import raycast from "./raycast";
 
 export default () => {
   const mouse = useStore((state) => state.mouse);
