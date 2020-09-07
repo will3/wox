@@ -8,6 +8,7 @@ import { TreeData } from "./Trees/TreeData";
 import { WaterfallData } from "./Waterfalls/WaterfallData";
 import { HoverState } from "./HoverState";
 import Curve from "./utils/Curve";
+import { GridData } from "./Grid/Grid";
 
 export interface State {
   camera: CameraState;
@@ -34,6 +35,15 @@ export interface State {
   grounds: { byId: { [id: string]: GroundData } };
   addGrounds(origins: Vector3[]): void;
   incrementGroundVersion(id: string): void;
+  grids: {
+    byColumn: {
+      [id: string]: {
+        origin: Vector2;
+        byId: { [id: string]: GridData };
+      };
+    };
+  };
+  setGrids(column: Vector2, gridList: { [id: string]: GridData }): void;
 }
 
 export interface HouseData {
@@ -148,5 +158,15 @@ export const useStore = create<State>((set, get) => ({
     grounds.byId[id].version++;
 
     set({ grounds });
+  },
+  setGrids(column: Vector2, gridList: { [id: string]: GridData }) {
+    const grids = { ...get().grids };
+    const byColumn = grids.byColumn;
+    const columnKey = column.toArray().join(",");
+    byColumn[columnKey] = { origin: column, byId: gridList };
+    set({ grids });
+  },
+  grids: {
+    byColumn: {},
   },
 }));

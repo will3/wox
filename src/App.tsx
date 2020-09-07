@@ -19,6 +19,7 @@ import placeTree from "./Brushes/placeTree";
 // import placeHouse from "./Brushes/placeHouse";
 import ObjectLayer from "./ObjectLayer";
 import House from "./House";
+import Grid from "./Grid/Grid";
 
 export default () => {
   const size = useStore((state) => state.size);
@@ -65,6 +66,7 @@ export default () => {
             <House key={house.id} coord={house.coord} y={house.y} />
           )}
         />
+        <Grid />
       </Canvas>
       <UserInput />
       <Stats />
