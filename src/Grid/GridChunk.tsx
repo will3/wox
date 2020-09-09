@@ -23,9 +23,6 @@ export default function GridChunk({
 
   const setGrids = useStore((state) => state.setGrids);
 
-  const geometry = new Geometry();
-  const mesh = new Mesh();
-
   useEffect(() => {
     const grids: { [id: string]: GridData } = {};
 
@@ -39,7 +36,7 @@ export default function GridChunk({
       for (const faceIndex of meshData.upFaces) {
         const face = meshData.faces[faceIndex];
         const voxel = meshData.voxels[face.voxelIndex];
-        const coord = voxel.coord.clone().add(co);
+        const coord = new Vector3().fromArray(voxel.coord).add(co);
         const go = new Vector2(
           Math.floor(coord.x / gridSize) * gridSize,
           Math.floor(coord.z / gridSize) * gridSize

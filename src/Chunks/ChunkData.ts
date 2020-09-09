@@ -1,8 +1,5 @@
 import ChunksData from "./ChunksData";
-import { Vector3, Mesh } from "three";
-import _ from "lodash";
 import { meshChunk } from "./meshChunk";
-import { FaceInfo } from "./FaceInfo";
 import { MeshData } from "./MeshData";
 
 export default class ChunkData {
@@ -83,7 +80,7 @@ export default class ChunkData {
     if (color == null) {
       return [0, 0, 0];
     }
-    return _.clone(color);
+    return [...color];
   }
 
   getColorWorld(i: number, j: number, k: number) {
@@ -109,19 +106,13 @@ export default class ChunkData {
     return this.origin.join(",");
   }
 
-  calcNormal(i: number, j: number, k: number) {
-    return new Vector3(
+  calcNormal(i: number, j: number, k: number): [number, number, number] {
+    const normal = [
       (this.getWorld(i + 1, j, k) ?? 0) - (this.getWorld(i - 1, j, k) ?? 0),
       (this.getWorld(i, j + 1, k) ?? 0) - (this.getWorld(i, j - 1, k) ?? 0),
-      (this.getWorld(i, j, k + 1) ?? 0) - (this.getWorld(i, j, k - 1) ?? 0)
-    ).normalize();
-  }
-
-  getFaceInfo(faceIndex: number): FaceInfo | null {
-    if (this.meshData == null) {
-      return null;
-    }
-    return this.meshData.faces[Math.floor(faceIndex / 2)];
+      (this.getWorld(i, j, k + 1) ?? 0) - (this.getWorld(i, j, k - 1) ?? 0),
+    ] as [number, number, number];
+    return normalize(normal);
   }
 
   updateMeshData(waterLevel: number) {
@@ -140,3 +131,11 @@ export default class ChunkData {
     this.version++;
   }
 }
+
+export const normalize = (
+  coord: [number, number, number]
+): [number, number, number] => {
+  const [i, j, k] = coord;
+  const dis = Math.sqrt(i * i + j * j + k * k);
+  return [i / dis, j / dis, k / dis];
+};

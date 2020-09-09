@@ -110,7 +110,7 @@ export const meshChunk = (chunk: ChunkData, waterLevel: number): MeshData => {
           if (indexMap[key] == null) {
             indexMap[key] = voxelIndex;
 
-            voxelNormals.push(voxelNormal.x, voxelNormal.y, voxelNormal.z);
+            voxelNormals.push(voxelNormal[0], voxelNormal[1], voxelNormal[2]);
 
             voxelIndex++;
           }
@@ -124,7 +124,7 @@ export const meshChunk = (chunk: ChunkData, waterLevel: number): MeshData => {
           };
 
           voxels[vi] = {
-            coord: new Vector3().fromArray(coord),
+            coord,
             voxelNormal,
           };
 

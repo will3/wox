@@ -187,7 +187,7 @@ const generateGrass = (
           continue;
         }
         const normal = chunk.calcNormal(i, j, k);
-        const dot = new Vector3(0, -1, 0).dot(normal);
+        const dot = new Vector3(0, -1, 0).dot(new Vector3().fromArray(normal));
         if (dot > 0.75) {
           chunk.setColor(i, j, k, grassColor.toArray());
         }
@@ -219,7 +219,7 @@ const generateTrees = (
     const face = meshData.faces[faceIndex];
 
     const voxel = meshData.voxels[face.voxelIndex];
-    const position = voxel.coord.clone().add(origin);
+    const position = new Vector3().fromArray(voxel.coord).add(origin);
     if (position.y < waterLevel + 3) {
       continue;
     }
@@ -239,7 +239,7 @@ const generateTrees = (
 
     if (otherTrees.length === 0) {
       treeMap.set(position, {
-        normal: voxelNormal,
+        normal: new Vector3().fromArray(voxelNormal),
         size,
         position,
       });
@@ -305,7 +305,7 @@ const generateWaterfalls = (
     const face = meshData.faces[faceIndex];
     const voxel = meshData.voxels[face.voxelIndex];
 
-    const position = voxel.coord.clone().add(origin);
+    const position = new Vector3().fromArray(voxel.coord).add(origin);
     const relY = 1 - position.y / maxHeight;
     const yFactor = clamp((relY - 0.5) * 2, 0, 1);
 

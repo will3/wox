@@ -72,7 +72,7 @@ export default function Chunk(props: ChunkProps) {
   useEffect(() => {
     const position = new Vector3()
       .fromArray(chunk.origin)
-      .add(chunk.chunks.offset);
+      .add(new Vector3().fromArray(chunk.chunks.offset));
     mesh.position.copy(position);
     mesh.receiveShadow = true;
     mesh.castShadow = true;
