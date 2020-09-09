@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import placeHouse from "./Brushes/placeHouse";
+import placeStructure from "./Brushes/placeStructure";
 import { useStore } from "./store";
 
 export interface StructureProps {
@@ -12,7 +12,7 @@ export default function Structure({ gridIds }: StructureProps) {
 
   useEffect(() => {
     const gs = gridIds.map((x) => grids.byId[x]);
-    placeHouse(chunks, gs);
+    placeStructure(chunks, gs);
   }, []);
   return null;
 }

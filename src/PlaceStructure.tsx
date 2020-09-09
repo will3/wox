@@ -3,10 +3,10 @@ import { useEffect } from "react";
 
 export default function PlaceStructure() {
   const gridIds = useStore((state) => state.gridIds);
-  const addHouse = useStore((state) => state.addHouse);
+  const addStructure = useStore((state) => state.addStructure);
 
   const handleMouseDown = (e: MouseEvent) => {
-    console.log(`add house ${gridIds}`);
+    console.log(`add structure ${gridIds}`);
     if (e.button !== 0) {
       return;
     }
@@ -15,7 +15,7 @@ export default function PlaceStructure() {
       return;
     }
 
-    addHouse({
+    addStructure({
       id: gridIds[0],
       gridIds,
     });

@@ -16,7 +16,6 @@ import { VoxelInfo } from "./Chunks/VoxelInfo";
 import Layers from "./Layers";
 import placeRock from "./Brushes/placeRock";
 import placeTree from "./Brushes/placeTree";
-// import placeHouse from "./Brushes/placeHouse";
 import Structure from "./Structure";
 import GridLayer from "./Grid/GridLayer";
 import HighlightGrid from "./HighlightGrid";
@@ -27,7 +26,7 @@ import Mesher from "./Chunks/Mesher";
 export default () => {
   const size = useStore((state) => state.size);
   const setCamera = useStore((state) => state.setCamera);
-  const addHouse = useStore((state) => state.addHouse);
+  const addStructure = useStore((state) => state.addStructure);
 
   useEffect(() => {
     const target = new Vector3(
@@ -58,18 +57,7 @@ export default () => {
         <HighlightGrid />
         <PlaceStructure />
         {/* <Brush /> */}
-        {/* <PlaceObject
-          place={(_chunks, coord, _voxel) => {
-            addHouse(coord);
-          }}
-        /> */}
         {/* <PlaceWaterfall /> */}
-        {/* <ObjectLayer
-          map={houseMap}
-          renderItem={(house) => (
-            <House key={house.id} gridIds={house.gridIds} />
-          )}
-        /> */}
         <GridLayer />
         <Structures />
         <Mesher />

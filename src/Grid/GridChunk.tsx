@@ -22,6 +22,7 @@ export default function GridChunk({
   console.log(`Grid chunk ${origin.toArray().join(",")}`);
 
   const setGrids = useStore((state) => state.setGrids);
+  const waterLevel = useStore((state) => state.waterLevel);
 
   useEffect(() => {
     const grids: { [id: string]: GridData } = {};
@@ -37,6 +38,9 @@ export default function GridChunk({
         const face = meshData.faces[faceIndex];
         const voxel = meshData.voxels[face.voxelIndex];
         const coord = new Vector3().fromArray(voxel.coord).add(co);
+        if (coord.y <= waterLevel) {
+          continue;
+        }
         const go = new Vector2(
           Math.floor(coord.x / gridSize) * gridSize,
           Math.floor(coord.z / gridSize) * gridSize

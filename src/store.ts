@@ -29,8 +29,8 @@ export interface State {
   addWaterfall(waterfall: WaterfallData): void;
   waterfalls: { [key: string]: WaterfallData };
   groundCurve: Curve;
-  houses: { byId: { [id: string]: HouseData } };
-  addHouse(house: HouseData): void;
+  structures: { byId: { [id: string]: StructureData } };
+  addStructure(structure: StructureData): void;
   grounds: { byId: { [id: string]: GroundData } };
   addGrounds(origins: Vector3[]): void;
   incrementGroundVersion(id: string): void;
@@ -62,7 +62,7 @@ export interface GridColumnData {
   gridIds: string[];
 }
 
-export interface HouseData {
+export interface StructureData {
   id: string;
   gridIds: string[];
 }
@@ -142,12 +142,12 @@ export const useStore = create<State>((set, get) => ({
       return { waterfalls };
     }),
   waterfalls: {},
-  houses: { byId: {} },
-  addHouse: (house: HouseData) => {
-    const id = house.id;
-    const houses = { ...get().houses };
-    houses.byId[id] = house;
-    set({ houses });
+  structures: { byId: {} },
+  addStructure: (structure: StructureData) => {
+    const id = structure.id;
+    const structures = { ...get().structures };
+    structures.byId[id] = structure;
+    set({ structures: structures });
   },
   grounds: {
     byId: {},

@@ -4,12 +4,12 @@ import _ from "lodash";
 import Structure from "./Structure";
 
 export default function Structures() {
-  const houses = useStore((state) => state.houses);
+  const structures = useStore((state) => state.structures);
 
   return (
     <>
-      {_.map(houses.byId, (house) => (
-        <Structure key={house.id} gridIds={house.gridIds} />
+      {_.map(structures.byId, (structure) => (
+        <Structure key={structure.id} gridIds={structure.gridIds} />
       ))}
     </>
   );
