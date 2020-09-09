@@ -45,6 +45,10 @@ export default function HighlightGrid() {
     const gos = vs.map((x) => getGrid(x));
 
     const gridIds = gos
+      .filter((x) => {
+        const id = x.toArray().join(",");
+        return grids.byId[id] != null;
+      })
       // Sort by x then z
       .sort((a, b) => {
         const xd = a.x - b.x;

@@ -1,5 +1,6 @@
 import { useStore } from "./store";
 import { useEffect } from "react";
+import { gridSize } from "./Grid/constants";
 
 export default function PlaceStructure() {
   const gridIds = useStore((state) => state.gridIds);
@@ -11,7 +12,7 @@ export default function PlaceStructure() {
       return;
     }
 
-    if (gridIds.length === 0) {
+    if (gridIds.length != 4) {
       return;
     }
 
