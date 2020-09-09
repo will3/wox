@@ -1,5 +1,5 @@
 import ChunkData from "./ChunkData";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 import {
   BufferGeometry,
@@ -12,6 +12,8 @@ import {
   UniformsUtils,
   UniformsLib,
   BufferAttribute,
+  Mesh,
+  Material,
 } from "three";
 import { useStore } from "../store";
 import _ from "lodash";
@@ -24,7 +26,18 @@ export interface ChunkProps {
 export default function Chunk(props: ChunkProps) {
   const { chunk } = props;
 
-  const mesh = chunk.mesh;
+  const [mesh] = useState(new Mesh());
+
+  useEffect(() => {
+    return () => {
+      if (mesh.geometry != null) {
+        mesh.geometry.dispose();
+      }
+      if (mesh.material != null) {
+        (mesh.material as Material).dispose();
+      }
+    };
+  });
 
   console.log(`Rerender chunk ${props.chunk.origin.join(",")}`);
 
@@ -34,7 +47,7 @@ export default function Chunk(props: ChunkProps) {
 
   useStore.subscribe(
     () => {
-      handleMeshDataUpdated(chunk);
+      handleMeshDataUpdated(mesh, chunk);
     },
     () => chunk.version
   );
@@ -92,22 +105,22 @@ export default function Chunk(props: ChunkProps) {
       transparent: chunk.chunks.isWater,
     });
 
-    handleMeshDataUpdated(chunk);
+    handleMeshDataUpdated(mesh, chunk);
   }, []);
 
   return <primitive object={mesh} />;
 }
 
-const handleMeshDataUpdated = (chunk: ChunkData) => {
+const handleMeshDataUpdated = (mesh: Mesh, chunk: ChunkData) => {
   const meshData = chunk.meshData;
 
-  console.log(`Update chunk ${chunk.layer} ${chunk.key} version: ${chunk.version}`);
+  console.log(
+    `Update chunk ${chunk.layer} ${chunk.key} version: ${chunk.version}`
+  );
 
   if (meshData == null) {
     return;
   }
-
-  const mesh = chunk.mesh;
 
   mesh.layers.enable(chunk.layer + 1);
 

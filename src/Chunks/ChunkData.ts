@@ -1,5 +1,5 @@
 import ChunksData from "./ChunksData";
-import { Vector3, BufferGeometry, Mesh } from "three";
+import { Vector3, Mesh } from "three";
 import _ from "lodash";
 import { meshChunk } from "./meshChunk";
 import { FaceInfo } from "./FaceInfo";
@@ -15,7 +15,6 @@ export default class ChunkData {
   dirty = false;
   version = 1;
   key: string;
-  mesh: Mesh = new Mesh();
   layer: number;
   isWater = false;
 
