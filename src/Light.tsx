@@ -7,10 +7,11 @@ import {
 } from "three";
 import React, { useEffect } from "react";
 import { useStore } from "./stores/store";
+import { useCameraStore } from "./stores/camera";
 
 export default () => {
   const lightDir = useStore((state) => state.lightDir);
-  const target = useStore((state) => state.camera.target);
+  const target = useCameraStore((state) => state.camera.target);
   const showHelper = false;
   const distance = 150;
 

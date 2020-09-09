@@ -2,14 +2,14 @@ import { useEffect } from "react";
 import { useThree, useFrame } from "react-three-fiber";
 import { Vector3 } from "three";
 import { lerpEulers } from "./utils/math";
-import { useStore } from "./stores/store";
+import { useCameraStore } from "./stores/camera";
 
 export default () => {
   const { camera } = useThree();
 
-  const cameraState = useStore((state) => state.camera);
+  const cameraState = useCameraStore((state) => state.camera);
   const { target, distance, rotation, targetRotation } = cameraState;
-  const setCamera = useStore((state) => state.setCamera);
+  const setCamera = useCameraStore((state) => state.setCamera);
 
   useEffect(() => {
     const position = new Vector3(0, 0, 1)

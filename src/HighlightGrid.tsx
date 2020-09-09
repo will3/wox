@@ -6,11 +6,7 @@ import Layers from "./Layers";
 import { Vector2, Vector3, Geometry, Face3 } from "three";
 import { gridSize } from "./Grid/constants";
 import React from "react";
-
-interface BuildPattern {
-  coords: Vector2[];
-  center: Vector2;
-}
+import { useGridStore } from "./stores/grid";
 
 const twoByTwo = {
   coords: [
@@ -25,9 +21,9 @@ const twoByTwo = {
 export default function HighlightGrid() {
   const mouse = useStore((state) => state.mouse);
   const chunks = useStore((state) => state.chunks);
-  const grids = useStore((state) => state.grids);
-  const gridIds = useStore((state) => state.gridIds);
-  const setGridIds = useStore((state) => state.setGridIds);
+  const grids = useGridStore((state) => state.grids);
+  const gridIds = useGridStore((state) => state.gridIds);
+  const setGridIds = useGridStore((state) => state.setGridIds);
   const [geometry, setGeometry] = useState(new Geometry());
 
   const { camera, scene } = useThree();

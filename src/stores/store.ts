@@ -10,10 +10,8 @@ import { HoverState } from "../HoverState";
 import Curve from "../utils/Curve";
 
 export interface State {
-  camera: CameraState;
   lightDir: Vector3;
   setLightDir(lightDir: Vector3): void;
-  setCamera(camera: CameraStateUpdate): void;
   mouse: Vector2;
   setMouse(mouse: Vector2): void;
   chunks: ChunksData[];
@@ -34,26 +32,10 @@ export interface State {
   incrementGroundVersion(id: string): void;
 }
 
-export interface CameraStateUpdate {
-  rotation?: Euler;
-  targetRotation?: Euler;
-  target?: Vector3;
-  distance?: number;
-}
-
-export interface CameraState {
-  rotation: Euler;
-  targetRotation: Euler;
-  target: Vector3;
-  distance: number;
-}
-
 export interface GroundData {
   origin: Vector3;
   version: number;
 }
-
-const initialRotation = new Euler(-Math.PI / 4, Math.PI / 4, 0, "YXZ");
 
 const treesChunk = new ChunksData(chunkSize, Layers.trees);
 treesChunk.normalBias = 0.8;
@@ -68,19 +50,8 @@ const structureChunks = new ChunksData(chunkSize, Layers.structures);
 structureChunks.renderAllSurfaces = true;
 
 export const useStore = create<State>((set, get) => ({
-  camera: {
-    rotation: initialRotation,
-    targetRotation: initialRotation,
-    target: new Vector3(),
-    distance: 400,
-  },
   lightDir: new Vector3(-1, -1, -1),
   setLightDir: (lightDir: Vector3) => set({ lightDir }),
-  setCamera: (camera: CameraStateUpdate) =>
-    set((state) => {
-      const next: CameraState = { ...state.camera, ...camera };
-      return { camera: next };
-    }),
   mouse: new Vector2(),
   setMouse: (mouse: Vector2) => {
     set({ mouse });

@@ -5,5 +5,5 @@ import placeTree from "../Trees/placeTree";
 import Layers from "../Layers";
 
 export default (chunks: ChunksData[], coord: Vector3, voxel: VoxelInfo) => {
-    placeTree(chunks[Layers.trees], coord, voxel.voxelNormal, 1);
+    placeTree(chunks[Layers.trees], coord, new Vector3().fromArray(voxel.voxelNormal), 1);
 };

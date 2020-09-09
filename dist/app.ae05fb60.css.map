@@ -1,1 +1,0 @@
-{"version":3,"sources":["app.css"],"names":[],"mappings":"AAAA;AACA;AACA;AACA;AACA;AACA;AACA;AACA","file":"app.ae05fb60.css","sourceRoot":"..","sourcesContent":["html,\nbody {\n  padding: 0;\n  margin: 0;\n  overflow: hidden;\n  background-color: \"#000000\";\n}\n"]}

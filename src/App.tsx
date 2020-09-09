@@ -22,11 +22,11 @@ import HighlightGrid from "./HighlightGrid";
 import PlaceStructure from "./PlaceStructure";
 import Structures from "./Structures";
 import Mesher from "./Chunks/Mesher";
+import { useCameraStore } from "./stores/camera";
 
 export default () => {
   const size = useStore((state) => state.size);
-  const setCamera = useStore((state) => state.setCamera);
-  const addStructure = useStore((state) => state.addStructure);
+  const setCamera = useCameraStore((state) => state.setCamera);
 
   useEffect(() => {
     const target = new Vector3(
