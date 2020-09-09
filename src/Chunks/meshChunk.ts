@@ -1,5 +1,4 @@
 import ChunkData from "./ChunkData";
-import { Vector3 } from "three";
 import { MeshData } from "./MeshData";
 import { FaceInfo } from "./FaceInfo";
 import { VoxelInfo } from "./VoxelInfo";
