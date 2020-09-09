@@ -1,5 +1,5 @@
 import { useEffect, useMemo } from "react";
-import { useStore } from "../store";
+import { useStore } from "../stores/store";
 import { HoverState } from "../HoverState";
 import ChunksData from "../Chunks/ChunksData";
 import React from "react";

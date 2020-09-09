@@ -6,7 +6,7 @@ import { Stats } from "drei";
 import { Vector3, VSMShadowMap } from "three";
 import Planet from "./Planet/Planet";
 import AlwaysLongShadaws from "./AlwaysLongShadaws";
-import { useStore } from "./store";
+import { useStore } from "./stores/store";
 import Light from "./Light";
 import HighlightHover from "./HighlightHover";
 import { chunkSize } from "./constants";
@@ -17,7 +17,7 @@ import Layers from "./Layers";
 import placeRock from "./Brushes/placeRock";
 import placeTree from "./Brushes/placeTree";
 import Structure from "./Structure";
-import GridLayer from "./Grid/GridLayer";
+import Grids from "./Grid/Grids";
 import HighlightGrid from "./HighlightGrid";
 import PlaceStructure from "./PlaceStructure";
 import Structures from "./Structures";
@@ -58,7 +58,7 @@ export default () => {
         <PlaceStructure />
         {/* <Brush /> */}
         {/* <PlaceWaterfall /> */}
-        <GridLayer />
+        <Grids />
         <Structures />
         <Mesher />
       </Canvas>

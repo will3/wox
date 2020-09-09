@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import placeStructure from "./Brushes/placeStructure";
-import { useStore } from "./store";
+import { useStore } from "./stores/store";
 
 export interface StructureProps {
   gridIds: string[];

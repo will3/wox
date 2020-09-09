@@ -2,7 +2,7 @@ import React, { useEffect, createRef } from "react";
 import { Chunks, ChunkData } from "../Chunks";
 import { Vector3, Color } from "three";
 import { Noise } from "../Noise";
-import { useStore } from "../store";
+import { useStore } from "../stores/store";
 import Mesher from "../Chunks/Mesher";
 import { chunkSize } from "../constants";
 import Layers from "../Layers";

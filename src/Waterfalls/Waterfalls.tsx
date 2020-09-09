@@ -1,4 +1,4 @@
-import { useStore } from "../store";
+import { useStore } from "../stores/store";
 import React from "react";
 import _ from "lodash";
 import { Waterfall } from "./Waterfall";

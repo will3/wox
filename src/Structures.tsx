@@ -1,10 +1,10 @@
-import { useStore } from "./store";
 import React from "react";
 import _ from "lodash";
 import Structure from "./Structure";
+import { useStructureStore } from "./stores/structures";
 
 export default function Structures() {
-  const structures = useStore((state) => state.structures);
+  const structures = useStructureStore((state) => state.structures);
 
   return (
     <>

@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import keycode from "keycode";
-import { useStore } from "./store";
+import { useStore } from "./stores/store";
 import { Vector2 } from "three";
 
 export default () => {

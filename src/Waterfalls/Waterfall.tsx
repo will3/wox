@@ -1,6 +1,6 @@
 import { WaterfallData } from "./WaterfallData";
 import { useEffect } from "react";
-import { useStore } from "../store";
+import { useStore } from "../stores/store";
 import Layers from "../Layers";
 import { Vector3, Color } from "three";
 import ChunksData from "../Chunks/ChunksData";

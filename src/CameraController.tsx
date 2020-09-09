@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useThree, useFrame } from "react-three-fiber";
 import { Vector3 } from "three";
 import { lerpEulers } from "./utils/math";
-import { useStore } from "./store";
+import { useStore } from "./stores/store";
 
 export default () => {
   const { camera } = useThree();

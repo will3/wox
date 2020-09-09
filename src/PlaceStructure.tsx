@@ -1,10 +1,10 @@
-import { useStore } from "./store";
+import { useStore } from "./stores/store";
 import { useEffect } from "react";
-import { gridSize } from "./Grid/constants";
+import { useStructureStore } from "./stores/structures";
 
 export default function PlaceStructure() {
   const gridIds = useStore((state) => state.gridIds);
-  const addStructure = useStore((state) => state.addStructure);
+  const addStructure = useStructureStore((state) => state.addStructure);
 
   const handleMouseDown = (e: MouseEvent) => {
     console.log(`add structure ${gridIds}`);

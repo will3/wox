@@ -6,7 +6,7 @@ import {
   CameraHelper,
 } from "three";
 import React, { useEffect } from "react";
-import { useStore } from "./store";
+import { useStore } from "./stores/store";
 
 export default () => {
   const lightDir = useStore((state) => state.lightDir);

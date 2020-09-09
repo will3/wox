@@ -2,7 +2,7 @@ import React from "react";
 import _ from "lodash";
 import Chunk from "./Chunk";
 import ChunksData from "./ChunksData";
-import { useStore } from "../store";
+import { useStore } from "../stores/store";
 
 export interface ChunksProps {
   chunks: ChunksData;

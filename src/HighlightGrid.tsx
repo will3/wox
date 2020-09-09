@@ -1,4 +1,4 @@
-import { useStore } from "./store";
+import { useStore } from "./stores/store";
 import { useEffect, useState, useCallback } from "react";
 import raycast from "./raycast";
 import { useThree } from "react-three-fiber";

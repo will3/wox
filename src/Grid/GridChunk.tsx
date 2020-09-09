@@ -1,10 +1,11 @@
-import { Vector2, Vector3, Mesh, Geometry, Face3 } from "three";
+import { Vector2, Vector3 } from "three";
 import ChunksData from "../Chunks/ChunksData";
-import { GridColumnData, useStore, GridData } from "../store";
+import { useStore } from "../stores/store";
 import { useEffect } from "react";
 import { chunkSize } from "../constants";
 import { gridSize } from "./constants";
 import _ from "lodash";
+import { useGridStore, GridColumnData, GridData } from "../stores/grid";
 
 interface GridChunkProps {
   origin: Vector2;
@@ -21,7 +22,7 @@ export default function GridChunk({
 }: GridChunkProps) {
   console.log(`Grid chunk ${origin.toArray().join(",")}`);
 
-  const setGrids = useStore((state) => state.setGrids);
+  const setGrids = useGridStore((state) => state.setGrids);
   const waterLevel = useStore((state) => state.waterLevel);
 
   useEffect(() => {

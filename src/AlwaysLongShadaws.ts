@@ -1,7 +1,7 @@
 import { useFrame, useThree } from "react-three-fiber";
 import { Vector3 } from "three";
 import _ from "lodash";
-import { useStore } from "./store";
+import { useStore } from "./stores/store";
 
 export default () => {
   const { camera } = useThree();

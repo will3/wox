@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useStore } from "./store";
+import { useStore } from "./stores/store";
 import { useThree } from "react-three-fiber";
 import { Color, Vector3, Quaternion } from "three";
 import React from "react";

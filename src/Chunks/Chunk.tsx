@@ -15,7 +15,7 @@ import {
   Mesh,
   Material,
 } from "three";
-import { useStore } from "../store";
+import { useStore } from "../stores/store";
 import _ from "lodash";
 import { vertexShader, fragmentShader } from "./voxelShader";
 

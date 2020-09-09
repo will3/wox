@@ -1,4 +1,4 @@
-import { useStore } from "../store";
+import { useStore } from "../stores/store";
 import { HoverState } from "../HoverState";
 import { useEffect, useCallback } from "react";
 import { Vector3 } from "three";
