@@ -21,6 +21,8 @@ export const meshChunk = (chunk: ChunkData, waterLevel: number): MeshData => {
   let voxelIndex = 0;
   let faceIndex = 0;
 
+  const renderAllSurfaces = chunk.chunks.renderAllSurfaces;
+
   for (let d = 0; d < 3; d++) {
     if (chunk.isWater && d != 1) {
       continue;
@@ -28,11 +30,16 @@ export const meshChunk = (chunk: ChunkData, waterLevel: number): MeshData => {
     for (let i = 0; i < size; i++) {
       for (let j = 0; j < size; j++) {
         for (let k = 0; k < size; k++) {
-          const a = getWorld(chunk, d, i, j, k);
-          const b = getWorld(chunk, d, i + 1, j, k);
+          let a = getWorld(chunk, d, i, j, k);
+          let b = getWorld(chunk, d, i + 1, j, k);
 
-          if (a == null || b == null) {
-            continue;
+          if (renderAllSurfaces) {
+            a = a || 0;
+            b = b || 0;
+          } else {
+            if (a == null || b == null) {
+              continue;
+            }
           }
 
           if (a > 0 === b > 0) {

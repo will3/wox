@@ -31,7 +31,7 @@ export default (chunksList: ChunksData[], grids: GridData[]) => {
 
   const offset = new Vector3(hw, minY, hl);
 
-  const chunks = chunksList[Layers.ground];
+  const chunks = chunksList[Layers.structures];
   const rng = seedrandom();
   const rotation = new Euler(
     0,

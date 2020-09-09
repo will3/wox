@@ -4,11 +4,8 @@ import Chunks from "./Chunks";
 import React from "react";
 import { useStore } from "../store";
 
-export interface MesherData {
-  chunksList: ChunksData[];
-}
-
-export default function Mesher({ chunksList }: MesherData) {
+export default function Mesher() {
+  const chunksList = useStore((state) => state.chunks);
   const ref = useRef<number>();
   const waterLevel = useStore((state) => state.waterLevel);
 

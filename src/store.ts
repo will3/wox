@@ -97,6 +97,9 @@ waterChunk.normalBias = 1.0;
 waterChunk.skyBias = 1.0;
 waterChunk.offset = new Vector3(0, -0.5, 0);
 
+const structureChunks = new ChunksData(chunkSize, Layers.structures);
+structureChunks.renderAllSurfaces = true;
+
 export const useStore = create<State>((set, get) => ({
   camera: {
     rotation: initialRotation,
@@ -115,7 +118,7 @@ export const useStore = create<State>((set, get) => ({
   setMouse: (mouse: Vector2) => {
     set({ mouse });
   },
-  chunks: [new ChunksData(chunkSize, Layers.ground), treesChunk, waterChunk],
+  chunks: [new ChunksData(chunkSize, Layers.ground), treesChunk, waterChunk, structureChunks],
   hover: null,
   setHover: (hover: HoverState) => set({ hover }),
   size: new Vector3(5, 3, 5),

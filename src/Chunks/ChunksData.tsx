@@ -11,6 +11,8 @@ export default class ChunksData {
   skyBias = 0.5;
   isWater = false;
   offset = new Vector3();
+  hasBounds = false;
+  renderAllSurfaces = false;
 
   constructor(size: number, layer: number = 0) {
     this.size = size;

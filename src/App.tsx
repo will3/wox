@@ -22,6 +22,7 @@ import GridLayer from "./Grid/GridLayer";
 import HighlightGrid from "./HighlightGrid";
 import PlaceStructure from "./PlaceStructure";
 import Structures from "./Structures";
+import Mesher from "./Chunks/Mesher";
 
 export default () => {
   const size = useStore((state) => state.size);
@@ -71,6 +72,7 @@ export default () => {
         /> */}
         <GridLayer />
         <Structures />
+        <Mesher />
       </Canvas>
       <UserInput />
       <Stats />

@@ -101,7 +101,7 @@ export default function Chunk(props: ChunkProps) {
 const handleMeshDataUpdated = (chunk: ChunkData) => {
   const meshData = chunk.meshData;
 
-  console.log(`Update chunk ${chunk.key} version: ${chunk.version}`);
+  console.log(`Update chunk ${chunk.layer} ${chunk.key} version: ${chunk.version}`);
 
   if (meshData == null) {
     return;

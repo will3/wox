@@ -143,7 +143,6 @@ export default (props: PlanetProps) => {
 
   return (
     <>
-      <Mesher chunksList={[groundChunks, treeChunks, waterChunks]} />
       <Waterfalls />
     </>
   );
