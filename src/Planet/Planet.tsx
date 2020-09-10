@@ -29,7 +29,7 @@ export default (props: PlanetProps) => {
   const waterLevel = useStore((state) => state.waterLevel);
   const waterColor = useStore((state) => state.waterColor);
   const groundCurve = useStore((state) => state.groundCurve);
-  const updateMeshData = useChunkStore(state => state.updateMeshData);
+  const updateMeshData = useChunkStore((state) => state.updateMeshData);
 
   const rng = seedrandom(seed.toString());
 
@@ -88,22 +88,10 @@ export default (props: PlanetProps) => {
       generateTrees(chunk, rng, waterLevel, treeNoise, maxHeight, treeMap);
     });
 
-    // Average tree normals
-    treeMap.visit((tree) => {
-      const nearbyTrees = treeMap.find(tree.position, 10);
-      const averageNormal = new Vector3();
-      nearbyTrees.forEach((t) => {
-        averageNormal.add(t.normal);
-      });
-      averageNormal.multiplyScalar(1 / nearbyTrees.length);
-
-      tree.actualNormal = tree.normal.clone().lerp(averageNormal, 0.2);
-    });
-
     // Place trees
     treeMap.visit((tree) => {
-      const { size, actualNormal, position } = tree;
-      placeTree(treeChunks, position, actualNormal!, size, bounds);
+      const { size, normal, position } = tree;
+      placeTree(treeChunks, position, normal, size, bounds);
     });
 
     groundChunks.visitChunk((chunk) => {

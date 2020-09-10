@@ -4,5 +4,4 @@ export interface TreeData {
   normal: Vector3;
   size: number;
   position: Vector3;
-  actualNormal?: Vector3;
 }
