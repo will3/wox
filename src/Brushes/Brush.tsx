@@ -7,12 +7,11 @@ import { Vector3 } from "three";
 import { useFrame } from "react-three-fiber";
 import { calcSphereStroke } from "../utils/math";
 import Layers from "../Layers";
+import { useChunkStore } from "../stores/chunk";
 
-export interface BrushProps {
-  chunks: ChunksData;
-}
+export default function Brush() {
+  const chunks = useChunkStore((state) => state.chunks[Layers.ground]);
 
-const BrushInternal = ({ chunks }: BrushProps) => {
   let hover: HoverState | null;
 
   useStore.subscribe(
@@ -71,9 +70,4 @@ const BrushInternal = ({ chunks }: BrushProps) => {
   });
 
   return null;
-};
-
-export default function Brush() {
-  const chunks = useStore((state) => state.chunks[Layers.ground]);
-  return <BrushInternal chunks={chunks} />;
 }

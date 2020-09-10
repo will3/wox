@@ -5,13 +5,14 @@ import Layers from "../Layers";
 import { Vector3, Color } from "three";
 import ChunksData from "../Chunks/ChunksData";
 import { WaterfallPoint } from "./traceWaterfall";
+import { useChunkStore } from "../stores/chunk";
 
 export interface WaterfallProps {
   data: WaterfallData;
 }
 
 export function Waterfall({ data }: WaterfallProps) {
-  const groundChunks = useStore((state) => state.chunks[Layers.ground]);
+  const groundChunks = useChunkStore((state) => state.chunks[Layers.ground]);
   const waterColor = useStore((state) => state.waterColor);
 
   useEffect(() => {

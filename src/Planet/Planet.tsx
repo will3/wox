@@ -1,9 +1,8 @@
-import React, { useEffect, createRef } from "react";
-import { Chunks, ChunkData } from "../Chunks";
+import React, { useEffect } from "react";
+import { ChunkData } from "../Chunks";
 import { Vector3, Color } from "three";
 import { Noise } from "../Noise";
 import { useStore } from "../stores/store";
-import Mesher from "../Chunks/Mesher";
 import { chunkSize } from "../constants";
 import Layers from "../Layers";
 import seedrandom from "seedrandom";
@@ -16,6 +15,7 @@ import ChunksData from "../Chunks/ChunksData";
 import traceWaterfall from "../Waterfalls/traceWaterfall";
 import { WaterfallData } from "../Waterfalls/WaterfallData";
 import Curve from "../utils/Curve";
+import { useChunkStore } from "../stores/chunk";
 
 export interface PlanetProps {
   size: Vector3;
@@ -26,14 +26,15 @@ export default (props: PlanetProps) => {
   const { size, seed } = props;
   const maxHeight = 64;
 
-  const groundChunks = useStore((state) => state.chunks[Layers.ground]);
-  const treeChunks = useStore((state) => state.chunks[Layers.trees]);
-  const waterChunks = useStore((state) => state.chunks[Layers.water]);
+  const groundChunks = useChunkStore((state) => state.chunks[Layers.ground]);
+  const treeChunks = useChunkStore((state) => state.chunks[Layers.trees]);
+  const waterChunks = useChunkStore((state) => state.chunks[Layers.water]);
   const treeMap = useStore((state) => state.treeMap);
   const waterLevel = useStore((state) => state.waterLevel);
   const waterColor = useStore((state) => state.waterColor);
   const addWaterfall = useStore((state) => state.addWaterfall);
   const groundCurve = useStore((state) => state.groundCurve);
+  const updateMeshData = useChunkStore(state => state.updateMeshData);
 
   const rng = seedrandom(seed.toString());
 
@@ -89,7 +90,7 @@ export default (props: PlanetProps) => {
     });
 
     groundChunks.visitChunk((chunk) => {
-      chunk.updateMeshData(waterLevel);
+      updateMeshData(chunk.layer, chunk.key);
     });
 
     groundChunks.visitChunk((chunk) => {

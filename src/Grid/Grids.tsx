@@ -7,11 +7,12 @@ import { chunkSize } from "../constants";
 import Layers from "../Layers";
 import GridChunk from "./GridChunk";
 import { useGridStore } from "../stores/grid";
+import { useChunkStore } from "../stores/chunk";
 
 export default function Grids() {
   const size = useStore((state) => state.size);
   const gridColumns = useGridStore((state) => state.gridColumns);
-  const groundChunks = useStore((state) => state.chunks[Layers.ground]);
+  const groundChunks = useChunkStore((state) => state.chunks[Layers.ground]);
   const addGridColumns = useGridStore((state) => state.addGridColumns);
 
   useEffect(() => {

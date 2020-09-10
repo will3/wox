@@ -3,14 +3,14 @@ import ChunksData from "./ChunksData";
 import Chunks from "./Chunks";
 import React from "react";
 import { useStore } from "../stores/store";
+import { useChunkStore } from "../stores/chunk";
 
 export default function Mesher() {
-  const chunksList = useStore((state) => state.chunks);
+  const chunksList = useChunkStore((state) => state.chunks);
   const ref = useRef<number>();
   const waterLevel = useStore((state) => state.waterLevel);
-  const incrementChunksVersion = useStore(
-    (state) => state.incrementChunksVersion
-  );
+  const incrementVersion = useChunkStore((state) => state.incrementVersion);
+  const updateMeshData = useChunkStore((state) => state.updateMeshData);
 
   const animate = () => {
     handleFrame();
@@ -31,10 +31,16 @@ export default function Mesher() {
       processChunks(chunks);
 
       for (let id in chunks.map) {
+        let changed = false;
         const chunk = chunks.map[id];
         if (chunk.dirty) {
-          chunk.updateMeshData(waterLevel);
+          updateMeshData(chunk.layer, chunk.key);
           chunk.dirty = false;
+          changed = true;
+        }
+
+        if (changed) {
+          incrementVersion(chunks.layer);
         }
       }
     }
@@ -46,7 +52,6 @@ export default function Mesher() {
     }
 
     chunks.dirty = false;
-    incrementChunksVersion(chunks.layer);
   };
 
   return (

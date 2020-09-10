@@ -10,7 +10,6 @@ export default class ChunkData {
   chunks: ChunksData;
   meshData: MeshData | null = null;
   dirty = false;
-  version = 1;
   key: string;
   layer: number;
   isWater = false;
@@ -24,8 +23,8 @@ export default class ChunkData {
     this.origin = origin;
     this.size = size;
     this.chunks = chunks;
-    this.key = this.getKey();
     this.layer = layer;
+    this.key = this.getKey();
   }
 
   get(i: number, j: number, k: number): number | null {
@@ -113,22 +112,6 @@ export default class ChunkData {
       (this.getWorld(i, j, k + 1) ?? 0) - (this.getWorld(i, j, k - 1) ?? 0),
     ] as [number, number, number];
     return normalize(normal);
-  }
-
-  updateMeshData(waterLevel: number) {
-    const start = new Date().getTime();
-    this.meshData = meshChunk(this, waterLevel);
-    const end = new Date().getTime();
-
-    console.log(
-      `Meshed ${this.layer} ${this.origin.join(",")} ${
-        this.meshData.vertices.length / 3
-      } vertices, ${this.meshData.indices.length / 3} triangles ${
-        end - start
-      }ms`
-    );
-
-    this.version++;
   }
 }
 

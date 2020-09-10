@@ -1,8 +1,5 @@
 import create from "zustand";
-import { Euler, Vector3, Vector2, Color } from "three";
-import ChunksData from "../Chunks/ChunksData";
-import { chunkSize } from "../constants";
-import Layers from "../Layers";
+import { Vector3, Vector2, Color } from "three";
 import QuadMap from "../utils/QuadMap";
 import { TreeData } from "../Trees/TreeData";
 import { WaterfallData } from "../Waterfalls/WaterfallData";
@@ -14,8 +11,6 @@ export interface State {
   setLightDir(lightDir: Vector3): void;
   mouse: Vector2;
   setMouse(mouse: Vector2): void;
-  chunks: ChunksData[];
-  chunksVersions: number[];
   hover: HoverState | null;
   setHover(hover: HoverState | null): void;
   size: Vector3;
@@ -31,32 +26,12 @@ export interface State {
   grounds: { byId: { [id: string]: GroundData } };
   addGrounds(origins: Vector3[]): void;
   incrementGroundVersion(id: string): void;
-  incrementChunksVersion(layer: number): void;
 }
 
 export interface GroundData {
   origin: Vector3;
   version: number;
 }
-
-const treesChunk = new ChunksData(chunkSize, Layers.trees);
-treesChunk.normalBias = 0.8;
-
-const waterChunk = new ChunksData(chunkSize, Layers.water);
-waterChunk.isWater = true;
-waterChunk.normalBias = 1.0;
-waterChunk.skyBias = 1.0;
-waterChunk.offset = [0, -0.5, 0];
-
-const structureChunks = new ChunksData(chunkSize, Layers.structures);
-structureChunks.renderAllSurfaces = true;
-
-const chunks = [
-  new ChunksData(chunkSize, Layers.ground),
-  treesChunk,
-  waterChunk,
-  structureChunks,
-];
 
 export const useStore = create<State>((set, get) => ({
   lightDir: new Vector3(-1, -1, -1),
@@ -65,8 +40,6 @@ export const useStore = create<State>((set, get) => ({
   setMouse: (mouse: Vector2) => {
     set({ mouse });
   },
-  chunks,
-  chunksVersions: chunks.map((_) => 0),
   hover: null,
   setHover: (hover: HoverState) => set({ hover }),
   size: new Vector3(3, 2, 3),
@@ -109,11 +82,5 @@ export const useStore = create<State>((set, get) => ({
     grounds.byId[id].version++;
 
     set({ grounds });
-  },
-  incrementChunksVersion(layer: number) {
-    const chunksVersions = [...get().chunksVersions];
-    chunksVersions[layer] ++;
-
-    set({chunksVersions});
   },
 }));

@@ -7,6 +7,7 @@ import { Vector2, Vector3, Geometry, Face3 } from "three";
 import { gridSize } from "./Grid/constants";
 import React from "react";
 import { useGridStore } from "./stores/grid";
+import { useChunkStore } from "./stores/chunk";
 
 const twoByTwo = {
   coords: [
@@ -20,7 +21,7 @@ const twoByTwo = {
 
 export default function HighlightGrid() {
   const mouse = useStore((state) => state.mouse);
-  const chunks = useStore((state) => state.chunks);
+  const chunks = useChunkStore((state) => state.chunks);
   const grids = useGridStore((state) => state.grids);
   const gridIds = useGridStore((state) => state.gridIds);
   const setGridIds = useGridStore((state) => state.setGridIds);
