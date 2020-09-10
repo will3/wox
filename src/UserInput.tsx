@@ -7,27 +7,29 @@ import { useCameraStore } from "./stores/camera";
 export default () => {
   const zoomRate = 1.1;
 
-  const targetRotation = useCameraStore((state) => state.camera.targetRotation);
-  const distance = useCameraStore((state) => state.camera.distance);
-  const setCamera = useCameraStore((state) => state.setCamera);
+  const targetRotation = useCameraStore((state) => state.targetRotation);
+  const distance = useCameraStore((state) => state.distance);
   const setMouse = useStore((state) => state.setMouse);
+  const setTargetRotation = useCameraStore((state) => state.setTargetRotation);
+  const setDistance = useCameraStore((state) => state.setDistance);
 
   const handleKeyUp = (e: KeyboardEvent) => {
     const key = keycode(e);
     if (key === "q") {
       const next = targetRotation.clone();
       next.y -= Math.PI / 2;
-      setCamera({ targetRotation: next });
+
+      setTargetRotation(next);
     } else if (key === "e") {
       const next = targetRotation.clone();
       next.y += Math.PI / 2;
-      setCamera({ targetRotation: next });
+      setTargetRotation(next);
     }
 
     if (key === "=") {
-      setCamera({ distance: distance / zoomRate });
+      setDistance(distance / zoomRate);
     } else if (key === "-") {
-      setCamera({ distance: distance * zoomRate });
+      setDistance(distance * zoomRate);
     }
   };
 

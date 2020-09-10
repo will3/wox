@@ -11,7 +11,7 @@ import { useCameraStore } from "./stores/camera";
 
 export default () => {
   const lightDir = useStore((state) => state.lightDir);
-  const target = useCameraStore((state) => state.camera.target);
+  const target = useCameraStore((state) => state.target);
   const showHelper = false;
   const distance = 150;
 

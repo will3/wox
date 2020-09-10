@@ -82,7 +82,7 @@ export default function Chunk(props: ChunkProps) {
       layer: chunk.layer,
     };
 
-    const lightDir = new Vector3(-1.0, -1.0, 1.0).normalize();
+    const lightDir = useStore.getState().lightDir;
 
     const uniforms = UniformsUtils.merge([
       UniformsLib["lights"],
