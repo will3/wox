@@ -7,13 +7,9 @@ import { chunkSize } from "../constants";
 import Layers from "../Layers";
 import seedrandom from "seedrandom";
 import placeTree from "../Trees/placeTree";
-import { clamp } from "../utils/math";
-import Waterfalls from "../Waterfalls/Waterfalls";
 import QuadMap from "../utils/QuadMap";
 import { TreeData } from "../Trees/TreeData";
 import ChunksData from "../Chunks/ChunksData";
-import traceWaterfall from "../Waterfalls/traceWaterfall";
-import { WaterfallData } from "../Waterfalls/WaterfallData";
 import Curve from "../utils/Curve";
 import { useChunkStore } from "../stores/chunk";
 
@@ -32,7 +28,6 @@ export default (props: PlanetProps) => {
   const treeMap = useStore((state) => state.treeMap);
   const waterLevel = useStore((state) => state.waterLevel);
   const waterColor = useStore((state) => state.waterColor);
-  const addWaterfall = useStore((state) => state.addWaterfall);
   const groundCurve = useStore((state) => state.groundCurve);
   const updateMeshData = useChunkStore(state => state.updateMeshData);
 
@@ -41,11 +36,6 @@ export default (props: PlanetProps) => {
   const noise = new Noise({
     scale: new Vector3(1, 0.6, 1),
     seed: rng().toString(),
-  });
-
-  const waterfallNoise = new Noise({
-    seed: rng().toString(),
-    frequency: 0.01,
   });
 
   const treeNoise = new Noise({
@@ -125,28 +115,12 @@ export default (props: PlanetProps) => {
         waterColor
       );
     });
-
-    groundChunks.visitChunk((chunk) => {
-      generateWaterfalls(
-        chunk,
-        rng,
-        groundChunks,
-        addWaterfall,
-        waterLevel,
-        waterfallNoise,
-        maxHeight
-      );
-    });
   }, [seed]);
 
   const rockColor = new Color(0.072, 0.08, 0.09);
   const grassColor = new Color(0.08, 0.1, 0.065);
 
-  return (
-    <>
-      <Waterfalls />
-    </>
-  );
+  return null;
 };
 
 const generateGround = (
@@ -279,54 +253,5 @@ const generateWater = (
         chunk.setColor(i, j, k, waterColor.toArray());
       }
     }
-  }
-};
-
-const generateWaterfalls = (
-  chunk: ChunkData,
-  rng: seedrandom.prng,
-  groundChunks: ChunksData,
-  addWaterfall: (waterfall: WaterfallData) => void,
-  waterLevel: number,
-  waterfallNoise: Noise,
-  maxHeight: number
-) => {
-  const meshData = chunk.meshData!;
-  const origin = new Vector3().fromArray(chunk.origin);
-
-  if (meshData.upFaces.length === 0) {
-    return;
-  }
-
-  const density = 1 / 420;
-
-  for (let i = 0; i < meshData.upFaces.length * density; i++) {
-    const index = Math.floor(meshData.upFaces.length * rng());
-    const faceIndex = meshData.upFaces[index];
-    const face = meshData.faces[faceIndex];
-    const voxel = meshData.voxels[face.voxelIndex];
-
-    const position = new Vector3().fromArray(voxel.coord).add(origin);
-    const relY = 1 - position.y / maxHeight;
-    const yFactor = clamp((relY - 0.5) * 2, 0, 1);
-
-    const v = -Math.abs(waterfallNoise.get(position)) * yFactor;
-
-    if (v < 0) {
-      continue;
-    }
-
-    console.log(`Trace waterfall ${position.toArray().join(",")}`);
-    const result = traceWaterfall(position, groundChunks, waterLevel);
-
-    if (!result.reachedWater) {
-      continue;
-    }
-
-    addWaterfall({
-      key: position.toArray().join(","),
-      position,
-      points: result.points,
-    });
   }
 };

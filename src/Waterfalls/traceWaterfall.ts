@@ -1,10 +1,6 @@
 import { Vector2, Vector3 } from "three";
 import ChunksData from "../Chunks/ChunksData";
-
-export interface WaterfallPoint {
-  coord: Vector3;
-  value: number;
-}
+import { WaterfallPoint } from "../stores/waterfall";
 
 const ring = [
   new Vector2(-1, -1),

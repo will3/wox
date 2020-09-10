@@ -22,6 +22,7 @@ import HighlightGrid from "./HighlightGrid";
 import PlaceStructure from "./PlaceStructure";
 import Structures from "./Structures";
 import Mesher from "./Chunks/Mesher";
+import Waterfalls from "./Waterfalls/Waterfalls";
 
 export default () => {
   const size = useStore((state) => state.size);
@@ -50,6 +51,7 @@ export default () => {
         <Grids />
         <Structures />
         <Mesher />
+        <Waterfalls />
       </Canvas>
       <UserInput />
       <Stats />

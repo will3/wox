@@ -2,7 +2,6 @@ import create from "zustand";
 import { Vector3, Vector2, Color } from "three";
 import QuadMap from "../utils/QuadMap";
 import { TreeData } from "../Trees/TreeData";
-import { WaterfallData } from "../Waterfalls/WaterfallData";
 import { HoverState } from "../HoverState";
 import Curve from "../utils/Curve";
 
@@ -20,12 +19,12 @@ export interface State {
   waterLevel: number;
   waterColor: Color;
   waterAlpha: number;
-  addWaterfall(waterfall: WaterfallData): void;
-  waterfalls: { [key: string]: WaterfallData };
   groundCurve: Curve;
   grounds: { byId: { [id: string]: GroundData } };
   addGrounds(origins: Vector3[]): void;
   incrementGroundVersion(id: string): void;
+  seed: string;
+  maxHeight: number;
 }
 
 export interface GroundData {
@@ -50,14 +49,6 @@ export const useStore = create<State>((set, get) => ({
   waterAlpha: 0.4,
   waterLevel: 12,
   groundCurve: new Curve([-1, -0.4, 0.5, 2], [-1, -0.45, -0.35, 1.5]),
-  addWaterfall: (waterfall: WaterfallData) =>
-    set((state) => {
-      const waterfalls = Object.assign({}, state.waterfalls, {
-        [waterfall.key]: waterfall,
-      });
-      return { waterfalls };
-    }),
-  waterfalls: {},
   grounds: {
     byId: {},
   },
@@ -83,4 +74,6 @@ export const useStore = create<State>((set, get) => ({
 
     set({ grounds });
   },
+  seed: "1337",
+  maxHeight: 64
 }));
