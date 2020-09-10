@@ -8,6 +8,9 @@ export default function Mesher() {
   const chunksList = useStore((state) => state.chunks);
   const ref = useRef<number>();
   const waterLevel = useStore((state) => state.waterLevel);
+  const incrementChunksVersion = useStore(
+    (state) => state.incrementChunksVersion
+  );
 
   const animate = () => {
     handleFrame();
@@ -43,13 +46,13 @@ export default function Mesher() {
     }
 
     chunks.dirty = false;
-    chunks.version++;
+    incrementChunksVersion(chunks.layer);
   };
 
   return (
     <>
       {chunksList.map((chunks, index) => (
-        <Chunks key={index} chunks={chunks} />
+        <Chunks key={index} layer={chunks.layer} />
       ))}
     </>
   );

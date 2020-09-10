@@ -4,7 +4,6 @@ export default class ChunksData {
   map: { [key: string]: ChunkData } = {};
   size: number;
   dirty = false;
-  version = 1;
   layer: number;
   normalBias = 0.5;
   skyBias = 0.5;

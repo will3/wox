@@ -15,6 +15,7 @@ export interface State {
   mouse: Vector2;
   setMouse(mouse: Vector2): void;
   chunks: ChunksData[];
+  chunksVersions: number[];
   hover: HoverState | null;
   setHover(hover: HoverState | null): void;
   size: Vector3;
@@ -30,6 +31,7 @@ export interface State {
   grounds: { byId: { [id: string]: GroundData } };
   addGrounds(origins: Vector3[]): void;
   incrementGroundVersion(id: string): void;
+  incrementChunksVersion(layer: number): void;
 }
 
 export interface GroundData {
@@ -49,6 +51,13 @@ waterChunk.offset = [0, -0.5, 0];
 const structureChunks = new ChunksData(chunkSize, Layers.structures);
 structureChunks.renderAllSurfaces = true;
 
+const chunks = [
+  new ChunksData(chunkSize, Layers.ground),
+  treesChunk,
+  waterChunk,
+  structureChunks,
+];
+
 export const useStore = create<State>((set, get) => ({
   lightDir: new Vector3(-1, -1, -1),
   setLightDir: (lightDir: Vector3) => set({ lightDir }),
@@ -56,12 +65,8 @@ export const useStore = create<State>((set, get) => ({
   setMouse: (mouse: Vector2) => {
     set({ mouse });
   },
-  chunks: [
-    new ChunksData(chunkSize, Layers.ground),
-    treesChunk,
-    waterChunk,
-    structureChunks,
-  ],
+  chunks,
+  chunksVersions: chunks.map((_) => 0),
   hover: null,
   setHover: (hover: HoverState) => set({ hover }),
   size: new Vector3(3, 2, 3),
@@ -104,5 +109,11 @@ export const useStore = create<State>((set, get) => ({
     grounds.byId[id].version++;
 
     set({ grounds });
+  },
+  incrementChunksVersion(layer: number) {
+    const chunksVersions = [...get().chunksVersions];
+    chunksVersions[layer] ++;
+
+    set({chunksVersions});
   },
 }));
