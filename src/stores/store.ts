@@ -1,7 +1,5 @@
 import create from "zustand";
 import { Vector3, Vector2, Color } from "three";
-import QuadMap from "../utils/QuadMap";
-import { TreeData } from "../Trees/TreeData";
 import { HoverState } from "../HoverState";
 import Curve from "../utils/Curve";
 
@@ -13,7 +11,6 @@ export interface State {
   hover: HoverState | null;
   setHover(hover: HoverState | null): void;
   size: Vector3;
-  treeMap: QuadMap<TreeData>;
   sunColor: Color;
   ambient: Color;
   waterLevel: number;
@@ -42,7 +39,6 @@ export const useStore = create<State>((set, get) => ({
   hover: null,
   setHover: (hover: HoverState) => set({ hover }),
   size: new Vector3(5, 2, 5),
-  treeMap: new QuadMap(),
   sunColor: new Color(8.1, 6.0, 4.2),
   ambient: new Color(0.1, 0.1, 0.1),
   waterColor: new Color(0.08, 0.12, 0.2),

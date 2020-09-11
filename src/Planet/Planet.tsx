@@ -8,10 +8,10 @@ import Layers from "../Layers";
 import seedrandom from "seedrandom";
 import placeTree from "../Trees/placeTree";
 import QuadMap from "../utils/QuadMap";
-import { TreeData } from "../Trees/TreeData";
 import ChunksData from "../Chunks/ChunksData";
 import Curve from "../utils/Curve";
 import { useChunkStore } from "../stores/chunk";
+import { TreeData, useTreeStore } from "../stores/tree";
 
 export interface PlanetProps {
   size: Vector3;
@@ -25,7 +25,7 @@ export default (props: PlanetProps) => {
   const groundChunks = useChunkStore((state) => state.chunks[Layers.ground]);
   const treeChunks = useChunkStore((state) => state.chunks[Layers.trees]);
   const waterChunks = useChunkStore((state) => state.chunks[Layers.water]);
-  const treeMap = useStore((state) => state.treeMap);
+  const treeMap = useTreeStore((state) => state.treeMap);
   const waterLevel = useStore((state) => state.waterLevel);
   const waterColor = useStore((state) => state.waterColor);
   const groundCurve = useStore((state) => state.groundCurve);
