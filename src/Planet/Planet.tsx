@@ -38,11 +38,6 @@ export default (props: PlanetProps) => {
     seed: rng().toString(),
   });
 
-  const treeNoise = new Noise({
-    frequency: 0.0025,
-    seed: rng().toString(),
-  });
-
   const bounds = {
     min: new Vector3(0, 0, 0),
     max: size.clone().multiplyScalar(chunkSize),
@@ -81,11 +76,6 @@ export default (props: PlanetProps) => {
 
     groundChunks.visitChunk((chunk) => {
       updateMeshData(chunk.layer, chunk.key);
-    });
-
-    groundChunks.visitChunk((chunk) => {
-      console.log(`Generate trees ${chunk.origin.join(",")}`);
-      generateTrees(chunk, rng, waterLevel, treeNoise, maxHeight, treeMap);
     });
 
     // Place trees
@@ -155,57 +145,6 @@ const generateGrass = (
           chunk.setColor(i, j, k, grassColor.toArray());
         }
       }
-    }
-  }
-};
-
-const generateTrees = (
-  chunk: ChunkData,
-  rng: seedrandom.prng,
-  waterLevel: number,
-  treeNoise: Noise,
-  maxHeight: number,
-  treeMap: QuadMap<TreeData>
-) => {
-  const meshData = chunk.meshData!;
-  const origin = new Vector3().fromArray(chunk.origin);
-
-  if (meshData.faces.length === 0) {
-    return;
-  }
-
-  const minDistance = 6;
-
-  for (let i = 0; i < meshData.upFaces.length / 24; i++) {
-    const index = Math.floor(meshData.upFaces.length * rng());
-    const faceIndex = meshData.upFaces[index];
-    const face = meshData.faces[faceIndex];
-
-    const voxel = meshData.voxels[face.voxelIndex];
-    const position = new Vector3().fromArray(voxel.coord).add(origin);
-    if (position.y < waterLevel + 3) {
-      continue;
-    }
-    const relY = position.y / maxHeight;
-    // const yFactor = Math.pow(1 - relY, 0.9);
-    const voxelNormal = voxel.voxelNormal;
-    // const up = 1 - clamp(new Vector3(0, -1, 0).dot(voxelNormal), 0, 1);
-    const nv = treeNoise.get(position);
-    //const v = -Math.abs(nv) * yFactor * up + 0.2;
-    const v = -Math.abs(nv) + 0.4;
-    if (v < 0) {
-      continue;
-    }
-
-    const size = 1 + Math.pow(rng(), 1.5) * 0.5;
-    const otherTrees = treeMap.find(position, minDistance * size);
-
-    if (otherTrees.length === 0) {
-      treeMap.set(position, {
-        normal: new Vector3().fromArray(voxelNormal),
-        size,
-        position,
-      });
     }
   }
 };

@@ -23,6 +23,7 @@ import PlaceStructure from "./PlaceStructure";
 import Structures from "./Structures";
 import Mesher from "./Chunks/Mesher";
 import Waterfalls from "./Waterfalls/Waterfalls";
+import Trees from "./Trees/Trees";
 
 export default () => {
   const size = useStore((state) => state.size);
@@ -52,6 +53,7 @@ export default () => {
         <Structures />
         <Mesher />
         <Waterfalls />
+        <Trees />
       </Canvas>
       <UserInput />
       <Stats />

@@ -49,7 +49,7 @@ export const useStore = create<State>((set, get) => ({
     byId: {},
   },
   addGrounds(origins: Vector3[]) {
-    const grounds = get().grounds;
+    const grounds = { ...get().grounds };
 
     const byId = grounds.byId;
     for (const origin of origins) {
@@ -65,11 +65,11 @@ export const useStore = create<State>((set, get) => ({
     set({ grounds });
   },
   incrementGroundVersion(id: string) {
-    const grounds = get().grounds;
+    const grounds = { ...get().grounds };
     grounds.byId[id].version++;
 
     set({ grounds });
   },
   seed: "1337",
-  maxHeight: 64
+  maxHeight: 64,
 }));
