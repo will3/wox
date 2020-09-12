@@ -13,9 +13,6 @@ export interface State {
   size: Vector3;
   sunColor: Color;
   ambient: Color;
-  waterLevel: number;
-  waterColor: Color;
-  waterAlpha: number;
   groundCurve: Curve;
   grounds: { byId: { [id: string]: GroundData } };
   addGrounds(origins: Vector3[]): void;
@@ -41,9 +38,6 @@ export const useStore = create<State>((set, get) => ({
   size: new Vector3(5, 2, 5),
   sunColor: new Color(8.1, 6.0, 4.2),
   ambient: new Color(0.1, 0.1, 0.1),
-  waterColor: new Color(0.08, 0.12, 0.2),
-  waterAlpha: 0.4,
-  waterLevel: 12,
   groundCurve: new Curve([-1, -0.4, 0.5, 2], [-1, -0.45, -0.35, 1.5]),
   grounds: {
     byId: {},

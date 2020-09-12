@@ -19,6 +19,7 @@ import { useStore } from "../stores/store";
 import _ from "lodash";
 import { vertexShader, fragmentShader } from "./voxelShader";
 import { useChunkStore } from "../stores/chunk";
+import { useWaterStore } from "../stores/water";
 
 export interface ChunkProps {
   chunk: ChunkData;
@@ -30,7 +31,7 @@ export default function Chunk(props: ChunkProps) {
   const meshRef = useRef(new Mesh());
   const sunColor = useStore((state) => state.sunColor);
   const ambient = useStore((state) => state.ambient);
-  const waterAlpha = useStore((state) => state.waterAlpha);
+  const waterAlpha = useWaterStore((state) => state.waterAlpha);
   const lightDir = useStore.getState().lightDir;
   const version = useChunkStore((state) => {
     const versions = state.chunkVersions[chunk.layer] || {};

@@ -4,11 +4,11 @@ import Chunks from "./Chunks";
 import React from "react";
 import { useStore } from "../stores/store";
 import { useChunkStore } from "../stores/chunk";
+import { useWaterStore } from "../stores/water";
 
 export default function Mesher() {
   const chunksList = useChunkStore((state) => state.chunks);
   const ref = useRef<number>();
-  const waterLevel = useStore((state) => state.waterLevel);
   const incrementVersion = useChunkStore((state) => state.incrementVersion);
   const updateMeshData = useChunkStore((state) => state.updateMeshData);
 

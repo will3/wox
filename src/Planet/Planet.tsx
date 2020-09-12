@@ -12,6 +12,7 @@ import ChunksData from "../Chunks/ChunksData";
 import Curve from "../utils/Curve";
 import { useChunkStore } from "../stores/chunk";
 import { TreeData, useTreeStore } from "../stores/tree";
+import { useWaterStore } from "../stores/water";
 
 export interface PlanetProps {
   size: Vector3;
@@ -26,8 +27,8 @@ export default (props: PlanetProps) => {
   const treeChunks = useChunkStore((state) => state.chunks[Layers.trees]);
   const waterChunks = useChunkStore((state) => state.chunks[Layers.water]);
   const treeMap = useTreeStore((state) => state.treeMap);
-  const waterLevel = useStore((state) => state.waterLevel);
-  const waterColor = useStore((state) => state.waterColor);
+  const waterLevel = useWaterStore((state) => state.waterLevel);
+  const waterColor = useWaterStore((state) => state.waterColor);
   const groundCurve = useStore((state) => state.groundCurve);
   const updateMeshData = useChunkStore((state) => state.updateMeshData);
 

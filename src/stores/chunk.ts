@@ -4,6 +4,7 @@ import { chunkSize } from "../constants";
 import Layers from "../Layers";
 import { useStore } from "./store";
 import { meshChunk } from "../Chunks/meshChunk";
+import { useWaterStore } from "./water";
 
 export interface ChunksState {
   chunks: ChunksData[];
@@ -43,7 +44,7 @@ export const useChunkStore = create<ChunksState>((set, get) => ({
     set({ versions });
   },
   updateMeshData(layer: number, id: string) {
-    const waterLevel = useStore.getState().waterLevel;
+    const waterLevel = useWaterStore.getState().waterLevel;
     const start = new Date().getTime();
     const chunk = chunks[layer].map[id];
     const meshData = meshChunk(chunk, waterLevel);

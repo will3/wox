@@ -4,11 +4,12 @@ import { useEffect, useCallback } from "react";
 import { Vector3 } from "three";
 import traceWaterfall from "../Waterfalls/traceWaterfall";
 import Layers from "../Layers";
+import { useWaterStore } from "../stores/water";
 
 export default function PlaceWaterfall() {
-  const addWaterfall = useStore((state) => state.addWaterfall);
+  const addWaterfall = useWaterStore((state) => state.addWaterfall);
   const groundChunks = useStore((state) => state.chunks[Layers.ground]);
-  const waterLevel = useStore((state) => state.waterLevel);
+  const waterLevel = useWaterStore((state) => state.waterLevel);
 
   let hover: HoverState | null = null;
   useStore.subscribe<HoverState | null>(
