@@ -10,12 +10,12 @@ import { useChunkStore } from "../stores/chunk";
 import { useWaterStore } from "../stores/water";
 import { useGroundStore } from "../stores/ground";
 
-export interface PlanetProps {
+export interface GroundProps {
   size: Vector3;
   seed: number;
 }
 
-export default (props: PlanetProps) => {
+export default function Ground(props: GroundProps) {
   const { size, seed } = props;
   const maxHeight = 64;
 
@@ -71,7 +71,7 @@ export default (props: PlanetProps) => {
   const grassColor = new Color(0.08, 0.1, 0.065);
 
   return null;
-};
+}
 
 const generateGround = (
   chunk: ChunkData,
