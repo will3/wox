@@ -78,22 +78,6 @@ export default (props: PlanetProps) => {
     groundChunks.visitChunk((chunk) => {
       updateMeshData(chunk.layer, chunk.key);
     });
-
-    // Place trees
-    treeMap.visit((tree) => {
-      const { size, normal, position } = tree;
-      placeTree(treeChunks, position, normal, size, bounds);
-    });
-
-    groundChunks.visitChunk((chunk) => {
-      generateWater(
-        chunk.origin,
-        waterLevel,
-        groundChunks,
-        waterChunks,
-        waterColor
-      );
-    });
   }, [seed]);
 
   const rockColor = new Color(0.072, 0.08, 0.09);
@@ -145,40 +129,6 @@ const generateGrass = (
         if (dot > 0.75) {
           chunk.setColor(i, j, k, grassColor.toArray());
         }
-      }
-    }
-  }
-};
-
-const generateWater = (
-  origin: [number, number, number],
-  waterLevel: number,
-  groundChunks: ChunksData,
-  waterChunks: ChunksData,
-  waterColor: Color
-) => {
-  if (origin[1] > waterLevel) {
-    return;
-  }
-
-  const groundChunk = groundChunks.getChunk(origin);
-  const chunk = waterChunks.getOrCreateChunk(origin);
-
-  for (let i = 0; i < chunk.size; i++) {
-    for (let j = 0; j < chunk.size; j++) {
-      for (let k = 0; k < chunk.size; k++) {
-        const absY = j + origin[1];
-        if (absY > waterLevel) {
-          chunk.set(i, j, k, 0);
-          continue;
-        }
-        const v = groundChunk.get(i, j, k)!;
-        if (v > 0) {
-          chunk.set(i, j, k, 0);
-          continue;
-        }
-        chunk.set(i, j, k, 1);
-        chunk.setColor(i, j, k, waterColor.toArray());
       }
     }
   }

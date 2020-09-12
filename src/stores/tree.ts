@@ -8,8 +8,10 @@ import QuadMap from "../utils/QuadMap";
 import { useChunkStore } from "./chunk";
 import { useStore } from "./store";
 import seedrandom from "seedrandom";
+import { useWaterStore } from "./water";
 
 export interface TreeData {
+  key: string;
   normal: Vector3;
   size: number;
   position: Vector3;
@@ -39,7 +41,8 @@ export const useTreeStore = create<TreeState>((set, get) => ({
         origin.toArray() as [number, number, number]
       );
     const { noise, treeMap } = get();
-    const { waterLevel, maxHeight } = useStore.getState();
+    const { maxHeight } = useStore.getState();
+    const waterLevel = useWaterStore.getState().waterLevel;
     const rng = seedrandom(seed + "generateTrees" + origin.toArray().join(","));
 
     const meshData = chunk.meshData!;
@@ -81,6 +84,7 @@ export const useTreeStore = create<TreeState>((set, get) => ({
 
       if (otherTrees.length === 0) {
         const tree = {
+          key: position.toArray().join(","),
           normal: new Vector3().fromArray(voxelNormal),
           size,
           position,

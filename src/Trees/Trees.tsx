@@ -9,7 +9,7 @@ export default function Trees() {
 
   return (
     <>
-      {_.map(grounds.byId, (ground) => {
+      {_.map(grounds, (ground) => {
         return (
           <TreeChunk
             key={ground.origin.toArray().join(",")}

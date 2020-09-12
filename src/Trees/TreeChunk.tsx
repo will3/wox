@@ -26,7 +26,7 @@ export function TreeChunk({ version, origin }: TreeChunkProps) {
   return (
     <>
       {_.map(trees, (tree) => (
-        <Tree position={tree.position} normal={tree.normal} size={tree.size}/>
+        <Tree key={tree.key} position={tree.position} normal={tree.normal} size={tree.size}/>
       ))}
     </>
   );

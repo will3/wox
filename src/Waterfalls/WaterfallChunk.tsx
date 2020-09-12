@@ -15,9 +15,7 @@ export default function WaterfallChunk({ origin }: WaterfallChunkProps) {
   );
 
   const key = origin.toArray().join(",");
-  const groundVersion = useStore(
-    (state) => state.grounds.byId[key]?.version ?? 0
-  );
+  const groundVersion = useStore((state) => state.grounds[key]?.version ?? 0);
   const waterfallIds = useWaterfallStore(
     (state) => state.waterfallChunks[key].waterfallIds
   );

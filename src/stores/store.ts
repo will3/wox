@@ -14,7 +14,7 @@ export interface State {
   sunColor: Color;
   ambient: Color;
   groundCurve: Curve;
-  grounds: { byId: { [id: string]: GroundData } };
+  grounds: { [id: string]: GroundData };
   addGrounds(origins: Vector3[]): void;
   incrementGroundVersion(id: string): void;
   seed: string;
@@ -22,6 +22,7 @@ export interface State {
 }
 
 export interface GroundData {
+  key: string;
   origin: Vector3;
   version: number;
 }
@@ -39,17 +40,15 @@ export const useStore = create<State>((set, get) => ({
   sunColor: new Color(8.1, 6.0, 4.2),
   ambient: new Color(0.1, 0.1, 0.1),
   groundCurve: new Curve([-1, -0.4, 0.5, 2], [-1, -0.45, -0.35, 1.5]),
-  grounds: {
-    byId: {},
-  },
+  grounds: {},
   addGrounds(origins: Vector3[]) {
     const grounds = { ...get().grounds };
 
-    const byId = grounds.byId;
     for (const origin of origins) {
       const key = origin.toArray().join(",");
-      if (byId[key] == null) {
-        byId[key] = {
+      if (grounds[key] == null) {
+        grounds[key] = {
+          key,
           origin,
           version: 0,
         };
@@ -60,7 +59,7 @@ export const useStore = create<State>((set, get) => ({
   },
   incrementGroundVersion(id: string) {
     const grounds = { ...get().grounds };
-    grounds.byId[id].version++;
+    grounds[id].version++;
 
     set({ grounds });
   },

@@ -7,6 +7,7 @@ import { useStore } from "./store";
 import { clamp } from "lodash";
 import { Noise } from "../Noise";
 import traceWaterfall from "../Waterfalls/traceWaterfall";
+import { useWaterStore } from "./water";
 
 export interface WaterfallPoint {
   coord: Vector3;
@@ -44,7 +45,8 @@ export const useWaterfallStore = create<WaterfallState>((set, get) => ({
     frequency: 0.01,
   }),
   generateWaterfalls(origin: Vector3) {
-    const { maxHeight, waterLevel } = useStore.getState();
+    const { maxHeight } = useStore.getState();
+    const waterLevel = useWaterStore.getState().waterLevel;
     const groundChunks = useChunkStore.getState().chunks[Layers.ground];
     const chunk = groundChunks.getChunk(
       origin.toArray() as [number, number, number]
