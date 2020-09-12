@@ -70,7 +70,7 @@ export const meshChunk = (chunk: ChunkData, waterLevel: number): MeshData => {
           const absY = coord[1] + chunk.origin[1];
 
           if (!chunk.isWater && absY < waterLevel) {
-            const factor = Math.pow(0.75, waterLevel - absY);
+            const factor = Math.pow(0.5, waterLevel - absY);
             color[0] *= factor;
             color[1] *= factor;
             color[2] *= factor;

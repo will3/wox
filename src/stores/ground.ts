@@ -1,20 +1,38 @@
-import { Vector3 } from "three";
+import { Color, Vector3 } from "three";
 import create from "zustand";
+import { ChunkData } from "../Chunks";
+import Layers from "../Layers";
+import { Noise } from "../Noise";
 import Curve from "../utils/Curve";
-import { GroundData } from "./store";
+import { useChunkStore } from "./chunk";
+import { GroundData, useStore } from "./store";
+import { useWaterStore } from "./water";
+
+const seed = useStore.getState().seed;
 
 export interface GroundState {
   size: Vector3;
-  groundCurve: Curve;
+  curve: Curve;
   grounds: { [id: string]: GroundData };
   addGrounds(origins: Vector3[]): void;
-  incrementGroundVersion(id: string): void;
+  incrementVersion(id: string): void;
   maxHeight: number;
+  rockColor: Color;
+  grassColor: Color;
+  generateGround(origin: Vector3): void;
+  generateGrass(origin: Vector3): void;
+  noise: Noise;
 }
 
+const updateMeshData = useChunkStore.getState().updateMeshData;
+
 export const useGroundStore = create<GroundState>((set, get) => ({
+  noise: new Noise({
+    scale: new Vector3(1, 0.6, 1),
+    seed,
+  }),
   size: new Vector3(5, 2, 5),
-  groundCurve: new Curve([-1, -0.4, 0.5, 2], [-1, -0.45, -0.35, 1.5]),
+  curve: new Curve([-1, -0.4, 0.2, 2], [-1, -0.45, -0.35, 1]),
   grounds: {},
   addGrounds(origins: Vector3[]) {
     const grounds = { ...get().grounds };
@@ -32,11 +50,65 @@ export const useGroundStore = create<GroundState>((set, get) => ({
 
     set({ grounds });
   },
-  incrementGroundVersion(id: string) {
+  generateGround(origin: Vector3) {
+    const { rockColor, curve, noise, maxHeight } = get();
+    const chunks = useChunkStore.getState().chunks[Layers.ground];
+    const chunk = chunks.getOrCreateChunk(
+      origin.toArray() as [number, number, number]
+    );
+    console.log(`Generated chunk ${chunk.key}`);
+
+    for (let i = 0; i < chunk.size; i++) {
+      for (let j = 0; j < chunk.size; j++) {
+        for (let k = 0; k < chunk.size; k++) {
+          chunk.setColor(i, j, k, rockColor.toArray());
+          const absY = origin.y + j;
+          const relY = absY / maxHeight;
+          const gradient = (-relY * 2 + 1) * 0.75;
+          const position = new Vector3().fromArray([i, j, k]).add(origin);
+          let nv = noise.get(position);
+          nv = curve.sample(nv);
+          const v = nv + gradient;
+          chunk.set(i, j, k, v);
+        }
+      }
+    }
+
+    updateMeshData(Layers.ground, chunk.key);
+  },
+  generateGrass(origin: Vector3) {
+    const chunks = useChunkStore.getState().chunks[Layers.ground];
+    const chunk = chunks.getOrCreateChunk(
+      origin.toArray() as [number, number, number]
+    );
+    const waterLevel = useWaterStore.getState().waterLevel;
+    const { grassColor } = get();
+
+    for (let i = 0; i < chunk.size; i++) {
+      for (let j = 0; j < chunk.size; j++) {
+        for (let k = 0; k < chunk.size; k++) {
+          const absY = chunk.origin[1] + j;
+          if (absY <= waterLevel) {
+            continue;
+          }
+          const normal = chunk.calcNormal(i, j, k);
+          const dot = new Vector3(0, -1, 0).dot(
+            new Vector3().fromArray(normal)
+          );
+          if (dot > 0.75) {
+            chunk.setColor(i, j, k, grassColor.toArray());
+          }
+        }
+      }
+    }
+  },
+  incrementVersion(id: string) {
     const grounds = { ...get().grounds };
     grounds[id].version++;
 
     set({ grounds });
   },
   maxHeight: 64,
+  rockColor: new Color(0.072, 0.08, 0.09),
+  grassColor: new Color(0.08, 0.1, 0.065),
 }));

@@ -15,14 +15,13 @@ interface GridChunkProps {
   column: GridColumnData;
 }
 
+// TODO Refactor grids to generate after ground
 export default function GridChunk({
   origin,
   size,
   groundChunks,
   column,
 }: GridChunkProps) {
-  console.log(`Grid chunk ${origin.toArray().join(",")}`);
-
   const setGrids = useGridStore((state) => state.setGrids);
   const waterLevel = useWaterStore((state) => state.waterLevel);
 
@@ -34,6 +33,11 @@ export default function GridChunk({
       const chunk = groundChunks.getChunk(
         co.toArray() as [number, number, number]
       );
+
+      if (chunk?.meshData == null) {
+        break;
+      }
+
       const meshData = chunk.meshData!;
 
       for (const faceIndex of meshData.upFaces) {
