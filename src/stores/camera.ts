@@ -3,6 +3,7 @@ import { Euler, Vector3 } from "three";
 import { useStore } from "./store";
 import { chunkSize } from "../constants";
 import { lerpEulers } from "../utils/math";
+import { useGroundStore } from "./ground";
 
 export interface CameraState {
   rotation: Euler;
@@ -16,7 +17,7 @@ export interface CameraState {
 
 const initialRotation = new Euler(-Math.PI / 4, Math.PI / 4, 0, "YXZ");
 
-const size = useStore.getState().size;
+const size = useGroundStore.getState().size;
 
 const target = new Vector3(
   (size.x * chunkSize) / 2,

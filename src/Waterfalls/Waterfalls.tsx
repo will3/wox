@@ -1,13 +1,13 @@
 import React, { useEffect } from "react";
 import _ from "lodash";
 import { useWaterfallStore } from "../stores/waterfall";
-import { useStore } from "../stores/store";
 import { Vector3 } from "three";
 import { chunkSize } from "../constants";
 import WaterfallChunk from "./WaterfallChunk";
+import { useGroundStore } from "../stores/ground";
 
 export default function Waterfalls() {
-  const size = useStore((state) => state.size);
+  const size = useGroundStore((state) => state.size);
   const setWaterfallChunks = useWaterfallStore(
     (state) => state.setWaterfallChunks
   );

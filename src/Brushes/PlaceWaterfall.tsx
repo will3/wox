@@ -5,10 +5,12 @@ import { Vector3 } from "three";
 import traceWaterfall from "../Waterfalls/traceWaterfall";
 import Layers from "../Layers";
 import { useWaterStore } from "../stores/water";
+import { useChunkStore } from "../stores/chunk";
 
 export default function PlaceWaterfall() {
-  const addWaterfall = useWaterStore((state) => state.addWaterfall);
-  const groundChunks = useStore((state) => state.chunks[Layers.ground]);
+  // TODO fix
+  // const addWaterfall = useWaterfallStore((state) => state.addWaterfall);
+  const groundChunks = useChunkStore((state) => state.chunks[Layers.ground]);
   const waterLevel = useWaterStore((state) => state.waterLevel);
 
   let hover: HoverState | null = null;
@@ -32,11 +34,11 @@ export default function PlaceWaterfall() {
 
     const result = traceWaterfall(position, groundChunks, waterLevel);
 
-    addWaterfall({
-      key: position.toArray().join(","),
-      position,
-      points: result.points,
-    });
+    // addWaterfall({
+    //   key: position.toArray().join(","),
+    //   position,
+    //   points: result.points,
+    // });
   }, []);
 
   useEffect(() => {

@@ -1,4 +1,3 @@
-import { useStore } from "../stores/store";
 import _ from "lodash";
 import { Vector2 } from "three";
 import { useEffect } from "react";
@@ -8,9 +7,10 @@ import Layers from "../Layers";
 import GridChunk from "./GridChunk";
 import { useGridStore } from "../stores/grid";
 import { useChunkStore } from "../stores/chunk";
+import { useGroundStore } from "../stores/ground";
 
 export default function Grids() {
-  const size = useStore((state) => state.size);
+  const size = useGroundStore((state) => state.size);
   const gridColumns = useGridStore((state) => state.gridColumns);
   const groundChunks = useChunkStore((state) => state.chunks[Layers.ground]);
   const addGridColumns = useGridStore((state) => state.addGridColumns);

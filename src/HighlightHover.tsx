@@ -5,11 +5,12 @@ import { Color, Vector3, Quaternion } from "three";
 import React from "react";
 import Layers from "./Layers";
 import raycast from "./raycast";
+import { useChunkStore } from "./stores/chunk";
 
 export default () => {
   const mouse = useStore((state) => state.mouse);
   const { camera, scene } = useThree();
-  const chunks = useStore((state) => state.chunks);
+  const chunks = useChunkStore((state) => state.chunks);
   const setHover = useStore((state) => state.setHover);
   const hover = useStore((state) => state.hover);
 

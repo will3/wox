@@ -137,7 +137,7 @@ export default function Chunk(props: ChunkProps) {
 
     mesh.geometry = geometry;
 
-    let material = mesh.material as ShaderMaterial;
+    const material = mesh.material as ShaderMaterial;
 
     const prevTexture = material.uniforms.voxelNormals?.value;
     if (prevTexture != null) {

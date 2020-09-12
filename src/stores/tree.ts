@@ -9,6 +9,7 @@ import { useChunkStore } from "./chunk";
 import { useStore } from "./store";
 import seedrandom from "seedrandom";
 import { useWaterStore } from "./water";
+import { useGroundStore } from "./ground";
 
 export interface TreeData {
   key: string;
@@ -41,7 +42,7 @@ export const useTreeStore = create<TreeState>((set, get) => ({
         origin.toArray() as [number, number, number]
       );
     const { noise, treeMap } = get();
-    const { maxHeight } = useStore.getState();
+    const { maxHeight } = useGroundStore.getState();
     const waterLevel = useWaterStore.getState().waterLevel;
     const rng = seedrandom(seed + "generateTrees" + origin.toArray().join(","));
 

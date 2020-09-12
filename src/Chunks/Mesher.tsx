@@ -27,10 +27,10 @@ export default function Mesher() {
   }, []);
 
   const handleFrame = () => {
-    for (let chunks of chunksList) {
+    for (const chunks of chunksList) {
       processChunks(chunks);
 
-      for (let id in chunks.map) {
+      for (const id in chunks.map) {
         let changed = false;
         const chunk = chunks.map[id];
         if (chunk.dirty) {

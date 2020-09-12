@@ -12,7 +12,7 @@ export default class ChunksData {
   hasBounds = false;
   renderAllSurfaces = false;
 
-  constructor(size: number, layer: number = 0) {
+  constructor(size: number, layer = 0) {
     this.size = size;
     this.layer = layer;
   }
@@ -79,7 +79,7 @@ export default class ChunksData {
   }
 
   visitChunk(callback: (chunk: ChunkData) => void) {
-    for (let key in this.map) {
+    for (const key in this.map) {
       callback(this.map[key]);
     }
   }

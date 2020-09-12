@@ -26,7 +26,7 @@ const applyWaterfall = (
   groundChunks: ChunksData,
   waterColor: Color
 ) => {
-  for (let pointer of points) {
+  for (const pointer of points) {
     const coord = pointer.coord;
     const v = groundChunks.get(coord.x, coord.y, coord.z)!;
     if (v < 0) {

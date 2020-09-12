@@ -45,7 +45,7 @@ export default function Brush() {
 
       const { coord } = hover;
 
-      for (let voxel of stroke) {
+      for (const voxel of stroke) {
         const next = new Vector3().fromArray(coord).add(voxel.coord);
 
         const value = chunks.get(next.x, next.y, next.z) ?? 0;

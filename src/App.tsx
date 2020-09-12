@@ -25,9 +25,10 @@ import Mesher from "./Chunks/Mesher";
 import Waterfalls from "./Waterfalls/Waterfalls";
 import Trees from "./Trees/Trees";
 import Water from "./Water/Water";
+import { useGroundStore } from "./stores/ground";
 
 export default () => {
-  const size = useStore((state) => state.size);
+  const size = useGroundStore((state) => state.size);
 
   return (
     <>

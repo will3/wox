@@ -6,12 +6,12 @@ import { GridData } from "../stores/grid";
 import _ from "lodash";
 
 export default (chunksList: ChunksData[], grids: GridData[]) => {
-  var hw = 3;
-  var hl = 3;
-  var height = 7;
-  var doorHeight = 4;
-  var lower = new Vector3(-hw, -1, -hl);
-  var upper = new Vector3(hw, height, hl);
+  const hw = 3;
+  const hl = 3;
+  const height = 7;
+  const doorHeight = 4;
+  const lower = new Vector3(-hw, -1, -hl);
+  const upper = new Vector3(hw, height, hl);
 
   const minY = _(grids)
     .map((grid) => grid.coords)
@@ -40,10 +40,10 @@ export default (chunksList: ChunksData[], grids: GridData[]) => {
     "YXZ"
   );
 
-  for (var x = lower.x; x <= upper.x; x++) {
-    for (var y = lower.y; y <= upper.y; y++) {
-      for (var z = lower.z; z <= upper.z; z++) {
-        var p = new Vector3(x, y, z);
+  for (let x = lower.x; x <= upper.x; x++) {
+    for (let y = lower.y; y <= upper.y; y++) {
+      for (let z = lower.z; z <= upper.z; z++) {
+        const p = new Vector3(x, y, z);
         p.applyEuler(rotation);
         p.x = Math.round(p.x);
         p.y = Math.round(p.y);
@@ -55,7 +55,7 @@ export default (chunksList: ChunksData[], grids: GridData[]) => {
 
         const isChimney = i == 1 && k == 1 && j > 3;
 
-        var disCorner = hw - Math.abs(i) + (height - j);
+        const disCorner = hw - Math.abs(i) + (height - j);
 
         if (disCorner < hw && !isChimney) {
           continue;
@@ -69,10 +69,10 @@ export default (chunksList: ChunksData[], grids: GridData[]) => {
         const isDoor = i == 0 && j < doorHeight && (k === hl || k === -hl);
         const roofHue = k % 2;
 
-        var worldCoord = new Vector3(x, y, z).add(coord).add(offset);
+        const worldCoord = new Vector3(x, y, z).add(coord).add(offset);
         chunks.set(worldCoord.x, worldCoord.y, worldCoord.z, 1);
 
-        var color;
+        let color;
         if (isChimney) {
           color = new Color(0.12, 0.13, 0.15);
         } else if (isRoof) {

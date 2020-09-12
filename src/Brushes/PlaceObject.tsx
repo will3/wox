@@ -6,13 +6,14 @@ import {
 } from "three";
 import ChunksData from "../Chunks/ChunksData";
 import { VoxelInfo } from "../Chunks/VoxelInfo";
+import { useChunkStore } from "../stores/chunk";
 
 export interface PlaceObjectProps {
   place(chunks: ChunksData[], coord: Vector3, voxel: VoxelInfo): void;
 }
 
 export default function PlaceObject({ place }: PlaceObjectProps) {
-  const chunks = useStore((state) => state.chunks);
+  const chunks = useChunkStore((state) => state.chunks);
 
   let hover: HoverState | null = null;
 

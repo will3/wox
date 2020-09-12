@@ -2,17 +2,13 @@ import React, { useEffect } from "react";
 import { ChunkData } from "../Chunks";
 import { Vector3, Color } from "three";
 import { Noise } from "../Noise";
-import { useStore } from "../stores/store";
 import { chunkSize } from "../constants";
 import Layers from "../Layers";
 import seedrandom from "seedrandom";
-import placeTree from "../Trees/placeTree";
-import QuadMap from "../utils/QuadMap";
-import ChunksData from "../Chunks/ChunksData";
 import Curve from "../utils/Curve";
 import { useChunkStore } from "../stores/chunk";
-import { TreeData, useTreeStore } from "../stores/tree";
 import { useWaterStore } from "../stores/water";
+import { useGroundStore } from "../stores/ground";
 
 export interface PlanetProps {
   size: Vector3;
@@ -23,13 +19,9 @@ export default (props: PlanetProps) => {
   const { size, seed } = props;
   const maxHeight = 64;
 
-  const groundChunks = useChunkStore((state) => state.chunks[Layers.ground]);
-  const treeChunks = useChunkStore((state) => state.chunks[Layers.trees]);
-  const waterChunks = useChunkStore((state) => state.chunks[Layers.water]);
-  const treeMap = useTreeStore((state) => state.treeMap);
   const waterLevel = useWaterStore((state) => state.waterLevel);
-  const waterColor = useWaterStore((state) => state.waterColor);
-  const groundCurve = useStore((state) => state.groundCurve);
+  const groundChunks = useChunkStore((state) => state.chunks[Layers.ground]);
+  const groundCurve = useGroundStore((state) => state.groundCurve);
   const updateMeshData = useChunkStore((state) => state.updateMeshData);
 
   const rng = seedrandom(seed.toString());
@@ -39,13 +31,8 @@ export default (props: PlanetProps) => {
     seed: rng().toString(),
   });
 
-  const bounds = {
-    min: new Vector3(0, 0, 0),
-    max: size.clone().multiplyScalar(chunkSize),
-  };
-
-  const addGrounds = useStore((state) => state.addGrounds);
-  const incrementGroundVersion = useStore(
+  const addGrounds = useGroundStore((state) => state.addGrounds);
+  const incrementGroundVersion = useGroundStore(
     (state) => state.incrementGroundVersion
   );
 

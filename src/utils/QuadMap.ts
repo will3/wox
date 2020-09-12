@@ -50,8 +50,8 @@ export default class QuadMap<T> {
 
     const origins = [origin];
 
-    for (var i = -1; i <= 1; i++) {
-      for (var j = -1; j <= 1; j++) {
+    for (let i = -1; i <= 1; i++) {
+      for (let j = -1; j <= 1; j++) {
         const chunk = origin
           .clone()
           .add(new Vector2(i, j).multiplyScalar(this.size));
@@ -108,7 +108,7 @@ export default class QuadMap<T> {
   }
 
   visit(callback: (entry: T) => void) {
-    for (let key in this.columns) {
+    for (const key in this.columns) {
       this.columns[key].visit(callback);
     }
   }
@@ -139,7 +139,7 @@ export class QuadChunk<T> {
     return `${position.x},${position.y},${position.z}`;
   }
   visit(callback: (entry: T) => void) {
-    for (let key in this.items) {
+    for (const key in this.items) {
       callback(this.items[key].value);
     }
   }

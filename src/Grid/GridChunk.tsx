@@ -61,7 +61,7 @@ export default function GridChunk({
       }
     }
 
-    for (let key in grids) {
+    for (const key in grids) {
       const grid = grids[key];
       const ys = grid.coords.map((g) => g.y);
       grid.minY = _(ys).min() || 0;

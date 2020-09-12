@@ -49,7 +49,7 @@ const placeRock = (chunks: ChunksData[], coord: Vector3, voxel: VoxelInfo) => {
             Math.max(value, v)
           );
 
-          var color = new Color(0.1, 0.11, 0.12).multiplyScalar(noiseV);
+          const color = new Color(0.1, 0.11, 0.12).multiplyScalar(noiseV);
           groundChunks.setColor(
             worldCoord.x,
             worldCoord.y,
