@@ -13,13 +13,5 @@ export interface GroundChunkProps {
 }
 
 export default function GroundChunk({ id, origin }: GroundChunkProps) {
-  const generateGround = useGroundStore((state) => state.generateGround);
-  const incrementVersion = useGroundStore((state) => state.incrementVersion);
-  const generateGrass = useGroundStore((state) => state.generateGrass);
-
-  useEffect(() => {
-    
-  }, []);
-
   return null;
 }

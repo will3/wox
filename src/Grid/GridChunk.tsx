@@ -1,12 +1,12 @@
 import { Vector2, Vector3 } from "three";
 import ChunksData from "../Chunks/ChunksData";
-import { useStore } from "../stores/store";
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { chunkSize } from "../constants";
 import { gridSize } from "./constants";
 import _ from "lodash";
 import { useGridStore, GridColumnData, GridData } from "../stores/grid";
 import { useWaterStore } from "../stores/water";
+import { useGroundStore } from "../stores/ground";
 
 interface GridChunkProps {
   origin: Vector2;
@@ -15,7 +15,6 @@ interface GridChunkProps {
   column: GridColumnData;
 }
 
-// TODO Refactor grids to generate after ground
 export default function GridChunk({
   origin,
   size,
@@ -24,8 +23,31 @@ export default function GridChunk({
 }: GridChunkProps) {
   const setGrids = useGridStore((state) => state.setGrids);
   const waterLevel = useWaterStore((state) => state.waterLevel);
+  const grounds = useGroundStore((state) => state.grounds);
+
+  const generated = useGroundStore(
+    useCallback(
+      (state) => {
+        for (let j = 0; j < state.size.y; j++) {
+          const co = new Vector3(origin.x, j * chunkSize, origin.y);
+          const key = co.toArray().join(",");
+          const ground = state.grounds[key];
+          if (ground.version === 0) {
+            return false;
+          }
+        }
+
+        return true;
+      },
+      [grounds]
+    )
+  );
 
   useEffect(() => {
+    if (!generated) {
+      return;
+    }
+
     const grids: { [id: string]: GridData } = {};
 
     for (let j = 0; j < size.y; j++) {
@@ -33,10 +55,6 @@ export default function GridChunk({
       const chunk = groundChunks.getChunk(
         co.toArray() as [number, number, number]
       );
-
-      if (chunk?.meshData == null) {
-        break;
-      }
 
       const meshData = chunk.meshData!;
 
@@ -73,7 +91,7 @@ export default function GridChunk({
     }
 
     setGrids(column.id, _.values(grids));
-  }, []);
+  }, [generated]);
 
   return null;
 }
