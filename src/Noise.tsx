@@ -59,7 +59,9 @@ export class Noise {
   }
 
   getSimplex(coord: Vector3, frequency: number) {
-    const c = coord.clone().multiplyScalar(frequency).multiply(this.scale);
-    return this.noise.noise3D(c.x, c.y, c.z);
+    return this.noise.noise3D(
+      coord.x * frequency * this.scale.x,
+      coord.y * frequency * this.scale.y,
+      coord.z * frequency * this.scale.z);
   }
 }
