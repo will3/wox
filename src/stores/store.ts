@@ -32,5 +32,5 @@ export const useStore = create<State>((set, get) => ({
   setHover: (hover: HoverState) => set({ hover }),
   sunColor: new Color(8.1, 6.0, 4.2),
   ambient: new Color(0.1, 0.1, 0.1),
-  seed: "1337",
+  seed: "1237",
 }));
