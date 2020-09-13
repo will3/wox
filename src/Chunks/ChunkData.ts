@@ -1,6 +1,7 @@
 import ChunksData from "./ChunksData";
-import { meshChunk } from "./meshChunk";
 import { MeshData } from "./MeshData";
+
+type getValueFunction = (i: number, j: number, k: number) => number | null;
 
 export default class ChunkData {
   data: number[] = [];
@@ -13,6 +14,8 @@ export default class ChunkData {
   key: string;
   layer: number;
   isWater = false;
+  getValueCallback: getValueFunction;
+  defaultColor: number[] = [0, 0, 0];
 
   constructor(
     origin: [number, number, number],
@@ -25,6 +28,7 @@ export default class ChunkData {
     this.chunks = chunks;
     this.layer = layer;
     this.key = this.getKey();
+    this.getValueCallback = this.chunks.get.bind(this.chunks);
   }
 
   get(i: number, j: number, k: number): number | null {
@@ -51,7 +55,7 @@ export default class ChunkData {
       j >= this.size ||
       k >= this.size
     ) {
-      return this.chunks.get(
+      return this.getValueCallback(
         i + this.origin[0],
         j + this.origin[1],
         k + this.origin[2]
@@ -77,7 +81,7 @@ export default class ChunkData {
     const index = i * this.size * this.size + j * this.size + k;
     const color = this.color[index];
     if (color == null) {
-      return [0, 0, 0];
+      return this.defaultColor;
     }
     return [...color];
   }

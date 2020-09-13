@@ -1,6 +1,5 @@
 import { Color, Vector3 } from "three";
 import create from "zustand";
-import { ChunkData } from "../Chunks";
 import Layers from "../Layers";
 import { Noise } from "../Noise";
 import Curve from "../utils/Curve";
@@ -31,7 +30,7 @@ export const useGroundStore = create<GroundState>((set, get) => ({
     scale: new Vector3(1, 0.6, 1),
     seed,
   }),
-  size: new Vector3(5, 2, 5),
+  size: new Vector3(4, 2, 4),
   curve: new Curve([-1, -0.4, 0.2, 2], [-1, -0.45, -0.35, 1]),
   grounds: {},
   addGrounds(origins: Vector3[]) {
@@ -56,19 +55,29 @@ export const useGroundStore = create<GroundState>((set, get) => ({
     const chunk = chunks.getOrCreateChunk(
       origin.toArray() as [number, number, number]
     );
+
+    chunk.getValueCallback = (i, j, k) => {
+      return getValue(
+        noise,
+        curve,
+        origin,
+        maxHeight,
+        i - origin.x,
+        j - origin.y,
+        k - origin.z
+      );
+    };
+
+    chunks.defaultColor = rockColor.toArray();
+    chunk.defaultColor = rockColor.toArray();
+
     console.log(`Generated chunk ${chunk.key}`);
 
     for (let i = 0; i < chunk.size; i++) {
       for (let j = 0; j < chunk.size; j++) {
         for (let k = 0; k < chunk.size; k++) {
           chunk.setColor(i, j, k, rockColor.toArray());
-          const absY = origin.y + j;
-          const relY = absY / maxHeight;
-          const gradient = (-relY * 2 + 1) * 0.75;
-          const position = new Vector3().fromArray([i, j, k]).add(origin);
-          let nv = noise.get(position);
-          nv = curve.sample(nv);
-          const v = nv + gradient;
+          const v = getValue(noise, curve, origin, maxHeight, i, j, k);
           chunk.set(i, j, k, v);
         }
       }
@@ -112,3 +121,22 @@ export const useGroundStore = create<GroundState>((set, get) => ({
   rockColor: new Color(0.072, 0.08, 0.09),
   grassColor: new Color(0.08, 0.1, 0.065),
 }));
+
+const getValue = (
+  noise: Noise,
+  curve: Curve,
+  origin: Vector3,
+  maxHeight: number,
+  i: number,
+  j: number,
+  k: number
+) => {
+  const absY = origin.y + j;
+  const relY = absY / maxHeight;
+  const gradient = (-relY * 2 + 1) * 0.75;
+  const position = new Vector3().fromArray([i, j, k]).add(origin);
+  let nv = noise.get(position);
+  nv = curve.sample(nv);
+  const v = nv + gradient;
+  return v;
+};

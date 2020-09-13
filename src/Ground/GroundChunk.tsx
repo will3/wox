@@ -18,9 +18,7 @@ export default function GroundChunk({ id, origin }: GroundChunkProps) {
   const generateGrass = useGroundStore((state) => state.generateGrass);
 
   useEffect(() => {
-    generateGround(origin);
-    incrementVersion(id);
-    generateGrass(origin);
+    
   }, []);
 
   return null;

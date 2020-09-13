@@ -11,6 +11,7 @@ export default class ChunksData {
   offset = [0, 0, 0];
   hasBounds = false;
   renderAllSurfaces = false;
+  defaultColor: number[] = [0, 0, 0];
 
   constructor(size: number, layer = 0) {
     this.size = size;
@@ -45,7 +46,7 @@ export default class ChunksData {
     const origin = this.getOrigin(i, j, k);
     const chunk = this.getChunk(origin);
     if (chunk == null) {
-      return [1.0, 0.0, 1.0];
+      return this.defaultColor;
     }
     return chunk.getColor(i - origin[0], j - origin[1], k - origin[2]);
   }
