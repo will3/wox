@@ -16,10 +16,10 @@ export function TreeChunk({ version, origin }: TreeChunkProps) {
   const trees = useTreeStore((state) => state.trees[key]);
 
   useEffect(() => {
-    console.log(`Generate trees for ${origin.toArray().join(",")}`);
     if (version === 0) {
       return;
     }
+    console.log(`Generate trees for ${origin.toArray().join(",")}`);
     generateTrees(origin);
   }, [version]);
 

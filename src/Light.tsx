@@ -34,10 +34,10 @@ export default () => {
   light.castShadow = true;
 
   const camera = light.shadow.camera;
-  camera.left = -150;
-  camera.right = 150;
-  camera.top = 150;
-  camera.bottom = -150;
+  camera.left = -100;
+  camera.right = 100;
+  camera.top = 100;
+  camera.bottom = -100;
   camera.near = 0.1;
   camera.far = 10000;
 
