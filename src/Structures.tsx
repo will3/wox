@@ -8,7 +8,7 @@ export default function Structures() {
 
   return (
     <>
-      {_.map(structures.byId, (structure) => (
+      {_.map(structures, (structure) => (
         <Structure key={structure.id} gridIds={structure.gridIds} />
       ))}
     </>

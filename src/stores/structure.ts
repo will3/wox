@@ -6,16 +6,20 @@ export interface StructureData {
 }
 
 export interface StructureState {
-  structures: { byId: { [id: string]: StructureData } };
-  addStructure(structure: StructureData): void;
+  structures: { [id: string]: StructureData };
+  addStructure(gridIds: string[]): void;
 }
 
 export const useStructureStore = create<StructureState>((set, get) => ({
-  structures: { byId: {} },
-  addStructure: (structure: StructureData) => {
-    const id = structure.id;
+  structures: {},
+  addStructure(gridIds: string[]) {
     const structures = { ...get().structures };
-    structures.byId[id] = structure;
-    set({ structures: structures });
+    const id = gridIds[0];
+    const structure = {
+      id,
+      gridIds,
+    };
+    structures[id] = structure;
+    set({ structures });
   },
 }));

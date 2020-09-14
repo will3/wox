@@ -16,10 +16,7 @@ export default function PlaceStructure() {
       return;
     }
 
-    addStructure({
-      id: gridIds[0],
-      gridIds,
-    });
+    addStructure(gridIds);
   };
 
   useEffect(() => {
