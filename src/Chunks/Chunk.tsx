@@ -25,7 +25,7 @@ export interface ChunkProps {
   chunk: ChunkData;
 }
 
-export default function Chunk(props: ChunkProps) {
+function Chunk(props: ChunkProps) {
   const { chunk } = props;
 
   const meshRef = useRef(new Mesh());
@@ -182,3 +182,5 @@ export default function Chunk(props: ChunkProps) {
 
   return <primitive object={meshRef.current} />;
 }
+
+export default React.memo(Chunk);
