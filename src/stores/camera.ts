@@ -1,6 +1,5 @@
 import create from "zustand";
 import { Euler, Vector3 } from "three";
-import { useStore } from "./store";
 import { chunkSize } from "../constants";
 import { lerpEulers } from "../utils/math";
 import { useGroundStore } from "./ground";

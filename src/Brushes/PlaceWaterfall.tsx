@@ -1,4 +1,4 @@
-import { useStore } from "../stores/store";
+import { useInputStore } from "../stores/input";
 import { HoverState } from "../HoverState";
 import { useEffect, useCallback } from "react";
 import { Vector3 } from "three";
@@ -14,7 +14,7 @@ export default function PlaceWaterfall() {
   const waterLevel = useWaterStore((state) => state.waterLevel);
 
   let hover: HoverState | null = null;
-  useStore.subscribe<HoverState | null>(
+  useInputStore.subscribe<HoverState | null>(
     (h) => {
       hover = h;
     },

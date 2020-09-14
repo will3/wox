@@ -1,8 +1,6 @@
 import { useEffect, useMemo } from "react";
-import { useStore } from "../stores/store";
+import { useInputStore } from "../stores/input";
 import { HoverState } from "../HoverState";
-import ChunksData from "../Chunks/ChunksData";
-import React from "react";
 import { Vector3 } from "three";
 import { useFrame } from "react-three-fiber";
 import { calcSphereStroke } from "../utils/math";
@@ -14,7 +12,7 @@ export default function Brush() {
 
   let hover: HoverState | null;
 
-  useStore.subscribe(
+  useInputStore.subscribe(
     (h) => {
       hover = h as HoverState | null;
     },

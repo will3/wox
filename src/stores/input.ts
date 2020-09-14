@@ -1,22 +1,19 @@
 import create from "zustand";
-import { Vector3, Vector2, Color } from "three";
+import { Vector2 } from "three";
 import { HoverState } from "../HoverState";
-import Curve from "../utils/Curve";
 
-export interface State {
+export interface InputState {
   mouse: Vector2;
   setMouse(mouse: Vector2): void;
   hover: HoverState | null;
   setHover(hover: HoverState | null): void;
-  seed: string;
 }
 
-export const useStore = create<State>((set, get) => ({
+export const useInputStore = create<InputState>((set) => ({
   mouse: new Vector2(),
   setMouse: (mouse: Vector2) => {
     set({ mouse });
   },
   hover: null,
   setHover: (hover: HoverState) => set({ hover }),
-  seed: "1237",
 }));

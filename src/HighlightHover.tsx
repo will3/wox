@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useStore } from "./stores/store";
+import { useInputStore } from "./stores/input";
 import { useThree } from "react-three-fiber";
 import { Color, Vector3, Quaternion } from "three";
 import React from "react";
@@ -8,11 +8,11 @@ import raycast from "./raycast";
 import { useChunkStore } from "./stores/chunk";
 
 export default () => {
-  const mouse = useStore((state) => state.mouse);
+  const mouse = useInputStore((state) => state.mouse);
   const { camera, scene } = useThree();
   const chunks = useChunkStore((state) => state.chunks);
-  const setHover = useStore((state) => state.setHover);
-  const hover = useStore((state) => state.hover);
+  const setHover = useInputStore((state) => state.setHover);
+  const hover = useInputStore((state) => state.hover);
 
   useEffect(() => {
     const result = raycast(mouse, camera, scene, chunks, [Layers.ground]);

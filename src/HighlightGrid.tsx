@@ -1,5 +1,5 @@
-import { useStore } from "./stores/store";
-import { useEffect, useState, useCallback } from "react";
+import { useInputStore } from "./stores/input";
+import { useEffect, useState } from "react";
 import raycast from "./raycast";
 import { useThree } from "react-three-fiber";
 import Layers from "./Layers";
@@ -20,7 +20,7 @@ const twoByTwo = {
 };
 
 export default function HighlightGrid() {
-  const mouse = useStore((state) => state.mouse);
+  const mouse = useInputStore((state) => state.mouse);
   const chunks = useChunkStore((state) => state.chunks);
   const grids = useGridStore((state) => state.grids);
   const gridIds = useGridStore((state) => state.gridIds);

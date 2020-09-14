@@ -3,7 +3,6 @@ import { Vector3 } from "three";
 import { useWaterfallStore } from "../stores/waterfall";
 import { useCallback, useEffect } from "react";
 import React from "react";
-import { useStore } from "../stores/store";
 import { useGroundStore } from "../stores/ground";
 
 interface WaterfallChunkProps {

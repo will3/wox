@@ -1,4 +1,4 @@
-import { useStore } from "../stores/store";
+import { useInputStore } from "../stores/input";
 import { HoverState } from "../HoverState";
 import { useEffect } from "react";
 import {
@@ -17,7 +17,7 @@ export default function PlaceObject({ place }: PlaceObjectProps) {
 
   let hover: HoverState | null = null;
 
-  useStore.subscribe<HoverState | null>(
+  useInputStore.subscribe<HoverState | null>(
     (h) => {
       hover = h;
     },

@@ -4,10 +4,7 @@ import Layers from "../Layers";
 import { Noise } from "../Noise";
 import Curve from "../utils/Curve";
 import { useChunkStore } from "./chunk";
-import { useStore } from "./store";
 import { useWaterStore } from "./water";
-
-const seed = useStore.getState().seed;
 
 export interface GroundData {
   key: string;
@@ -27,9 +24,12 @@ export interface GroundState {
   generateGround(origin: Vector3): void;
   generateGrass(origin: Vector3): void;
   noise: Noise;
+  seed: string;
 }
 
 const updateMeshData = useChunkStore.getState().updateMeshData;
+
+const seed = "1337";
 
 export const useGroundStore = create<GroundState>((set, get) => ({
   noise: new Noise({
@@ -127,6 +127,7 @@ export const useGroundStore = create<GroundState>((set, get) => ({
   maxHeight: 64,
   rockColor: new Color(0.072, 0.08, 0.09),
   grassColor: new Color(0.08, 0.1, 0.065),
+  seed,
 }));
 
 const getValue = (

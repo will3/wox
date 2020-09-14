@@ -1,9 +1,8 @@
 import create from "zustand";
-import { Vector3, Vector2 } from "three";
+import { Vector3 } from "three";
 import { useChunkStore } from "./chunk";
 import Layers from "../Layers";
 import seedrandom from "seedrandom";
-import { useStore } from "./store";
 import { clamp } from "lodash";
 import { Noise } from "../Noise";
 import traceWaterfall from "../Waterfalls/traceWaterfall";
@@ -35,7 +34,7 @@ export interface WaterfallState {
   noise: Noise;
 }
 
-const seed = useStore.getState().seed + "waterfall";
+const seed = useGroundStore.getState().seed + "waterfall";
 
 export const useWaterfallStore = create<WaterfallState>((set, get) => ({
   waterfalls: {},

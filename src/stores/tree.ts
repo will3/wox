@@ -1,12 +1,9 @@
-import { random } from "lodash";
 import { Vector3 } from "three";
 import create from "zustand";
-import { ChunkData } from "../Chunks";
 import Layers from "../Layers";
 import { Noise } from "../Noise";
 import QuadMap from "../utils/QuadMap";
 import { useChunkStore } from "./chunk";
-import { useStore } from "./store";
 import seedrandom from "seedrandom";
 import { useWaterStore } from "./water";
 import { useGroundStore } from "./ground";
@@ -18,7 +15,7 @@ export interface TreeData {
   position: Vector3;
 }
 
-const seed = useStore.getState().seed;
+const seed = useGroundStore.getState().seed;
 const noise = new Noise({
   frequency: 0.0025,
   seed: seed + "tree",

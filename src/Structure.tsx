@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import placeStructure from "./Brushes/placeStructure";
-import { useStore } from "./stores/store";
 import { useGridStore } from "./stores/grid";
 import { useChunkStore } from "./stores/chunk";
 

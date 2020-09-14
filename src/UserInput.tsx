@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import keycode from "keycode";
-import { useStore } from "./stores/store";
+import { useInputStore } from "./stores/input";
 import { Vector2 } from "three";
 import { useCameraStore } from "./stores/camera";
 
@@ -9,7 +9,7 @@ export default () => {
 
   const targetRotation = useCameraStore((state) => state.targetRotation);
   const distance = useCameraStore((state) => state.distance);
-  const setMouse = useStore((state) => state.setMouse);
+  const setMouse = useInputStore((state) => state.setMouse);
   const setTargetRotation = useCameraStore((state) => state.setTargetRotation);
   const setDistance = useCameraStore((state) => state.setDistance);
 

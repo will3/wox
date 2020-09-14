@@ -1,7 +1,5 @@
 import React from "react";
 import _ from "lodash";
-import { useStore } from "../stores/store";
-import { Vector3 } from "three";
 import { TreeChunk } from "./TreeChunk";
 import { useGroundStore } from "../stores/ground";
 

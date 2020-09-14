@@ -6,7 +6,6 @@ import { Stats } from "drei";
 import { Vector3, VSMShadowMap } from "three";
 import Ground from "./Ground/Ground";
 import AlwaysLongShadaws from "./AlwaysLongShadaws";
-import { useStore } from "./stores/store";
 import Light from "./Light";
 import HighlightHover from "./HighlightHover";
 import { chunkSize } from "./constants";
