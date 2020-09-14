@@ -13,7 +13,7 @@ export interface WaterState {
 export const useWaterStore = create((set, get) => ({
   waterColor: new Color(0.08, 0.12, 0.2),
   waterAlpha: 0.4,
-  waterLevel: 5,
+  waterLevel: 6,
   generateWater(origin: Vector3) {
     const { waterLevel, waterColor } = get();
     const chunksList = useChunkStore.getState().chunks;
