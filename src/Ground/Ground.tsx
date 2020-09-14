@@ -48,6 +48,7 @@ export default function Ground(props: GroundProps) {
 
   useEffect(() => {
     (async () => {
+      const start = new Date().getTime();
       const center = new Vector2(size.x - 1, size.z - 1)
         .multiplyScalar(0.5)
         .multiplyScalar(chunkSize);
@@ -69,6 +70,7 @@ export default function Ground(props: GroundProps) {
         }
         await wait(0);
       }
+      console.log(`Took ${new Date().getTime() - start}ms`);
     })();
   }, []);
 
