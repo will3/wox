@@ -24,7 +24,7 @@ export default function Grids() {
 
   return (
     <>
-      {_(gridColumns.byId)
+      {_(gridColumns)
         .map((column) => <GridChunk key={column.id} origin={column.origin} />)
         .value()}
     </>

@@ -44,7 +44,7 @@ export default function HighlightGrid() {
     const gridIds = gos
       .filter((x) => {
         const id = x.toArray().join(",");
-        return grids.byId[id] != null;
+        return grids[id] != null;
       })
       // Sort by x then z
       .sort((a, b) => {
@@ -69,7 +69,7 @@ export default function HighlightGrid() {
     const faces: Face3[] = [];
 
     for (const gridId of gridIds) {
-      const grid = grids.byId[gridId];
+      const grid = grids[gridId];
       if (grid == null) {
         continue;
       }

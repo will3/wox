@@ -23,14 +23,8 @@ export interface GridColumnData {
 }
 
 export interface GridState {
-  grids: {
-    byId: { [id: string]: GridData };
-  };
-  gridColumns: {
-    byId: {
-      [id: string]: GridColumnData;
-    };
-  };
+  grids: { [id: string]: GridData };
+  gridColumns: { [id: string]: GridColumnData };
   setGrids(columnId: string, grids: GridData[]): void;
   addGridColumns(origins: Vector2[]): void;
   gridIds: string[];
@@ -42,19 +36,19 @@ export const useGridStore = create<GridState>((set, get) => ({
   setGrids(columnId: string, grids: GridData[]) {
     const existingGrids = { ...get().grids };
     for (const grid of grids) {
-      existingGrids.byId[grid.id] = grid;
+      existingGrids[grid.id] = grid;
     }
     set({ grids: existingGrids });
 
     const gridColumns = { ...get().gridColumns };
-    gridColumns.byId[columnId].gridIds = grids.map((x) => x.id);
+    gridColumns[columnId].gridIds = grids.map((x) => x.id);
     set({ gridColumns });
   },
   addGridColumns(origins: Vector2[]) {
     const gridColumns = { ...get().gridColumns };
     for (const origin of origins) {
       const id = origin.toArray().join(",");
-      gridColumns.byId[id] = {
+      gridColumns[id] = {
         id,
         origin,
         gridIds: [],
@@ -62,12 +56,8 @@ export const useGridStore = create<GridState>((set, get) => ({
     }
     set({ gridColumns });
   },
-  grids: {
-    byId: {},
-  },
-  gridColumns: {
-    byId: {},
-  },
+  grids: {},
+  gridColumns: {},
   gridIds: [],
   setGridIds(gridIds: string[]) {
     set({ gridIds });

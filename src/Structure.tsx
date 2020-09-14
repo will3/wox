@@ -13,7 +13,7 @@ export default function Structure({ gridIds }: StructureProps) {
   const chunks = useChunkStore((state) => state.chunks);
 
   useEffect(() => {
-    const gs = gridIds.map((x) => grids.byId[x]);
+    const gs = gridIds.map((x) => grids[x]);
     placeStructure(chunks, gs);
   }, []);
   return null;
