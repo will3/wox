@@ -4,10 +4,16 @@ import Layers from "../Layers";
 import { Noise } from "../Noise";
 import Curve from "../utils/Curve";
 import { useChunkStore } from "./chunk";
-import { GroundData, useStore } from "./store";
+import { useStore } from "./store";
 import { useWaterStore } from "./water";
 
 const seed = useStore.getState().seed;
+
+export interface GroundData {
+  key: string;
+  origin: Vector3;
+  version: number;
+}
 
 export interface GroundState {
   size: Vector3;

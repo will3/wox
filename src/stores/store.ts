@@ -11,12 +11,6 @@ export interface State {
   seed: string;
 }
 
-export interface GroundData {
-  key: string;
-  origin: Vector3;
-  version: number;
-}
-
 export const useStore = create<State>((set, get) => ({
   mouse: new Vector2(),
   setMouse: (mouse: Vector2) => {
