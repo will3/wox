@@ -90,24 +90,25 @@ export const useGroundStore = create<GroundState>((set, get) => ({
     const chunk = chunks.getOrCreateChunk(
       origin.toArray() as [number, number, number]
     );
-    const waterLevel = useWaterStore.getState().waterLevel;
-    const { grassColor } = get();
+    const { waterLevel } = useWaterStore.getState();
+    const grassColor = get().grassColor.toArray();
+    const size = chunk.size;
+    const meshData = chunk.meshData!;
+    const voxels = meshData.voxels;
 
-    for (let i = 0; i < chunk.size; i++) {
-      for (let j = 0; j < chunk.size; j++) {
-        for (let k = 0; k < chunk.size; k++) {
-          const absY = chunk.origin[1] + j;
-          if (absY <= waterLevel) {
-            continue;
-          }
-          const normal = chunk.calcNormal(i, j, k);
-          const dot = new Vector3(0, -1, 0).dot(
-            new Vector3().fromArray(normal)
-          );
-          if (dot > 0.75) {
-            chunk.setColor(i, j, k, grassColor.toArray());
-          }
-        }
+    for (let voxel of voxels) {
+      const [i, j, k] = voxel.coord;
+      const absY = chunk.origin[1] + j;
+      if (absY <= waterLevel) {
+        continue;
+      }
+
+      const normal = voxel.voxelNormal;
+
+      const dot = new Vector3(0, -1, 0).dot(new Vector3().fromArray(normal));
+
+      if (dot > 0.75) {
+        chunk.setColor(i, j, k, grassColor);
       }
     }
   },
