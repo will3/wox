@@ -3,16 +3,13 @@ import { Vector2 } from "three";
 import { useEffect } from "react";
 import React from "react";
 import { chunkSize } from "../constants";
-import Layers from "../Layers";
 import GridChunk from "./GridChunk";
 import { useGridStore } from "../stores/grid";
-import { useChunkStore } from "../stores/chunk";
 import { useGroundStore } from "../stores/ground";
 
 export default function Grids() {
   const size = useGroundStore((state) => state.size);
   const gridColumns = useGridStore((state) => state.gridColumns);
-  const groundChunks = useChunkStore((state) => state.chunks[Layers.ground]);
   const addGridColumns = useGridStore((state) => state.addGridColumns);
 
   useEffect(() => {
@@ -28,15 +25,7 @@ export default function Grids() {
   return (
     <>
       {_(gridColumns.byId)
-        .map((column) => (
-          <GridChunk
-            key={column.id}
-            origin={column.origin}
-            size={size}
-            groundChunks={groundChunks}
-            column={column}
-          />
-        ))
+        .map((column) => <GridChunk key={column.id} origin={column.origin} />)
         .value()}
     </>
   );
