@@ -1,5 +1,5 @@
 import ChunkData from "./ChunkData";
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 
 import {
   BufferGeometry,
@@ -15,11 +15,11 @@ import {
   Mesh,
   Material,
 } from "three";
-import { useStore } from "../stores/store";
 import _ from "lodash";
 import { vertexShader, fragmentShader } from "./voxelShader";
 import { useChunkStore } from "../stores/chunk";
 import { useWaterStore } from "../stores/water";
+import { useLightStore } from "../stores/light";
 
 export interface ChunkProps {
   chunk: ChunkData;
@@ -29,10 +29,10 @@ function Chunk(props: ChunkProps) {
   const { chunk } = props;
 
   const meshRef = useRef(new Mesh());
-  const sunColor = useStore((state) => state.sunColor);
-  const ambient = useStore((state) => state.ambient);
+  const sunColor = useLightStore((state) => state.sunColor);
+  const ambient = useLightStore((state) => state.ambient);
   const waterAlpha = useWaterStore((state) => state.waterAlpha);
-  const lightDir = useStore.getState().lightDir;
+  const lightDir = useLightStore.getState().lightDir;
   const version = useChunkStore((state) => {
     const versions = state.chunkVersions[chunk.layer] || {};
     return versions[chunk.key] ?? 0;
@@ -53,7 +53,7 @@ function Chunk(props: ChunkProps) {
 
   useEffect(
     () =>
-      useStore.subscribe(
+      useLightStore.subscribe(
         (lightDir) => handleLightDirChanged(lightDir as Vector3),
         (state) => state.lightDir
       ),

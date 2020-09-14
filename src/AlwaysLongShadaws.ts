@@ -1,7 +1,7 @@
 import { useFrame, useThree } from "react-three-fiber";
 import { Vector3 } from "three";
 import _ from "lodash";
-import { useStore } from "./stores/store";
+import { useLightStore } from "./stores/light";
 
 export default () => {
   const { camera } = useThree();
@@ -12,8 +12,8 @@ export default () => {
     new Vector3(-1, -1, 1),
   ].map((x) => x.normalize());
 
-  const setLightDir = useStore((state) => state.setLightDir);
-  const lightDir = useStore((state) => state.lightDir);
+  const setLightDir = useLightStore((state) => state.setLightDir);
+  const lightDir = useLightStore((state) => state.lightDir);
 
   useFrame(() => {
     const forward = new Vector3(0, 0, 1)

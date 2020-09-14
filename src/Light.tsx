@@ -1,16 +1,15 @@
 import {
   DirectionalLight,
   Vector3,
-  OrthographicCamera,
   Vector2,
   CameraHelper,
 } from "three";
 import React, { useEffect } from "react";
-import { useStore } from "./stores/store";
 import { useCameraStore } from "./stores/camera";
+import { useLightStore } from "./stores/light";
 
 export default () => {
-  const lightDir = useStore((state) => state.lightDir);
+  const lightDir = useLightStore((state) => state.lightDir);
   const target = useCameraStore((state) => state.target);
   const showHelper = false;
   const distance = 150;
