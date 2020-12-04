@@ -1,16 +1,18 @@
-import { Euler, Vector3, Quaternion } from "three";
+import { Vector3, Quaternion } from "three";
+
+export type EulerValue = [number, number, number, string];
+export type Vector3Value = [number, number, number];
 
 export const lerp = (a: number, b: number, r: number) => {
   return a + (b - a) * r;
 };
 
-export const lerpEulers = (a: Euler, b: Euler, r: number) => {
-  return new Euler(
-    lerp(a.x, b.x, r),
-    lerp(a.y, b.y, r),
-    lerp(a.z, b.z, r),
-    a.order
-  );
+export const lerpEulers = (
+  a: EulerValue,
+  b: EulerValue,
+  r: number
+): EulerValue => {
+  return [lerp(a[0], b[0], r), lerp(a[1], b[1], r), lerp(a[2], b[2], r), a[3]];
 };
 
 export const clamp = (v: number, min: number, max: number) => {
@@ -54,5 +56,8 @@ export const randomVector = (rng: seedrandom.prng) => {
 };
 
 export const randomQuaternion = (rng: seedrandom.prng) => {
-  return new Quaternion().setFromUnitVectors(new Vector3(0, 1, 0), randomVector(rng));
+  return new Quaternion().setFromUnitVectors(
+    new Vector3(0, 1, 0),
+    randomVector(rng)
+  );
 };

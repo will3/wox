@@ -1,11 +1,6 @@
-import {
-  DirectionalLight,
-  Vector3,
-  Vector2,
-  CameraHelper,
-} from "three";
+import { DirectionalLight, Vector3, Vector2, CameraHelper } from "three";
 import React, { useEffect } from "react";
-import { useCameraStore } from "./stores/camera";
+import { useCameraStore } from "./features/camera/store";
 import { useLightStore } from "./stores/light";
 
 export default () => {
@@ -16,7 +11,7 @@ export default () => {
 
   useEffect(() => {
     light.position.copy(calcPosition());
-    light.target.position.copy(target);
+    light.target.position.set(...target);
   }, [lightDir, target]);
 
   const calcPosition = () => {
@@ -24,12 +19,12 @@ export default () => {
       .clone()
       .multiply(new Vector3(-1, -1, -1))
       .multiplyScalar(distance)
-      .add(target);
+      .add(new Vector3(...target));
   };
 
   const light = new DirectionalLight();
   light.position.copy(calcPosition());
-  light.target.position.copy(target);
+  light.target.position.set(...target);
   light.castShadow = true;
 
   const camera = light.shadow.camera;

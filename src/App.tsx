@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { Canvas } from "react-three-fiber";
 import UserInput from "./UserInput";
-import CameraController from "./CameraController";
+import CameraController from "./features/camera/components/CameraController";
 import { Stats } from "drei";
 import { Vector3, VSMShadowMap } from "three";
 import Ground from "./Ground/Ground";

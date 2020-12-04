@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import keycode from "keycode";
 import { useInputStore } from "./stores/input";
 import { Vector2 } from "three";
-import { useCameraStore } from "./stores/camera";
+import { useCameraStore } from "./features/camera/store";
 
 export default () => {
   const zoomRate = 1.1;
@@ -16,12 +16,12 @@ export default () => {
   const handleKeyUp = (e: KeyboardEvent) => {
     const key = keycode(e);
     if (key === "q") {
-      const next = targetRotation.clone();
-      next.y -= Math.PI / 2;
+      const next = targetRotation;
+      next[1] -= Math.PI / 2;
       setTargetRotation(next);
     } else if (key === "e") {
-      const next = targetRotation.clone();
-      next.y += Math.PI / 2;
+      const next = targetRotation;
+      next[1] += Math.PI / 2;
       setTargetRotation(next);
     }
 
