@@ -18,7 +18,6 @@ export default () => {
     if (key === "q") {
       const next = targetRotation.clone();
       next.y -= Math.PI / 2;
-
       setTargetRotation(next);
     } else if (key === "e") {
       const next = targetRotation.clone();

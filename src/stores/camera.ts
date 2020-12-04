@@ -1,17 +1,14 @@
 import create from "zustand";
 import { Euler, Vector3 } from "three";
 import { chunkSize } from "../constants";
-import { lerpEulers } from "../utils/math";
 import { useGroundStore } from "./ground";
 
 export interface CameraState {
-  rotation: Euler;
   targetRotation: Euler;
   target: Vector3;
   distance: number;
   setTargetRotation(targetRotation: Euler): void;
   setDistance(distance: number): void;
-  rotateToTarget(): void;
 }
 
 const initialRotation = new Euler(-Math.PI / 4, Math.PI / 4, 0, "YXZ");
@@ -34,13 +31,5 @@ export const useCameraStore = create<CameraState>((set, get) => ({
   },
   setDistance(distance: number) {
     set({ distance });
-  },
-  rotateToTarget() {
-    const rotation = get().rotation;
-    const targetRotation = get().targetRotation;
-    const nextRotation = lerpEulers(rotation, targetRotation, 0.5);
-    set({
-      rotation: nextRotation,
-    });
   },
 }));
