@@ -4,9 +4,9 @@ import raycast from "./raycast";
 import { useThree } from "react-three-fiber";
 import Layers from "./Layers";
 import { Vector2, Vector3, Geometry, Face3 } from "three";
-import { gridSize } from "./Grid/constants";
+import { gridSize } from "./features/grid/constants";
 import React from "react";
-import { useGridStore } from "./stores/grid";
+import { useGridStore } from "./features/grid/store";
 import { useChunkStore } from "./features/chunks/store";
 
 const twoByTwo = {

@@ -1,17 +1,15 @@
 import { Vector2, Vector3 } from "three";
 import { useCallback, useEffect } from "react";
-import { chunkSize } from "../constants";
+import { chunkSize } from "../../constants";
 import _ from "lodash";
-import { useGridStore } from "../stores/grid";
+import { useGridStore } from "./store";
 import { useGroundStore } from "features/ground/store";
 
 interface GridChunkProps {
   origin: Vector2;
 }
 
-export default function GridChunk({
-  origin,
-}: GridChunkProps) {
+export default function GridChunk({ origin }: GridChunkProps) {
   const grounds = useGroundStore((state) => state.grounds);
   const generateGrids = useGridStore((state) => state.generateGrids);
 

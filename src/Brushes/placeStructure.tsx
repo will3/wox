@@ -2,7 +2,7 @@ import ChunksData from "../features/chunks/ChunksData";
 import { Vector3, Color, Euler } from "three";
 import Layers from "../Layers";
 import seedrandom from "seedrandom";
-import { GridData } from "../stores/grid";
+import { GridData } from "../features/grid/store";
 import _ from "lodash";
 
 export default (chunksList: ChunksData[], grids: GridData[]) => {

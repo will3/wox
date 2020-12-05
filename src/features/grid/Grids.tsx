@@ -2,9 +2,9 @@ import _ from "lodash";
 import { Vector2 } from "three";
 import { useEffect } from "react";
 import React from "react";
-import { chunkSize } from "../constants";
+import { chunkSize } from "../../constants";
 import GridChunk from "./GridChunk";
-import { useGridStore } from "../stores/grid";
+import { useGridStore } from "./store";
 import { useGroundStore } from "features/ground/store";
 
 export default function Grids() {
