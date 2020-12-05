@@ -3,7 +3,7 @@ import ChunksData from "./ChunksData";
 import { chunkSize } from "../../constants";
 import Layers from "../../Layers";
 import { meshChunk } from "./meshChunk";
-import { useWaterStore } from "../../stores/water";
+import { useWaterStore } from "../water/water";
 
 export interface ChunksState {
   chunks: ChunksData[];

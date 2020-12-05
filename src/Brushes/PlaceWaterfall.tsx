@@ -4,7 +4,7 @@ import { useEffect, useCallback } from "react";
 import { Vector3 } from "three";
 import traceWaterfall from "../Waterfalls/traceWaterfall";
 import Layers from "../Layers";
-import { useWaterStore } from "../stores/water";
+import { useWaterStore } from "../features/water/water";
 import { useChunkStore } from "../features/chunks/store";
 
 export default function PlaceWaterfall() {

@@ -5,7 +5,7 @@ import { chunkSize } from "../../constants";
 import { useChunkStore } from "../chunks/store";
 import Layers from "../../Layers";
 import { gridSize } from "./constants";
-import { useWaterStore } from "../../stores/water";
+import { useWaterStore } from "../water/water";
 import _ from "lodash";
 
 export interface GridData {

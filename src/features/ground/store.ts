@@ -4,7 +4,7 @@ import Layers from "../../Layers";
 import { Noise } from "../../Noise";
 import Curve from "../../utils/Curve";
 import { useChunkStore } from "../chunks/store";
-import { useWaterStore } from "../../stores/water";
+import { useWaterStore } from "../water/water";
 
 export interface GroundData {
   key: string;

@@ -6,7 +6,7 @@ import seedrandom from "seedrandom";
 import { clamp } from "lodash";
 import { Noise } from "../Noise";
 import traceWaterfall from "../Waterfalls/traceWaterfall";
-import { useWaterStore } from "./water";
+import { useWaterStore } from "../features/water/water";
 import { useGroundStore } from "features/ground/store";
 
 export interface WaterfallPoint {

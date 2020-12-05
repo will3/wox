@@ -3,7 +3,7 @@ import Layers from "../Layers";
 import { Color } from "three";
 import ChunksData from "../features/chunks/ChunksData";
 import { useChunkStore } from "../features/chunks/store";
-import { useWaterStore } from "../stores/water";
+import { useWaterStore } from "../features/water/water";
 import { WaterfallData, WaterfallPoint } from "../stores/waterfall";
 
 export interface WaterfallProps {

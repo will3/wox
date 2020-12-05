@@ -5,7 +5,7 @@ import { Noise } from "../../Noise";
 import QuadMap from "../../utils/QuadMap";
 import { useChunkStore } from "../chunks/store";
 import seedrandom from "seedrandom";
-import { useWaterStore } from "../../stores/water";
+import { useWaterStore } from "../water/water";
 import { useGroundStore } from "features/ground/store";
 
 export interface TreeData {

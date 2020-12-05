@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { Vector3 } from "three";
-import { useWaterStore } from "../stores/water";
+import { useWaterStore } from "../water";
 
 export interface WaterChunkProps {
   origin: Vector3;
