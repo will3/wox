@@ -7,10 +7,9 @@ import { VSMShadowMap } from "three";
 import Ground from "./features/ground/components/Ground/Ground";
 import { AlwaysLongShadows } from "./AlwaysLongShadows";
 import Light from "./Light";
-import Grids from "features/grid/Grids";
-import HighlightGrid from "./HighlightGrid";
-import PlaceStructure from "./PlaceStructure";
-import Structures from "./Structures";
+import Grids from "features/grid/components/Grids";
+import HighlightGrid from "./features/grid/components/HighlightGrid";
+import Structures from "./features/structures/components/Structures";
 import Mesher from "./features/chunks/Mesher";
 import Waterfalls from "./features/waterfalls/components/Waterfalls";
 import Trees from "./features/trees/components/Trees";
@@ -40,7 +39,6 @@ export default () => {
         <AlwaysLongShadows />
         {/* <HighlightHover /> */}
         <HighlightGrid />
-        <PlaceStructure />
         {/* <Brush /> */}
         {/* <PlaceWaterfall /> */}
         <Grids />

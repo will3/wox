@@ -1,13 +1,13 @@
-import { useInputStore } from "./stores/input";
+import { useInputStore } from "../../../stores/input";
 import { useEffect, useState } from "react";
-import raycast from "./raycast";
+import raycast from "../../../raycast";
 import { useThree } from "react-three-fiber";
-import Layers from "./Layers";
+import Layers from "../../../Layers";
 import { Vector2, Vector3, Geometry, Face3 } from "three";
-import { gridSize } from "./features/grid/constants";
+import { gridSize } from "../constants";
 import React from "react";
-import { useGridStore } from "./features/grid/store";
-import { useChunkStore } from "./features/chunks/store";
+import { useGridStore } from "../store";
+import { useChunkStore } from "../../chunks/store";
 
 const twoByTwo = {
   coords: [

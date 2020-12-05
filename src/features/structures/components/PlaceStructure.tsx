@@ -1,6 +1,6 @@
 import { useEffect } from "react";
-import { useStructureStore } from "./stores/structure";
-import { useGridStore } from "./features/grid/store";
+import { useStructureStore } from "../store";
+import { useGridStore } from "features/grid/store";
 
 export default function PlaceStructure() {
   const gridIds = useGridStore((state) => state.gridIds);

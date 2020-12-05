@@ -1,11 +1,11 @@
-import { useInputStore } from "../stores/input";
-import { HoverState } from "../HoverState";
+import { useInputStore } from "../../../stores/input";
+import { HoverState } from "../../../HoverState";
 import { useEffect, useCallback } from "react";
 import { Vector3 } from "three";
-import traceWaterfall from "../features/waterfalls/traceWaterfall";
-import Layers from "../Layers";
-import { useWaterStore } from "../features/water/water";
-import { useChunkStore } from "../features/chunks/store";
+import traceWaterfall from "../traceWaterfall";
+import Layers from "../../../Layers";
+import { useWaterStore } from "../../water/water";
+import { useChunkStore } from "../../chunks/store";
 
 export default function PlaceWaterfall() {
   // TODO fix

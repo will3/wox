@@ -1,8 +1,8 @@
 import { Vector2, Vector3 } from "three";
 import { useCallback, useEffect } from "react";
-import { chunkSize } from "../../constants";
+import { chunkSize } from "../../../constants";
 import _ from "lodash";
-import { useGridStore } from "./store";
+import { useGridStore } from "../store";
 import { useGroundStore } from "features/ground/store";
 
 interface GridChunkProps {

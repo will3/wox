@@ -1,8 +1,8 @@
-import ChunksData from "../features/chunks/ChunksData";
+import ChunksData from "../chunks/ChunksData";
 import { Vector3, Color, Euler } from "three";
-import Layers from "../Layers";
+import Layers from "../../Layers";
 import seedrandom from "seedrandom";
-import { GridData } from "../features/grid/store";
+import { GridData } from "../grid/store";
 import _ from "lodash";
 
 export default (chunksList: ChunksData[], grids: GridData[]) => {
