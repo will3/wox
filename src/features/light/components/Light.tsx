@@ -2,6 +2,7 @@ import { DirectionalLight, Vector3, Vector2, CameraHelper } from "three";
 import React, { useEffect } from "react";
 import { useCameraStore } from "../../camera/store";
 import { useLightStore } from "../store";
+import { AlwaysLongShadows } from "./AlwaysLongShadows";
 
 export default () => {
   const lightDir = useLightStore((state) => state.lightDir);
@@ -43,6 +44,7 @@ export default () => {
 
   return (
     <>
+      <AlwaysLongShadows />
       <primitive object={light} />
       <primitive object={light.target} />
       {showHelper ? <primitive object={helper} /> : null}

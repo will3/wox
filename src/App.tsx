@@ -8,7 +8,6 @@ import Ground from "./features/ground/components/Ground/Ground";
 import { AlwaysLongShadows } from "./features/light/components/AlwaysLongShadows";
 import Light from "./features/light/components/Light";
 import Grids from "features/grid/components/Grids";
-import HighlightGrid from "./features/grid/components/HighlightGrid";
 import Structures from "./features/structures/components/Structures";
 import Mesher from "./features/chunks/Mesher";
 import Waterfalls from "./features/waterfalls/components/Waterfalls";
@@ -36,19 +35,14 @@ export default () => {
         <Light />
         <CameraController />
         <Ground size={size} seed={1337} />
-        <AlwaysLongShadows />
-        {/* <HighlightHover /> */}
-        <HighlightGrid />
-        {/* <Brush /> */}
-        {/* <PlaceWaterfall /> */}
         <Grids />
         <Structures />
         <Mesher />
         <Waterfalls />
         <Trees />
         <Water />
+        <UserInput />
       </Canvas>
-      <UserInput />
       <Stats />
     </>
   );

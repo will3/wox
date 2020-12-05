@@ -6,8 +6,13 @@ import { chunkSize } from "../../../constants";
 import GridChunk from "./GridChunk";
 import { useGridStore } from "../store";
 import { useGroundStore } from "features/ground/store";
+import HighlightGrid from "./HighlightGrid";
 
-export default function Grids() {
+export interface GridsProps {
+  highlightGrid?: boolean;
+}
+
+export default function Grids({ highlightGrid }: GridsProps) {
   const size = useGroundStore((state) => state.size);
   const gridColumns = useGridStore((state) => state.gridColumns);
   const addGridColumns = useGridStore((state) => state.addGridColumns);
@@ -24,6 +29,7 @@ export default function Grids() {
 
   return (
     <>
+      {highlightGrid && <HighlightGrid />}
       {_(gridColumns)
         .map((column) => <GridChunk key={column.id} origin={column.origin} />)
         .value()}

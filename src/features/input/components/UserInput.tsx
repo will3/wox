@@ -3,6 +3,8 @@ import keycode from "keycode";
 import { useInputStore } from "../store";
 import { Vector2 } from "three";
 import { useCameraStore } from "../../camera/store";
+import React from "react";
+import HighlightHover from "./HighlightHover";
 
 export default () => {
   const zoomRate = 1.1;
@@ -52,5 +54,9 @@ export default () => {
     };
   });
 
-  return null;
+  return (
+    <>
+      <HighlightHover />
+    </>
+  );
 };
