@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { Vector3 } from "three";
-import { useTreeStore } from "../stores/tree";
+import { useTreeStore } from "../store";
 import React from "react";
 import _ from "lodash";
 import Tree from "./Tree";

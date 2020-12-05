@@ -1,8 +1,8 @@
-import ChunksData from "../features/chunks/ChunksData";
+import ChunksData from "../chunks/ChunksData";
 import { Vector3, Quaternion, Matrix4, Vector2, Color } from "three";
 import { clamp } from "lodash";
-import { sdVerticalCapsule, opTx, sdCone } from "../utils/sdf";
-import { Bounds } from "../utils/Bounds";
+import { sdVerticalCapsule, opTx, sdCone } from "../../utils/sdf";
+import { Bounds } from "../../utils/Bounds";
 
 const placeTree = (
   chunks: ChunksData,

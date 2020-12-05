@@ -1,11 +1,11 @@
 import { Vector3 } from "three";
 import create from "zustand";
-import Layers from "../Layers";
-import { Noise } from "../Noise";
-import QuadMap from "../utils/QuadMap";
-import { useChunkStore } from "../features/chunks/store";
+import Layers from "../../Layers";
+import { Noise } from "../../Noise";
+import QuadMap from "../../utils/QuadMap";
+import { useChunkStore } from "../chunks/store";
 import seedrandom from "seedrandom";
-import { useWaterStore } from "./water";
+import { useWaterStore } from "../../stores/water";
 import { useGroundStore } from "features/ground/store";
 
 export interface TreeData {
