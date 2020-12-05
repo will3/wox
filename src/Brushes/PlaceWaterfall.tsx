@@ -2,7 +2,7 @@ import { useInputStore } from "../stores/input";
 import { HoverState } from "../HoverState";
 import { useEffect, useCallback } from "react";
 import { Vector3 } from "three";
-import traceWaterfall from "../Waterfalls/traceWaterfall";
+import traceWaterfall from "../features/waterfalls/traceWaterfall";
 import Layers from "../Layers";
 import { useWaterStore } from "../features/water/water";
 import { useChunkStore } from "../features/chunks/store";

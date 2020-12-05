@@ -1,10 +1,10 @@
 import { useEffect } from "react";
-import Layers from "../Layers";
+import Layers from "../../../Layers";
 import { Color } from "three";
-import ChunksData from "../features/chunks/ChunksData";
-import { useChunkStore } from "../features/chunks/store";
-import { useWaterStore } from "../features/water/water";
-import { WaterfallData, WaterfallPoint } from "../stores/waterfall";
+import ChunksData from "features/chunks/ChunksData";
+import { useChunkStore } from "features/chunks/store";
+import { useWaterStore } from "features/water/water";
+import { WaterfallData, WaterfallPoint } from "../store";
 
 export interface WaterfallProps {
   data: WaterfallData;

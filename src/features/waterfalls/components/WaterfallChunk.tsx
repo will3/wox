@@ -1,6 +1,6 @@
 import { Waterfall } from "./Waterfall";
 import { Vector3 } from "three";
-import { useWaterfallStore } from "../stores/waterfall";
+import { useWaterfallStore } from "../store";
 import { useCallback, useEffect } from "react";
 import React from "react";
 import { useGroundStore } from "features/ground/store";

@@ -1,12 +1,12 @@
 import create from "zustand";
 import { Vector3 } from "three";
-import { useChunkStore } from "../features/chunks/store";
-import Layers from "../Layers";
+import { useChunkStore } from "../chunks/store";
+import Layers from "../../Layers";
 import seedrandom from "seedrandom";
 import { clamp } from "lodash";
-import { Noise } from "../Noise";
-import traceWaterfall from "../Waterfalls/traceWaterfall";
-import { useWaterStore } from "../features/water/water";
+import { Noise } from "../../Noise";
+import traceWaterfall from "./traceWaterfall";
+import { useWaterStore } from "../water/water";
 import { useGroundStore } from "features/ground/store";
 
 export interface WaterfallPoint {

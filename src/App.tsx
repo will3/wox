@@ -12,7 +12,7 @@ import HighlightGrid from "./HighlightGrid";
 import PlaceStructure from "./PlaceStructure";
 import Structures from "./Structures";
 import Mesher from "./features/chunks/Mesher";
-import Waterfalls from "./Waterfalls/Waterfalls";
+import Waterfalls from "./features/waterfalls/components/Waterfalls";
 import Trees from "./features/trees/components/Trees";
 import Water from "./features/water/components/Water";
 import { useGroundStore } from "./features/ground/store";

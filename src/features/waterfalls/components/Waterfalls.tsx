@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import _ from "lodash";
-import { useWaterfallStore } from "../stores/waterfall";
+import { useWaterfallStore } from "../store";
 import { Vector3 } from "three";
-import { chunkSize } from "../constants";
+import { chunkSize } from "../../../constants";
 import WaterfallChunk from "./WaterfallChunk";
 import { useGroundStore } from "features/ground/store";
 
