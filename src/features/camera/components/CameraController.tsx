@@ -7,9 +7,9 @@ import { useCameraStore } from "../store";
 export default () => {
   const { camera } = useThree();
 
-  let target = useCameraStore((camera) => camera.target);
-  let distance = useCameraStore((camera) => camera.distance);
-  let targetRotation = useCameraStore((camera) => camera.targetRotation);
+  const target = useCameraStore((camera) => camera.target);
+  const distance = useCameraStore((camera) => camera.distance);
+  const targetRotation = useCameraStore((camera) => camera.targetRotation);
   const rotation = useRef(targetRotation);
 
   const updateCamera = useCallback(() => {

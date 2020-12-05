@@ -6,7 +6,7 @@ import QuadMap from "../utils/QuadMap";
 import { useChunkStore } from "../features/chunks/store";
 import seedrandom from "seedrandom";
 import { useWaterStore } from "./water";
-import { useGroundStore } from "./ground";
+import { useGroundStore } from "features/ground/store";
 
 export interface TreeData {
   key: string;

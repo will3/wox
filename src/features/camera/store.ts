@@ -1,7 +1,7 @@
 import create from "zustand";
 import { chunkSize } from "../../constants";
 import { EulerValue, Vector3Value } from "../../utils/math";
-import { useGroundStore } from "../../stores/ground";
+import { useGroundStore } from "features/ground/store";
 
 export interface CameraState {
   targetRotation: EulerValue;

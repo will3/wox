@@ -1,9 +1,9 @@
 import React, { useEffect, useMemo } from "react";
 import { Vector2, Vector3 } from "three";
-import { Noise } from "../Noise";
-import { chunkSize } from "../constants";
+import { Noise } from "../../../../Noise";
+import { chunkSize } from "../../../../constants";
 import seedrandom from "seedrandom";
-import { useGroundStore } from "../stores/ground";
+import { useGroundStore } from "../../store";
 import _ from "lodash";
 import GroundChunk from "./GroundChunk";
 import { wait } from "./wait";

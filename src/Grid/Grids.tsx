@@ -5,7 +5,7 @@ import React from "react";
 import { chunkSize } from "../constants";
 import GridChunk from "./GridChunk";
 import { useGridStore } from "../stores/grid";
-import { useGroundStore } from "../stores/ground";
+import { useGroundStore } from "features/ground/store";
 
 export default function Grids() {
   const size = useGroundStore((state) => state.size);

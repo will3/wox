@@ -3,7 +3,7 @@ import { useCallback, useEffect } from "react";
 import { chunkSize } from "../constants";
 import _ from "lodash";
 import { useGridStore } from "../stores/grid";
-import { useGroundStore } from "../stores/ground";
+import { useGroundStore } from "features/ground/store";
 
 interface GridChunkProps {
   origin: Vector2;

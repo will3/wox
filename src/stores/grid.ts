@@ -1,6 +1,6 @@
 import create from "zustand";
 import { Vector2, Vector3 } from "three";
-import { useGroundStore } from "./ground";
+import { useGroundStore } from "features/ground/store";
 import { chunkSize } from "../constants";
 import { useChunkStore } from "../features/chunks/store";
 import Layers from "../Layers";

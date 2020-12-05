@@ -1,7 +1,7 @@
 import React from "react";
 import _ from "lodash";
 import { TreeChunk } from "./TreeChunk";
-import { useGroundStore } from "../stores/ground";
+import { useGroundStore } from "features/ground/store";
 
 export default function Trees() {
   const grounds = useGroundStore((state) => state.grounds);

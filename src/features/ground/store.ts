@@ -1,10 +1,10 @@
 import { Color, Vector3 } from "three";
 import create from "zustand";
-import Layers from "../Layers";
-import { Noise } from "../Noise";
-import Curve from "../utils/Curve";
-import { useChunkStore } from "../features/chunks/store";
-import { useWaterStore } from "./water";
+import Layers from "../../Layers";
+import { Noise } from "../../Noise";
+import Curve from "../../utils/Curve";
+import { useChunkStore } from "../chunks/store";
+import { useWaterStore } from "../../stores/water";
 
 export interface GroundData {
   key: string;
@@ -102,7 +102,7 @@ export const useGroundStore = create<GroundState>((set, get) => ({
     const meshData = chunk.meshData!;
     const voxels = meshData.voxels;
 
-    for (let voxel of voxels) {
+    for (const voxel of voxels) {
       const [i, j, k] = voxel.coord;
       const absY = chunk.origin[1] + j;
       if (absY <= waterLevel) {

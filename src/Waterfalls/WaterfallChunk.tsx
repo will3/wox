@@ -3,7 +3,7 @@ import { Vector3 } from "three";
 import { useWaterfallStore } from "../stores/waterfall";
 import { useCallback, useEffect } from "react";
 import React from "react";
-import { useGroundStore } from "../stores/ground";
+import { useGroundStore } from "features/ground/store";
 
 interface WaterfallChunkProps {
   origin: Vector3;
@@ -15,7 +15,9 @@ export default function WaterfallChunk({ origin }: WaterfallChunkProps) {
   );
 
   const key = origin.toArray().join(",");
-  const groundVersion = useGroundStore((state) => state.grounds[key]?.version ?? 0);
+  const groundVersion = useGroundStore(
+    (state) => state.grounds[key]?.version ?? 0
+  );
   const waterfallIds = useWaterfallStore(
     (state) => state.waterfallChunks[key].waterfallIds
   );

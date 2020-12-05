@@ -4,7 +4,7 @@ import { useWaterfallStore } from "../stores/waterfall";
 import { Vector3 } from "three";
 import { chunkSize } from "../constants";
 import WaterfallChunk from "./WaterfallChunk";
-import { useGroundStore } from "../stores/ground";
+import { useGroundStore } from "features/ground/store";
 
 export default function Waterfalls() {
   const size = useGroundStore((state) => state.size);

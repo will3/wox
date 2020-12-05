@@ -4,7 +4,7 @@ import UserInput from "./UserInput";
 import CameraController from "./features/camera/components/CameraController";
 import { Stats } from "drei";
 import { Vector3, VSMShadowMap } from "three";
-import Ground from "./Ground/Ground";
+import Ground from "./features/ground/components/Ground/Ground";
 import AlwaysLongShadaws from "./AlwaysLongShadaws";
 import Light from "./Light";
 import HighlightHover from "./HighlightHover";
@@ -24,7 +24,9 @@ import Mesher from "./features/chunks/Mesher";
 import Waterfalls from "./Waterfalls/Waterfalls";
 import Trees from "./Trees/Trees";
 import Water from "./Water/Water";
-import { useGroundStore } from "./stores/ground";
+import { useGroundStore } from "./features/ground/store";
+
+import "./app.css";
 
 export default () => {
   const size = useGroundStore((state) => state.size);
