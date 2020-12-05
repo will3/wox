@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import placeStructure from "./Brushes/placeStructure";
 import { useGridStore } from "./stores/grid";
-import { useChunkStore } from "./stores/chunk";
+import { useChunkStore } from "./features/chunks/store";
 
 export interface StructureProps {
   gridIds: string[];

@@ -6,7 +6,7 @@ import {
 } from "three";
 import ChunksData from "../Chunks/ChunksData";
 import { VoxelInfo } from "../Chunks/VoxelInfo";
-import { useChunkStore } from "../stores/chunk";
+import { useChunkStore } from "../features/chunks/store";
 
 export interface PlaceObjectProps {
   place(chunks: ChunksData[], coord: Vector3, voxel: VoxelInfo): void;

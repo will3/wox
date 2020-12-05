@@ -5,7 +5,7 @@ import { Vector3 } from "three";
 import traceWaterfall from "../Waterfalls/traceWaterfall";
 import Layers from "../Layers";
 import { useWaterStore } from "../stores/water";
-import { useChunkStore } from "../stores/chunk";
+import { useChunkStore } from "../features/chunks/store";
 
 export default function PlaceWaterfall() {
   // TODO fix

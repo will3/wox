@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { Vector3 } from "three";
 import Layers from "../Layers";
-import { useChunkStore } from "../stores/chunk";
+import { useChunkStore } from "../features/chunks/store";
 import placeTree from "./placeTree";
 
 export interface TreeProps {

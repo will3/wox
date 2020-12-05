@@ -3,7 +3,7 @@ import create from "zustand";
 import Layers from "../Layers";
 import { Noise } from "../Noise";
 import Curve from "../utils/Curve";
-import { useChunkStore } from "./chunk";
+import { useChunkStore } from "../features/chunks/store";
 import { useWaterStore } from "./water";
 
 export interface GroundData {

@@ -1,6 +1,6 @@
 import create from "zustand";
 import { Vector3 } from "three";
-import { useChunkStore } from "./chunk";
+import { useChunkStore } from "../features/chunks/store";
 import Layers from "../Layers";
 import seedrandom from "seedrandom";
 import { clamp } from "lodash";

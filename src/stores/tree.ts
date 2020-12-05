@@ -3,7 +3,7 @@ import create from "zustand";
 import Layers from "../Layers";
 import { Noise } from "../Noise";
 import QuadMap from "../utils/QuadMap";
-import { useChunkStore } from "./chunk";
+import { useChunkStore } from "../features/chunks/store";
 import seedrandom from "seedrandom";
 import { useWaterStore } from "./water";
 import { useGroundStore } from "./ground";

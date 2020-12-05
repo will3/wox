@@ -1,7 +1,7 @@
 import { Color, Vector3 } from "three";
 import create from "zustand";
 import Layers from "../Layers";
-import { useChunkStore } from "./chunk";
+import { useChunkStore } from "../features/chunks/store";
 
 export interface WaterState {
   waterLevel: number;

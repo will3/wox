@@ -17,7 +17,7 @@ import {
 } from "three";
 import _ from "lodash";
 import { vertexShader, fragmentShader } from "./voxelShader";
-import { useChunkStore } from "../stores/chunk";
+import { useChunkStore } from "../features/chunks/store";
 import { useWaterStore } from "../stores/water";
 import { useLightStore } from "../stores/light";
 

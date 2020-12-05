@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import Layers from "../Layers";
 import { Color } from "three";
 import ChunksData from "../Chunks/ChunksData";
-import { useChunkStore } from "../stores/chunk";
+import { useChunkStore } from "../features/chunks/store";
 import { useWaterStore } from "../stores/water";
 import { WaterfallData, WaterfallPoint } from "../stores/waterfall";
 

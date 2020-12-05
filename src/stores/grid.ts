@@ -2,7 +2,7 @@ import create from "zustand";
 import { Vector2, Vector3 } from "three";
 import { useGroundStore } from "./ground";
 import { chunkSize } from "../constants";
-import { useChunkStore } from "./chunk";
+import { useChunkStore } from "../features/chunks/store";
 import Layers from "../Layers";
 import { gridSize } from "../Grid/constants";
 import { useWaterStore } from "./water";

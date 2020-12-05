@@ -1,7 +1,7 @@
 import React, { useMemo } from "react";
 import _ from "lodash";
 import Chunk from "./Chunk";
-import { useChunkStore } from "../stores/chunk";
+import { useChunkStore } from "../features/chunks/store";
 
 export interface ChunksProps {
   layer: number;

@@ -5,7 +5,7 @@ import { Vector3 } from "three";
 import { useFrame } from "react-three-fiber";
 import { calcSphereStroke } from "../utils/math";
 import Layers from "../Layers";
-import { useChunkStore } from "../stores/chunk";
+import { useChunkStore } from "../features/chunks/store";
 
 export default function Brush() {
   const chunks = useChunkStore((state) => state.chunks[Layers.ground]);

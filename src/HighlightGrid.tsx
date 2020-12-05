@@ -7,7 +7,7 @@ import { Vector2, Vector3, Geometry, Face3 } from "three";
 import { gridSize } from "./Grid/constants";
 import React from "react";
 import { useGridStore } from "./stores/grid";
-import { useChunkStore } from "./stores/chunk";
+import { useChunkStore } from "./features/chunks/store";
 
 const twoByTwo = {
   coords: [

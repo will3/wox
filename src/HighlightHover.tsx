@@ -5,7 +5,7 @@ import { Color, Vector3, Quaternion } from "three";
 import React from "react";
 import Layers from "./Layers";
 import raycast from "./raycast";
-import { useChunkStore } from "./stores/chunk";
+import { useChunkStore } from "./features/chunks/store";
 
 export default () => {
   const mouse = useInputStore((state) => state.mouse);
