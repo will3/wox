@@ -1,4 +1,5 @@
 import ChunkData from "./ChunkData";
+import { ColorValue } from "./types";
 
 export default class ChunksData {
   map: { [key: string]: ChunkData } = {};
@@ -33,7 +34,7 @@ export default class ChunksData {
     return chunk.set(i - origin[0], j - origin[1], k - origin[2], v);
   }
 
-  setColor(i: number, j: number, k: number, color: number[]) {
+  setColor(i: number, j: number, k: number, color: ColorValue) {
     if (i < 0 || j < 0 || k < 0) {
       return;
     }

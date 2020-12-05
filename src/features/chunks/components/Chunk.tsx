@@ -15,7 +15,6 @@ import {
   Mesh,
   Material,
 } from "three";
-import _ from "lodash";
 import { vertexShader, fragmentShader } from "../voxelShader";
 import { useChunkStore } from "../store";
 import { useWaterStore } from "../../water/water";
@@ -43,7 +42,6 @@ function Chunk(props: ChunkProps) {
   );
 
   const handleLightDirChanged = (lightDir: Vector3) => {
-    console.log("handle light dir changed");
     const mesh = meshRef.current;
     const material = mesh.material as ShaderMaterial;
     material.uniforms.lightDir = new Uniform(lightDir);

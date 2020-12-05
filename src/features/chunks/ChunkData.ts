@@ -1,11 +1,12 @@
 import ChunksData from "./ChunksData";
 import { MeshData } from "./MeshData";
+import { ColorValue } from "./types";
 
 type getValueFunction = (i: number, j: number, k: number) => number | null;
 
 export default class ChunkData {
   data: number[] = [];
-  color: number[][] = [];
+  color: ColorValue[] = [];
   origin: [number, number, number];
   size: number;
   chunks: ChunksData;
@@ -15,7 +16,7 @@ export default class ChunkData {
   layer: number;
   isWater = false;
   getValueCallback: getValueFunction;
-  defaultColor: number[] = [0, 0, 0];
+  defaultColor: ColorValue = [0, 0, 0];
 
   constructor(
     origin: [number, number, number],
@@ -65,19 +66,19 @@ export default class ChunkData {
     return this.get(i, j, k);
   }
 
-  set(i: number, j: number, k: number, v: number) {
+  set(i: number, j: number, k: number, v: number): void {
     const index = i * this.size * this.size + j * this.size + k;
     this.data[index] = v;
     this.dirty = true;
   }
 
-  setColor(i: number, j: number, k: number, color: number[]) {
+  setColor(i: number, j: number, k: number, color: ColorValue): void {
     const index = i * this.size * this.size + j * this.size + k;
     this.color[index] = color;
     this.dirty = true;
   }
 
-  getColor(i: number, j: number, k: number) {
+  getColor(i: number, j: number, k: number): ColorValue {
     const index = i * this.size * this.size + j * this.size + k;
     const color = this.color[index];
     if (color == null) {
@@ -109,12 +110,12 @@ export default class ChunkData {
     return this.origin.join(",");
   }
 
-  calcNormal(i: number, j: number, k: number): [number, number, number] {
+  calcNormal(i: number, j: number, k: number): ColorValue {
     const normal = [
       (this.getWorld(i + 1, j, k) ?? 0) - (this.getWorld(i - 1, j, k) ?? 0),
       (this.getWorld(i, j + 1, k) ?? 0) - (this.getWorld(i, j - 1, k) ?? 0),
       (this.getWorld(i, j, k + 1) ?? 0) - (this.getWorld(i, j, k - 1) ?? 0),
-    ] as [number, number, number];
+    ] as ColorValue;
     return normalize(normal);
   }
 }

@@ -5,6 +5,7 @@ import { Noise } from "../../utils/Noise";
 import Curve from "../../utils/Curve";
 import { useChunkStore } from "../chunks/store";
 import { useWaterStore } from "../water/water";
+import { ColorValue } from "features/chunks/types";
 
 export interface GroundData {
   key: string;
@@ -74,15 +75,16 @@ export const useGroundStore = create<GroundState>((set, get) => ({
       );
     };
 
-    chunks.defaultColor = rockColor.toArray();
-    chunk.defaultColor = rockColor.toArray();
+    const rockColorValue: ColorValue = rockColor.toArray() as ColorValue;
+    chunks.defaultColor = rockColorValue;
+    chunk.defaultColor = rockColorValue;
 
     console.log(`Generated chunk ${chunk.key}`);
 
     for (let i = 0; i < chunk.size; i++) {
       for (let j = 0; j < chunk.size; j++) {
         for (let k = 0; k < chunk.size; k++) {
-          chunk.setColor(i, j, k, rockColor.toArray());
+          chunk.setColor(i, j, k, rockColorValue);
           const v = getValue(noise, curve, origin, maxHeight, i, j, k);
           chunk.set(i, j, k, v);
         }
@@ -97,8 +99,7 @@ export const useGroundStore = create<GroundState>((set, get) => ({
       origin.toArray() as [number, number, number]
     );
     const { waterLevel } = useWaterStore.getState();
-    const grassColor = get().grassColor.toArray();
-    const size = chunk.size;
+    const grassColorValue = get().grassColor.toArray() as ColorValue;
     const meshData = chunk.meshData!;
     const voxels = meshData.voxels;
 
@@ -114,7 +115,7 @@ export const useGroundStore = create<GroundState>((set, get) => ({
       const dot = new Vector3(0, -1, 0).dot(new Vector3().fromArray(normal));
 
       if (dot > 0.75) {
-        chunk.setColor(i, j, k, grassColor);
+        chunk.setColor(i, j, k, grassColorValue);
       }
     }
   },

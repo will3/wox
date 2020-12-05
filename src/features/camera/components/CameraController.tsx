@@ -1,10 +1,10 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { useThree } from "react-three-fiber";
 import { Euler, Vector3 } from "three";
 import { lerpEulers } from "../../../utils/math";
 import { useCameraStore } from "../store";
 
-export default () => {
+export function CameraController() {
   const { camera } = useThree();
 
   const target = useCameraStore((camera) => camera.target);
@@ -29,7 +29,6 @@ export default () => {
   }, [updateCamera]);
 
   const animate = useCallback(() => {
-    const rotationValue = new Euler(...rotation.current);
     const nextRotation = lerpEulers(rotation.current, targetRotation, 0.5);
     rotation.current = nextRotation;
     ref.current = requestAnimationFrame(animate);
@@ -48,4 +47,4 @@ export default () => {
   }, [animate]);
 
   return null;
-};
+}

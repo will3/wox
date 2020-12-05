@@ -3,6 +3,7 @@ import { Vector3, Quaternion, Matrix4, Vector2, Color } from "three";
 import { clamp } from "lodash";
 import { sdVerticalCapsule, opTx, sdCone } from "../../utils/sdf";
 import { Bounds } from "../../utils/Bounds";
+import { ColorValue } from "features/chunks/types";
 
 const placeTree = (
   chunks: ChunksData,
@@ -23,7 +24,10 @@ const placeTree = (
 
         const rotation = new Quaternion().setFromUnitVectors(
           new Vector3(0, 1, 0),
-          new Vector3(0, 1, 0).lerp(voxelNormal.clone().multiplyScalar(-1), 0.35)
+          new Vector3(0, 1, 0).lerp(
+            voxelNormal.clone().multiplyScalar(-1),
+            0.35
+          )
         );
 
         const trunkM = new Matrix4().compose(
@@ -86,9 +90,19 @@ const placeTree = (
         );
 
         if (isLeafs) {
-          chunks.setColor(worldCoord.x, worldCoord.y, worldCoord.z, leafColor.toArray());
+          chunks.setColor(
+            worldCoord.x,
+            worldCoord.y,
+            worldCoord.z,
+            leafColor.toArray() as ColorValue
+          );
         } else {
-          chunks.setColor(worldCoord.x, worldCoord.y, worldCoord.z, trunkColor.toArray());
+          chunks.setColor(
+            worldCoord.x,
+            worldCoord.y,
+            worldCoord.z,
+            trunkColor.toArray() as ColorValue
+          );
         }
       }
     }

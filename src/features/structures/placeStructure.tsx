@@ -4,6 +4,7 @@ import Layers from "../chunks/Layers";
 import seedrandom from "seedrandom";
 import { GridData } from "../grid/store";
 import _ from "lodash";
+import { ColorValue } from "features/chunks/types";
 
 export default (chunksList: ChunksData[], grids: GridData[]) => {
   const hw = 3;
@@ -89,7 +90,7 @@ export default (chunksList: ChunksData[], grids: GridData[]) => {
           worldCoord.x,
           worldCoord.y,
           worldCoord.z,
-          color.toArray()
+          color.toArray() as ColorValue
         );
       }
     }
