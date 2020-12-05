@@ -75,7 +75,7 @@ export const useGroundStore = create<GroundState>((set, get) => ({
       );
     };
 
-    const rockColorValue: ColorValue = rockColor.toArray() as ColorValue;
+    const rockColorValue: ColorValue = rockColor.getHex();
     chunks.defaultColor = rockColorValue;
     chunk.defaultColor = rockColorValue;
 
@@ -99,7 +99,7 @@ export const useGroundStore = create<GroundState>((set, get) => ({
       origin.toArray() as [number, number, number]
     );
     const { waterLevel } = useWaterStore.getState();
-    const grassColorValue = get().grassColor.toArray() as ColorValue;
+    const grassColorValue = get().grassColor.getHex();
     const meshData = chunk.meshData!;
     const voxels = meshData.voxels;
 

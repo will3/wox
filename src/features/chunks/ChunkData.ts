@@ -16,7 +16,7 @@ export default class ChunkData {
   layer: number;
   isWater = false;
   getValueCallback: getValueFunction;
-  defaultColor: ColorValue = [0, 0, 0];
+  defaultColor: ColorValue = 0x000000;
 
   constructor(
     origin: [number, number, number],
@@ -84,7 +84,7 @@ export default class ChunkData {
     if (color == null) {
       return this.defaultColor;
     }
-    return [...color];
+    return color;
   }
 
   getColorWorld(i: number, j: number, k: number) {
@@ -110,12 +110,12 @@ export default class ChunkData {
     return this.origin.join(",");
   }
 
-  calcNormal(i: number, j: number, k: number): ColorValue {
+  calcNormal(i: number, j: number, k: number) {
     const normal = [
       (this.getWorld(i + 1, j, k) ?? 0) - (this.getWorld(i - 1, j, k) ?? 0),
       (this.getWorld(i, j + 1, k) ?? 0) - (this.getWorld(i, j - 1, k) ?? 0),
       (this.getWorld(i, j, k + 1) ?? 0) - (this.getWorld(i, j, k - 1) ?? 0),
-    ] as ColorValue;
+    ] as [number, number, number];
     return normalize(normal);
   }
 }

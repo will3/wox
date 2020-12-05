@@ -45,7 +45,7 @@ export const useWaterStore = create((set, get) => ({
             continue;
           }
           chunk.set(i, j, k, 1);
-          chunk.setColor(i, j, k, waterColor.toArray());
+          chunk.setColor(i, j, k, waterColor.getHex());
         }
       }
     }

@@ -1,1 +1,1 @@
-export type ColorValue = [number, number, number];
+export type ColorValue = number;

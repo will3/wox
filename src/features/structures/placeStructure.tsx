@@ -90,7 +90,7 @@ export default (chunksList: ChunksData[], grids: GridData[]) => {
           worldCoord.x,
           worldCoord.y,
           worldCoord.z,
-          color.toArray() as ColorValue
+          color.getHex()
         );
       }
     }

@@ -2,6 +2,7 @@ import ChunkData from "./ChunkData";
 import { MeshData } from "./MeshData";
 import { FaceInfo } from "./FaceInfo";
 import { VoxelInfo } from "./VoxelInfo";
+import { Color } from "three";
 
 export const meshChunk = (chunk: ChunkData, waterLevel: number): MeshData => {
   const vertices: number[] = [];
@@ -65,7 +66,8 @@ export const meshChunk = (chunk: ChunkData, waterLevel: number): MeshData => {
             ? getVector(d, i, j, k)
             : getVector(d, i + 1, j, k);
 
-          const color = chunk.getColorWorld(coord[0], coord[1], coord[2]);
+          const colorValue = chunk.getColorWorld(coord[0], coord[1], coord[2]);
+          const color = new Color(colorValue).toArray();
 
           const absY = coord[1] + chunk.origin[1];
 

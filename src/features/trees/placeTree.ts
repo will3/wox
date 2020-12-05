@@ -94,14 +94,14 @@ const placeTree = (
             worldCoord.x,
             worldCoord.y,
             worldCoord.z,
-            leafColor.toArray() as ColorValue
+            leafColor.getHex()
           );
         } else {
           chunks.setColor(
             worldCoord.x,
             worldCoord.y,
             worldCoord.z,
-            trunkColor.toArray() as ColorValue
+            trunkColor.getHex()
           );
         }
       }

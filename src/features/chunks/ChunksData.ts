@@ -12,7 +12,7 @@ export default class ChunksData {
   offset = [0, 0, 0];
   hasBounds = false;
   renderAllSurfaces = false;
-  defaultColor: number[] = [0, 0, 0];
+  defaultColor: ColorValue = 0x000000;
 
   constructor(size: number, layer = 0) {
     this.size = size;

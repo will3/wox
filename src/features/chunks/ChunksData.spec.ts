@@ -15,8 +15,8 @@ test("set", () => {
 
 test("setColor", () => {
   const chunks = new ChunksData(32);
-  chunks.setColor(33, 34, 35, [1.0, 1.0, 1.0]);
-  expect(chunks.getColor(33, 34, 35)).toEqual([1.0, 1.0, 1.0]);
+  chunks.setColor(33, 34, 35, 0xffffff);
+  expect(chunks.getColor(33, 34, 35)).toEqual(0xffffff);
 });
 
 test("isSurface true", () => {

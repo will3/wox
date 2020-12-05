@@ -33,11 +33,6 @@ const applyWaterfall = (
       groundChunks.set(coord.x, coord.y, coord.z, 1);
     }
 
-    groundChunks.setColor(
-      coord.x,
-      coord.y,
-      coord.z,
-      waterColor.toArray() as [number, number, number]
-    );
+    groundChunks.setColor(coord.x, coord.y, coord.z, waterColor.getHex());
   }
 };
