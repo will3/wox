@@ -1,5 +1,5 @@
 import { Vector2, Vector3 } from "three";
-import ChunksData from "../Chunks/ChunksData";
+import ChunksData from "../features/chunks/ChunksData";
 import { WaterfallPoint } from "../stores/waterfall";
 
 const ring = [

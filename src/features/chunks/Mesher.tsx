@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 import ChunksData from "./ChunksData";
 import Chunks from "./Chunks";
 import React from "react";
-import { useChunkStore } from "../features/chunks/store";
+import { useChunkStore } from "./store";
 
 export default function Mesher() {
   const chunksList = useChunkStore((state) => state.chunks);

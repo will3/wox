@@ -1,4 +1,4 @@
-import ChunksData from "../Chunks/ChunksData";
+import ChunksData from "../features/chunks/ChunksData";
 import { Vector3, Color, Euler } from "three";
 import Layers from "../Layers";
 import seedrandom from "seedrandom";

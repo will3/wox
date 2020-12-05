@@ -1,6 +1,6 @@
-import { VoxelInfo } from "../Chunks/VoxelInfo";
+import { VoxelInfo } from "../features/chunks/VoxelInfo";
 import { Vector3 } from "three";
-import ChunksData from "../Chunks/ChunksData";
+import ChunksData from "../features/chunks/ChunksData";
 import placeTree from "../Trees/placeTree";
 import Layers from "../Layers";
 

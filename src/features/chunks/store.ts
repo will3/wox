@@ -1,8 +1,8 @@
 import create from "zustand";
-import ChunksData from "../../Chunks/ChunksData";
+import ChunksData from "./ChunksData";
 import { chunkSize } from "../../constants";
 import Layers from "../../Layers";
-import { meshChunk } from "../../Chunks/meshChunk";
+import { meshChunk } from "./meshChunk";
 import { useWaterStore } from "../../stores/water";
 
 export interface ChunksState {

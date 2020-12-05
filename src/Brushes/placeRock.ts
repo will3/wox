@@ -1,6 +1,6 @@
-import ChunksData from "../Chunks/ChunksData";
+import ChunksData from "../features/chunks/ChunksData";
 import { Vector3, Matrix4, Color } from "three";
-import { VoxelInfo } from "../Chunks/VoxelInfo";
+import { VoxelInfo } from "../features/chunks/VoxelInfo";
 import Layers from "../Layers";
 import { Noise } from "../Noise";
 import seedrandom from "seedrandom";

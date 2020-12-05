@@ -1,4 +1,4 @@
-import ChunksData from "../Chunks/ChunksData";
+import ChunksData from "../features/chunks/ChunksData";
 import { Vector3, Quaternion, Matrix4, Vector2, Color } from "three";
 import { clamp } from "lodash";
 import { sdVerticalCapsule, opTx, sdCone } from "../utils/sdf";

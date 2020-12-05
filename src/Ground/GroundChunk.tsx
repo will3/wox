@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { Color, Vector3 } from "three";
-import { ChunkData } from "../Chunks";
+import { ChunkData } from "../features/chunks";
 import Layers from "../Layers";
 import { Noise } from "../Noise";
 import { useChunkStore } from "../features/chunks/store";

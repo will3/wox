@@ -4,8 +4,8 @@ import { useEffect } from "react";
 import {
   Vector3,
 } from "three";
-import ChunksData from "../Chunks/ChunksData";
-import { VoxelInfo } from "../Chunks/VoxelInfo";
+import ChunksData from "../features/chunks/ChunksData";
+import { VoxelInfo } from "../features/chunks/VoxelInfo";
 import { useChunkStore } from "../features/chunks/store";
 
 export interface PlaceObjectProps {
