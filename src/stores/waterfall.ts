@@ -52,7 +52,10 @@ export const useWaterfallStore = create<WaterfallState>((set, get) => ({
       origin.toArray() as [number, number, number]
     );
     const rng = seedrandom(seed + "generateWaterfalls" + chunk.key);
-    const meshData = chunk.meshData!;
+    const meshData = chunk.meshData;
+    if (meshData == null) {
+      throw new Error("Mesh data is empty");
+    }
     const noise = get().noise;
 
     if (meshData.upFaces.length === 0) {

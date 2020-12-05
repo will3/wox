@@ -12,7 +12,7 @@ class Curve {
     }
   }
 
-  sample(interval: number) {
+  sample(interval: number): number {
     if (interval < this.intervals[0]) {
       return this.values[0];
     }

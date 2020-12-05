@@ -3,7 +3,7 @@ import { Vector3, Quaternion } from "three";
 export type EulerValue = [number, number, number, string];
 export type Vector3Value = [number, number, number];
 
-export const lerp = (a: number, b: number, r: number) => {
+export const lerp = (a: number, b: number, r: number): number => {
   return a + (b - a) * r;
 };
 
@@ -15,7 +15,7 @@ export const lerpEulers = (
   return [lerp(a[0], b[0], r), lerp(a[1], b[1], r), lerp(a[2], b[2], r), a[3]];
 };
 
-export const clamp = (v: number, min: number, max: number) => {
+export const clamp = (v: number, min: number, max: number): number => {
   if (v < min) {
     return min;
   }
@@ -25,10 +25,15 @@ export const clamp = (v: number, min: number, max: number) => {
   return v;
 };
 
-export const calcSphereStroke = (radius: number) => {
+export interface Point {
+  coord: Vector3;
+  value: number;
+}
+
+export const calcSphereStroke = (radius: number): Point[] => {
   const r = Math.ceil(radius);
 
-  const result = [];
+  const result: Point[] = [];
   for (let i = -r; i <= r; i++) {
     for (let j = -r; j <= r; j++) {
       for (let k = -r; k <= r; k++) {
@@ -48,14 +53,14 @@ export const calcSphereStroke = (radius: number) => {
   return result;
 };
 
-export const randomVector = (rng: seedrandom.prng) => {
+export const randomVector = (rng: seedrandom.prng): Vector3 => {
   const a = 2 * Math.PI * rng();
   const z = rng() * 2 - 1;
   const r = Math.sqrt(1 - z * z);
   return new Vector3(r * Math.cos(a), r * Math.sin(a), z);
 };
 
-export const randomQuaternion = (rng: seedrandom.prng) => {
+export const randomQuaternion = (rng: seedrandom.prng): Quaternion => {
   return new Quaternion().setFromUnitVectors(
     new Vector3(0, 1, 0),
     randomVector(rng)

@@ -1,4 +1,5 @@
 import { Vector2, Vector3 } from "three";
+import { QuadChunk } from "./QuadChunk";
 
 const intersectRectangle = (point: Vector2, min: Vector2, max: Vector2) => {
   return (
@@ -11,7 +12,7 @@ export default class QuadMap<T> {
   size = 32;
   version = 0;
 
-  set(position: Vector3, value: T) {
+  set(position: Vector3, value: T): void {
     const origin = this.getOrigin(position);
     const chunk = this.getOrCreateChunk(origin);
     chunk.set(position, value);
@@ -45,7 +46,7 @@ export default class QuadMap<T> {
     return results;
   }
 
-  getOriginsToSearch(position: Vector3, distance: number) {
+  getOriginsToSearch(position: Vector3, distance: number): Vector2[] {
     const origin = this.getOrigin(position);
 
     const origins = [origin];
@@ -82,14 +83,14 @@ export default class QuadMap<T> {
     return origins;
   }
 
-  private getOrigin(position: Vector3) {
+  private getOrigin(position: Vector3): Vector2 {
     return new Vector2(
       Math.floor(position.x / this.size) * this.size,
       Math.floor(position.z / this.size) * this.size
     );
   }
 
-  private getOrCreateChunk(origin: Vector2) {
+  private getOrCreateChunk(origin: Vector2): QuadChunk<T> {
     const key = `${origin.x},${origin.y}`;
     let chunk = this.columns[key];
     if (chunk != null) {
@@ -107,40 +108,9 @@ export default class QuadMap<T> {
     return this.columns[key];
   }
 
-  visit(callback: (entry: T) => void) {
+  visit(callback: (entry: T) => void): void {
     for (const key in this.columns) {
       this.columns[key].visit(callback);
-    }
-  }
-}
-
-export class QuadChunk<T> {
-  origin: Vector2;
-  key: string;
-
-  constructor(origin: Vector2) {
-    this.origin = origin;
-    this.key = this.origin.toArray().join(",");
-  }
-
-  items: { [key: string]: Entry<T> } = {};
-  set(position: Vector3, value: T) {
-    const key = this.getKey(position);
-    this.items[key] = {
-      position,
-      value,
-    };
-  }
-  get(position: Vector3): T | undefined {
-    const key = this.getKey(position);
-    return this.items[key].value;
-  }
-  private getKey(position: Vector3) {
-    return `${position.x},${position.y},${position.z}`;
-  }
-  visit(callback: (entry: T) => void) {
-    for (const key in this.items) {
-      callback(this.items[key].value);
     }
   }
 }

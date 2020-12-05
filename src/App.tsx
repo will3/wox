@@ -1,21 +1,12 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Canvas } from "react-three-fiber";
 import UserInput from "./UserInput";
 import CameraController from "./features/camera/components/CameraController";
 import { Stats } from "drei";
-import { Vector3, VSMShadowMap } from "three";
+import { VSMShadowMap } from "three";
 import Ground from "./features/ground/components/Ground/Ground";
-import AlwaysLongShadaws from "./AlwaysLongShadaws";
+import { AlwaysLongShadows } from "./AlwaysLongShadows";
 import Light from "./Light";
-import HighlightHover from "./HighlightHover";
-import { chunkSize } from "./constants";
-import PlaceObject from "./Brushes/PlaceObject";
-import ChunksData from "./features/chunks/ChunksData";
-import { VoxelInfo } from "./features/chunks/VoxelInfo";
-import Layers from "./Layers";
-import placeRock from "./Brushes/placeRock";
-import placeTree from "./Brushes/placeTree";
-import Structure from "./Structure";
 import Grids from "./Grid/Grids";
 import HighlightGrid from "./HighlightGrid";
 import PlaceStructure from "./PlaceStructure";
@@ -46,7 +37,7 @@ export default () => {
         <Light />
         <CameraController />
         <Ground size={size} seed={1337} />
-        <AlwaysLongShadaws />
+        <AlwaysLongShadows />
         {/* <HighlightHover /> */}
         <HighlightGrid />
         <PlaceStructure />

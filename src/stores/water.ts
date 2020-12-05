@@ -39,7 +39,7 @@ export const useWaterStore = create((set, get) => ({
             chunk.set(i, j, k, 0);
             continue;
           }
-          const v = groundChunk.get(i, j, k)!;
+          const v = groundChunk.get(i, j, k) ?? 0;
           if (v > 0) {
             chunk.set(i, j, k, 0);
             continue;

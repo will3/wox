@@ -34,11 +34,11 @@ export const sdCone = (p: Vector3, c: Vector2, h: number): number => {
   return Math.max(new Vector2(c.x, c.y).dot(new Vector2(q, p.y)), -h - p.y);
 };
 
-export const sdBox = (p: vec3, b: vec3) => {
+export const sdBox = (p: vec3, b: vec3): number => {
   const q = new Vector3().subVectors(abs(p), b);
   return length(maxVector3(q, 0.0)) + min(max(q.x, max(q.y, q.z)), 0.0);
 };
 
-export const sdSphere = (p: vec3, s: number) => {
+export const sdSphere = (p: vec3, s: number): number => {
   return length(p) - s;
 };

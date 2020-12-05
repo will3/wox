@@ -3,7 +3,7 @@ import { Vector3 } from "three";
 import _ from "lodash";
 import { useLightStore } from "./stores/light";
 
-export default () => {
+export function AlwaysLongShadows() {
   const { camera } = useThree();
   const lightDirs = [
     new Vector3(-1, -1, -1),
@@ -34,4 +34,4 @@ export default () => {
   });
 
   return null;
-};
+}
