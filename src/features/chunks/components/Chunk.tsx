@@ -1,4 +1,4 @@
-import ChunkData from "./ChunkData";
+import ChunkData from "../ChunkData";
 import React, { useEffect, useRef } from "react";
 
 import {
@@ -16,10 +16,10 @@ import {
   Material,
 } from "three";
 import _ from "lodash";
-import { vertexShader, fragmentShader } from "./voxelShader";
-import { useChunkStore } from "./store";
-import { useWaterStore } from "../../stores/water";
-import { useLightStore } from "../../stores/light";
+import { vertexShader, fragmentShader } from "../voxelShader";
+import { useChunkStore } from "../store";
+import { useWaterStore } from "../../../stores/water";
+import { useLightStore } from "../../../stores/light";
 
 export interface ChunkProps {
   chunk: ChunkData;

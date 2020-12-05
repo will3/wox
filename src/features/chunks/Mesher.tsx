@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import ChunksData from "./ChunksData";
-import Chunks from "./Chunks";
+import Chunks from "./components/Chunks";
 import React from "react";
 import { useChunkStore } from "./store";
 
