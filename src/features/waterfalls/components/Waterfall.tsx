@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import Layers from "../../../Layers";
+import Layers from "../../chunks/Layers";
 import { Color } from "three";
 import ChunksData from "features/chunks/ChunksData";
 import { useChunkStore } from "features/chunks/store";

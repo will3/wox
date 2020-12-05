@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import keycode from "keycode";
-import { useInputStore } from "./stores/input";
+import { useInputStore } from "../store";
 import { Vector2 } from "three";
-import { useCameraStore } from "./features/camera/store";
+import { useCameraStore } from "../../camera/store";
 
 export default () => {
   const zoomRate = 1.1;

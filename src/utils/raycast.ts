@@ -1,7 +1,7 @@
 import { Vector2, Camera, Scene, Raycaster, Vector3 } from "three";
-import ChunksData from "./features/chunks/ChunksData";
-import { HoverState } from "./HoverState";
-import getFaceInfo from "./features/chunks/getFaceInfo";
+import ChunksData from "../features/chunks/ChunksData";
+import { HoverState } from "../features/input/HoverState";
+import getFaceInfo from "../features/chunks/getFaceInfo";
 
 const raycast = (
   mouse: Vector2,

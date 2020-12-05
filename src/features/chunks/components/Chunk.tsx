@@ -19,7 +19,7 @@ import _ from "lodash";
 import { vertexShader, fragmentShader } from "../voxelShader";
 import { useChunkStore } from "../store";
 import { useWaterStore } from "../../water/water";
-import { useLightStore } from "../../../stores/light";
+import { useLightStore } from "../../light/store";
 
 export interface ChunkProps {
   chunk: ChunkData;

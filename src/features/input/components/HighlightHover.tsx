@@ -1,11 +1,11 @@
 import { useEffect } from "react";
-import { useInputStore } from "./stores/input";
+import { useInputStore } from "../store";
 import { useThree } from "react-three-fiber";
 import { Color, Vector3, Quaternion } from "three";
 import React from "react";
-import Layers from "./Layers";
-import raycast from "./raycast";
-import { useChunkStore } from "./features/chunks/store";
+import Layers from "../../chunks/Layers";
+import raycast from "../../../utils/raycast";
+import { useChunkStore } from "../../chunks/store";
 
 export default () => {
   const mouse = useInputStore((state) => state.mouse);

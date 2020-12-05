@@ -1,8 +1,8 @@
-import { useInputStore } from "../../../stores/input";
+import { useInputStore } from "../../input/store";
 import { useEffect, useState } from "react";
-import raycast from "../../../raycast";
+import raycast from "../../../utils/raycast";
 import { useThree } from "react-three-fiber";
-import Layers from "../../../Layers";
+import Layers from "../../chunks/Layers";
 import { Vector2, Vector3, Geometry, Face3 } from "three";
 import { gridSize } from "../constants";
 import React from "react";

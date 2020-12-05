@@ -1,7 +1,7 @@
 import { Color, Vector3 } from "three";
 import create from "zustand";
-import Layers from "../../Layers";
-import { Noise } from "../../Noise";
+import Layers from "../chunks/Layers";
+import { Noise } from "../../utils/Noise";
 import Curve from "../../utils/Curve";
 import { useChunkStore } from "../chunks/store";
 import { useWaterStore } from "../water/water";

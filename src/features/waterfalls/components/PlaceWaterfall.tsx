@@ -1,9 +1,9 @@
-import { useInputStore } from "../../../stores/input";
-import { HoverState } from "../../../HoverState";
+import { useInputStore } from "../../input/store";
+import { HoverState } from "../../input/HoverState";
 import { useEffect, useCallback } from "react";
 import { Vector3 } from "three";
 import traceWaterfall from "../traceWaterfall";
-import Layers from "../../../Layers";
+import Layers from "../../chunks/Layers";
 import { useWaterStore } from "../../water/water";
 import { useChunkStore } from "../../chunks/store";
 

@@ -1,7 +1,7 @@
 import { useFrame, useThree } from "react-three-fiber";
 import { Vector3 } from "three";
 import _ from "lodash";
-import { useLightStore } from "./stores/light";
+import { useLightStore } from "../store";
 
 export function AlwaysLongShadows() {
   const { camera } = useThree();

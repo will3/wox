@@ -1,7 +1,7 @@
 import create from "zustand";
 import ChunksData from "./ChunksData";
 import { chunkSize } from "../../constants";
-import Layers from "../../Layers";
+import Layers from "./Layers";
 import { meshChunk } from "./meshChunk";
 import { useWaterStore } from "../water/water";
 

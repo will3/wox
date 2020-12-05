@@ -1,7 +1,7 @@
 import { DirectionalLight, Vector3, Vector2, CameraHelper } from "three";
 import React, { useEffect } from "react";
-import { useCameraStore } from "./features/camera/store";
-import { useLightStore } from "./stores/light";
+import { useCameraStore } from "../../camera/store";
+import { useLightStore } from "../store";
 
 export default () => {
   const lightDir = useLightStore((state) => state.lightDir);

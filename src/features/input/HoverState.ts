@@ -1,6 +1,6 @@
 import { Vector3 } from "three";
-import { FaceInfo } from "./features/chunks/FaceInfo";
-import { VoxelInfo } from "./features/chunks/VoxelInfo";
+import { FaceInfo } from "../chunks/FaceInfo";
+import { VoxelInfo } from "../chunks/VoxelInfo";
 
 export interface HoverState {
   coord: [number, number, number];

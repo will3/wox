@@ -1,7 +1,7 @@
 import { Vector3 } from "three";
 import create from "zustand";
-import Layers from "../../Layers";
-import { Noise } from "../../Noise";
+import Layers from "../chunks/Layers";
+import { Noise } from "../../utils/Noise";
 import QuadMap from "../../utils/QuadMap";
 import { useChunkStore } from "../chunks/store";
 import seedrandom from "seedrandom";

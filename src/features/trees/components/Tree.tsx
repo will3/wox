@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { Vector3 } from "three";
-import Layers from "../../../Layers";
+import Layers from "../../chunks/Layers";
 import { useChunkStore } from "../../chunks/store";
 import placeTree from "../placeTree";
 

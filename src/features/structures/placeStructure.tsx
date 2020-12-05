@@ -1,6 +1,6 @@
 import ChunksData from "../chunks/ChunksData";
 import { Vector3, Color, Euler } from "three";
-import Layers from "../../Layers";
+import Layers from "../chunks/Layers";
 import seedrandom from "seedrandom";
 import { GridData } from "../grid/store";
 import _ from "lodash";

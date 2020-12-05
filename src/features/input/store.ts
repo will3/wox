@@ -1,6 +1,6 @@
 import create from "zustand";
 import { Vector2 } from "three";
-import { HoverState } from "../HoverState";
+import { HoverState } from "./HoverState";
 
 export interface InputState {
   mouse: Vector2;
