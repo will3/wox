@@ -6,11 +6,11 @@ import traceWaterfall from "../traceWaterfall";
 import Layers from "../../chunks/Layers";
 import { useWaterStore } from "../../water/water";
 import { useChunkStore } from "../../chunks/store";
+import { useChunks } from "features/chunks/ChunksProvider";
 
 export default function PlaceWaterfall() {
-  // TODO fix
-  // const addWaterfall = useWaterfallStore((state) => state.addWaterfall);
-  const groundChunks = useChunkStore((state) => state.chunks[Layers.ground]);
+  const { chunks } = useChunks();
+  const groundChunks = chunks[Layers.ground];
   const waterLevel = useWaterStore((state) => state.waterLevel);
 
   let hover: HoverState | null = null;

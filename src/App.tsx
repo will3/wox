@@ -8,13 +8,13 @@ import Ground from "./features/ground/components/Ground/Ground";
 import Light from "./features/light/components/Light";
 import Grids from "features/grid/components/Grids";
 import Structures from "./features/structures/components/Structures";
-import Mesher from "./features/chunks/Mesher";
 import Waterfalls from "./features/waterfalls/components/Waterfalls";
 import Trees from "./features/trees/components/Trees";
 import Water from "./features/water/components/Water";
 import { useGroundStore } from "./features/ground/store";
 
 import "./app.css";
+import { ChunksProvider } from "features/chunks/ChunksProvider";
 
 export function App() {
   const size = useGroundStore((state) => state.size);
@@ -31,16 +31,17 @@ export function App() {
           props.gl.setClearColor(0x000000);
         }}
       >
-        <Light />
-        <CameraController />
-        <Ground size={size} seed={1337} />
-        <Grids />
-        <Structures />
-        <Mesher />
-        <Waterfalls />
-        <Trees />
-        <Water />
-        <UserInput />
+        <ChunksProvider>
+          <Light />
+          <CameraController />
+          <Ground size={size} seed={1337} />
+          <Grids highlightGrid={true} />
+          <Structures placeStructures={true} />
+          <Waterfalls />
+          <Trees />
+          <Water />
+          <UserInput />
+        </ChunksProvider>
       </Canvas>
       <Stats />
     </>

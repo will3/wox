@@ -1,22 +1,22 @@
+import ChunksData from "features/chunks/ChunksData";
+import { useChunks } from "features/chunks/ChunksProvider";
 import { Color, Vector3 } from "three";
 import create from "zustand";
 import Layers from "../chunks/Layers";
-import { useChunkStore } from "../chunks/store";
 
 export interface WaterState {
   waterLevel: number;
   waterColor: Color;
   waterAlpha: number;
-  generateWater(origin: Vector3): void;
+  generateWater(chunksList: ChunksData[], origin: Vector3): void;
 }
 
 export const useWaterStore = create((set, get) => ({
   waterColor: new Color(0.08, 0.12, 0.2),
   waterAlpha: 0.4,
   waterLevel: 6,
-  generateWater(origin: Vector3) {
+  generateWater(chunksList: ChunksData[], origin: Vector3) {
     const { waterLevel, waterColor } = get();
-    const chunksList = useChunkStore.getState().chunks;
     const groundChunks = chunksList[Layers.ground];
     const waterChunks = chunksList[Layers.water];
 

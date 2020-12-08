@@ -1,11 +1,12 @@
-import { useEffect, useRef } from "react";
+import { useContext, useEffect, useRef } from "react";
 import ChunksData from "./ChunksData";
 import Chunks from "./components/Chunks";
 import React from "react";
 import { useChunkStore } from "./store";
+import { useChunks } from "./ChunksProvider";
 
 export default function Mesher() {
-  const chunksList = useChunkStore((state) => state.chunks);
+  const { chunks: chunksList } = useChunks();
   const ref = useRef<number>();
   const incrementVersion = useChunkStore((state) => state.incrementVersion);
   const updateMeshData = useChunkStore((state) => state.updateMeshData);
@@ -32,7 +33,7 @@ export default function Mesher() {
         let changed = false;
         const chunk = chunks.map[id];
         if (chunk.dirty) {
-          updateMeshData(chunk.layer, chunk.key);
+          updateMeshData(chunksList, chunk.layer, chunk.key);
           chunk.dirty = false;
           changed = true;
         }

@@ -6,6 +6,7 @@ import Curve from "../../utils/Curve";
 import { useChunkStore } from "../chunks/store";
 import { useWaterStore } from "../water/water";
 import { ColorValue } from "features/chunks/types";
+import ChunksData from "features/chunks/ChunksData";
 
 export interface GroundData {
   key: string;
@@ -22,8 +23,8 @@ export interface GroundState {
   maxHeight: number;
   rockColor: Color;
   grassColor: Color;
-  generateGround(origin: Vector3): void;
-  generateGrass(origin: Vector3): void;
+  generateGround(chunksList: ChunksData[], origin: Vector3): void;
+  generateGrass(chunksList: ChunksData[], origin: Vector3): void;
   noise: Noise;
   seed: string;
 }
@@ -37,7 +38,7 @@ export const useGroundStore = create<GroundState>((set, get) => ({
     scale: new Vector3(1, 0.6, 1),
     seed,
   }),
-  size: new Vector3(3, 2, 3),
+  size: new Vector3(5, 2, 5),
   curve: new Curve([-1, -0.4, 0.2, 2], [-1, -0.58, -0.48, 1.5]),
   grounds: {},
   addGrounds(origins: Vector3[]) {
@@ -56,9 +57,9 @@ export const useGroundStore = create<GroundState>((set, get) => ({
 
     set({ grounds });
   },
-  generateGround(origin: Vector3) {
+  generateGround(chunksList: ChunksData[], origin: Vector3) {
     const { rockColor, curve, noise, maxHeight } = get();
-    const chunks = useChunkStore.getState().chunks[Layers.ground];
+    const chunks = chunksList[Layers.ground];
     const chunk = chunks.getOrCreateChunk(
       origin.toArray() as [number, number, number]
     );
@@ -91,10 +92,10 @@ export const useGroundStore = create<GroundState>((set, get) => ({
       }
     }
 
-    updateMeshData(Layers.ground, chunk.key);
+    updateMeshData(chunksList, Layers.ground, chunk.key);
   },
-  generateGrass(origin: Vector3) {
-    const chunks = useChunkStore.getState().chunks[Layers.ground];
+  generateGrass(chunksList: ChunksData[], origin: Vector3) {
+    const chunks = chunksList[Layers.ground];
     const chunk = chunks.getOrCreateChunk(
       origin.toArray() as [number, number, number]
     );

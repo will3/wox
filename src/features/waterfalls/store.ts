@@ -8,6 +8,8 @@ import { Noise } from "../../utils/Noise";
 import traceWaterfall from "./traceWaterfall";
 import { useWaterStore } from "../water/water";
 import { useGroundStore } from "features/ground/store";
+import { useChunks } from "features/chunks/ChunksProvider";
+import ChunksData from "features/chunks/ChunksData";
 
 export interface WaterfallPoint {
   coord: Vector3;
@@ -29,7 +31,7 @@ export interface WaterfallChunkData {
 export interface WaterfallState {
   waterfalls: { [key: string]: WaterfallData };
   waterfallChunks: { [key: string]: WaterfallChunkData };
-  generateWaterfalls(origin: Vector3): void;
+  generateWaterfalls(chunks: ChunksData[], origin: Vector3): void;
   setWaterfallChunks(origins: Vector3[]): void;
   noise: Noise;
 }
@@ -44,10 +46,10 @@ export const useWaterfallStore = create<WaterfallState>((set, get) => ({
     seed,
     frequency: 0.01,
   }),
-  generateWaterfalls(origin: Vector3) {
+  generateWaterfalls(chunks: ChunksData[], origin: Vector3) {
     const { maxHeight } = useGroundStore.getState();
     const waterLevel = useWaterStore.getState().waterLevel;
-    const groundChunks = useChunkStore.getState().chunks[Layers.ground];
+    const groundChunks = chunks[Layers.ground];
     const chunk = groundChunks.getChunk(
       origin.toArray() as [number, number, number]
     );
