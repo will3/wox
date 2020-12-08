@@ -2,14 +2,14 @@ import React, { useMemo } from "react";
 import _ from "lodash";
 import Chunk from "./Chunk";
 import { useChunkStore } from "../store";
-import { useChunks } from "../ChunksProvider";
+import { useChunks } from "../hooks/useChunks";
 
 export interface ChunksProps {
   layer: number;
 }
 
 export default function Chunks({ layer }: ChunksProps) {
-  const { chunks: chunksList } = useChunks();
+  const chunksList = useChunks();
   const chunks = chunksList[layer];
   const version = useChunkStore((state) => state.versions[layer]);
 

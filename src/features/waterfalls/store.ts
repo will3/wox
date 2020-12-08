@@ -8,7 +8,7 @@ import { Noise } from "../../utils/Noise";
 import traceWaterfall from "./traceWaterfall";
 import { useWaterStore } from "../water/water";
 import { useGroundStore } from "features/ground/store";
-import { useChunks } from "features/chunks/ChunksProvider";
+import { useChunks } from "features/chunks/hooks/useChunks";
 import ChunksData from "features/chunks/ChunksData";
 
 export interface WaterfallPoint {

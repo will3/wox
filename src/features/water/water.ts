@@ -1,5 +1,5 @@
 import ChunksData from "features/chunks/ChunksData";
-import { useChunks } from "features/chunks/ChunksProvider";
+import { useChunks } from "features/chunks/hooks/useChunks";
 import { Color, Vector3 } from "three";
 import create from "zustand";
 import Layers from "../chunks/Layers";

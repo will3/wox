@@ -7,7 +7,7 @@ import { useGroundStore } from "../../store";
 import _ from "lodash";
 import GroundChunk from "./GroundChunk";
 import { wait } from "./wait";
-import { useChunks } from "features/chunks/ChunksProvider";
+import { useChunks } from "features/chunks/hooks/useChunks";
 
 export interface GroundProps {
   size: Vector3;
@@ -21,7 +21,7 @@ export default function Ground(props: GroundProps) {
   const generateGround = useGroundStore((state) => state.generateGround);
   const incrementVersion = useGroundStore((state) => state.incrementVersion);
   const generateGrass = useGroundStore((state) => state.generateGrass);
-  const { chunks } = useChunks();
+  const chunks = useChunks();
 
   const origins = useMemo(() => {
     const origins: Vector3[] = [];

@@ -1,5 +1,5 @@
 import { chunkSize } from "../../constants";
-import { createContext, ReactNode, useContext, useMemo } from "react";
+import { createContext, ReactNode, useMemo } from "react";
 import ChunksData from "./ChunksData";
 import Layers from "./Layers";
 import React from "react";
@@ -42,9 +42,4 @@ export function ChunksProvider({ children }: ChunksProviderProps) {
       {children}
     </ChunksContext.Provider>
   );
-}
-
-export function useChunks() {
-  const value = useContext(ChunksContext);
-  return value;
 }

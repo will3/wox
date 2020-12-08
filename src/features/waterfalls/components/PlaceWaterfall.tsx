@@ -5,11 +5,10 @@ import { Vector3 } from "three";
 import traceWaterfall from "../traceWaterfall";
 import Layers from "../../chunks/Layers";
 import { useWaterStore } from "../../water/water";
-import { useChunkStore } from "../../chunks/store";
-import { useChunks } from "features/chunks/ChunksProvider";
+import { useChunks } from "features/chunks/hooks/useChunks";
 
 export default function PlaceWaterfall() {
-  const { chunks } = useChunks();
+  const chunks = useChunks();
   const groundChunks = chunks[Layers.ground];
   const waterLevel = useWaterStore((state) => state.waterLevel);
 

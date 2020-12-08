@@ -4,14 +4,14 @@ import { useWaterfallStore } from "../store";
 import { useCallback, useEffect } from "react";
 import React from "react";
 import { useGroundStore } from "features/ground/store";
-import { useChunks } from "features/chunks/ChunksProvider";
+import { useChunks } from "features/chunks/hooks/useChunks";
 
 interface WaterfallChunkProps {
   origin: Vector3;
 }
 
 export default function WaterfallChunk({ origin }: WaterfallChunkProps) {
-  const { chunks } = useChunks();
+  const chunks = useChunks();
   const generateWaterfalls = useWaterfallStore(
     (state) => state.generateWaterfalls
   );

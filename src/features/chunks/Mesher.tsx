@@ -1,12 +1,12 @@
-import { useContext, useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import ChunksData from "./ChunksData";
 import Chunks from "./components/Chunks";
 import React from "react";
 import { useChunkStore } from "./store";
-import { useChunks } from "./ChunksProvider";
+import { useChunks } from "./hooks/useChunks";
 
 export default function Mesher() {
-  const { chunks: chunksList } = useChunks();
+  const chunksList = useChunks();
   const ref = useRef<number>();
   const incrementVersion = useChunkStore((state) => state.incrementVersion);
   const updateMeshData = useChunkStore((state) => state.updateMeshData);

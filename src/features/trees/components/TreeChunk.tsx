@@ -4,7 +4,7 @@ import { TreeData, useTreeStore } from "../store";
 import React from "react";
 import _ from "lodash";
 import Tree from "./Tree";
-import { useChunks } from "features/chunks/ChunksProvider";
+import { useChunks } from "features/chunks/hooks/useChunks";
 import Layers from "features/chunks/Layers";
 import { useGroundStore } from "features/ground/store";
 import { useWaterStore } from "features/water/water";
@@ -18,7 +18,7 @@ export interface TreeChunkProps {
 export function TreeChunk({ version, origin }: TreeChunkProps) {
   const key = origin.toArray().join(",");
   const trees = useTreeStore((state) => state.trees[key]);
-  const { chunks } = useChunks();
+  const chunks = useChunks();
   const noise = useTreeStore((state) => state.noise);
   const treeMap = useTreeStore((state) => state.treeMap);
   const maxHeight = useGroundStore((state) => state.maxHeight);

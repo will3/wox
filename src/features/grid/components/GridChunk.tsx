@@ -4,7 +4,7 @@ import { chunkSize } from "../../../constants";
 import _ from "lodash";
 import { GridData, useGridStore } from "../store";
 import { useGroundStore } from "features/ground/store";
-import { useChunks } from "features/chunks/ChunksProvider";
+import { useChunks } from "features/chunks/hooks/useChunks";
 import Layers from "features/chunks/Layers";
 import { useWaterStore } from "features/water/water";
 import { gridSize } from "../constants";
@@ -15,7 +15,7 @@ interface GridChunkProps {
 
 export default function GridChunk({ origin }: GridChunkProps) {
   const grounds = useGroundStore((state) => state.grounds);
-  const { chunks } = useChunks();
+  const chunks = useChunks();
   const groundChunks = chunks[Layers.ground];
   const waterLevel = useWaterStore((state) => state.waterLevel);
   const setGrids = useGridStore((state) => state.setGrids);

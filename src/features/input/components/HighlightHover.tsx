@@ -6,12 +6,12 @@ import React from "react";
 import Layers from "../../chunks/Layers";
 import raycast from "../../../utils/raycast";
 import { useChunkStore } from "../../chunks/store";
-import { useChunks } from "features/chunks/ChunksProvider";
+import { useChunks } from "features/chunks/hooks/useChunks";
 
 export default () => {
   const mouse = useInputStore((state) => state.mouse);
   const { camera, scene } = useThree();
-  const { chunks } = useChunks();
+  const chunks = useChunks();
   const setHover = useInputStore((state) => state.setHover);
   const hover = useInputStore((state) => state.hover);
 

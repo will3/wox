@@ -1,8 +1,7 @@
-import { useChunks } from "features/chunks/ChunksProvider";
+import { useChunks } from "features/chunks/hooks/useChunks";
 import { useEffect } from "react";
 import { Vector3 } from "three";
 import Layers from "../../chunks/Layers";
-import { useChunkStore } from "../../chunks/store";
 import placeTree from "../placeTree";
 
 export interface TreeProps {
@@ -12,7 +11,7 @@ export interface TreeProps {
 }
 
 export default function Tree({ position: coord, normal, size }: TreeProps) {
-  const { chunks } = useChunks();
+  const chunks = useChunks();
   const treeChunks = chunks[Layers.trees];
 
   useEffect(() => {
