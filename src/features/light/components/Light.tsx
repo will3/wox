@@ -1,5 +1,5 @@
 import { DirectionalLight, Vector3, Vector2, CameraHelper } from "three";
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 import { useCameraStore } from "../../camera/store";
 import { useLightStore } from "../store";
 import { AlwaysLongShadows } from "./AlwaysLongShadows";
@@ -23,24 +23,29 @@ export default () => {
       .add(new Vector3(...target));
   };
 
-  const light = new DirectionalLight();
-  light.position.copy(calcPosition());
-  light.target.position.set(...target);
-  light.castShadow = true;
+  const light = useMemo(() => {
+    const light = new DirectionalLight()
+    light.position.copy(calcPosition());
+    light.target.position.set(...target);
+    light.castShadow = true;
+    light.shadow.mapSize = new Vector2(2048, 2048);
+    light.shadow.normalBias = 0.5;
+    light.shadow.bias = 0;
 
-  const camera = light.shadow.camera;
-  camera.left = -200;
-  camera.right = 200;
-  camera.top = 200;
-  camera.bottom = -200;
-  camera.near = 0.1;
-  camera.far = 10000;
+    const camera = light.shadow.camera;
+    camera.left = -200;
+    camera.right = 200;
+    camera.top = 200;
+    camera.bottom = -200;
+    camera.near = 0.1;
+    camera.far = 10000;
 
-  light.shadow.mapSize = new Vector2(1024, 1024);
-  light.shadow.normalBias = 0.5;
-  light.shadow.bias = 0;
+    return light;
+  }, []);
 
-  const helper = new CameraHelper(light.shadow.camera);
+  const helper = useMemo(() => {
+    return new CameraHelper(light.shadow.camera);
+  }, [light])
 
   return (
     <>

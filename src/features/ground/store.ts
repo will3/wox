@@ -38,7 +38,7 @@ export const useGroundStore = create<GroundState>((set, get) => ({
     scale: new Vector3(1, 0.6, 1),
     seed,
   }),
-  size: new Vector3(8, 2, 8),
+  size: new Vector3(4, 2, 4),
   curve: new Curve([-1, -0.4, 0.2, 2], [-1, -0.58, -0.48, 1.5]),
   grounds: {},
   addGrounds(origins: Vector3[]) {
