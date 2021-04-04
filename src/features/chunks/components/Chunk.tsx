@@ -1,5 +1,5 @@
 import ChunkData from "../ChunkData";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useMemo, useRef } from "react";
 
 import {
   BufferGeometry,
@@ -16,15 +16,16 @@ import {
   Material,
 } from "three";
 import { vertexShader, fragmentShader } from "../voxelShader";
-import { useChunkStore } from "../store";
 import { useWaterStore } from "../../water/water";
 import { useLightStore } from "../../light/store";
+import { chunksStore } from "../store";
+import { observer } from "mobx-react-lite";
 
 export interface ChunkProps {
   chunk: ChunkData;
 }
 
-function Chunk(props: ChunkProps) {
+export const Chunk = observer((props: ChunkProps) => {
   const { chunk } = props;
 
   const meshRef = useRef(new Mesh());
@@ -32,10 +33,7 @@ function Chunk(props: ChunkProps) {
   const ambient = useLightStore((state) => state.ambient);
   const waterAlpha = useWaterStore((state) => state.waterAlpha);
   const lightDir = useLightStore.getState().lightDir;
-  const version = useChunkStore((state) => {
-    const versions = state.chunkVersions[chunk.layer] || {};
-    return versions[chunk.key] ?? 0;
-  });
+  const version = chunksStore.getChunkVersion(chunk.id);
 
   console.log(
     `Rerender chunk ${props.chunk.layer} ${props.chunk.origin.join(",")}`
@@ -179,6 +177,4 @@ function Chunk(props: ChunkProps) {
   }, []);
 
   return <primitive object={meshRef.current} />;
-}
-
-export default React.memo(Chunk);
+});

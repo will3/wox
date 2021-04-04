@@ -5,7 +5,6 @@ import { Color, Vector3, Quaternion } from "three";
 import React from "react";
 import Layers from "../../chunks/Layers";
 import raycast from "../../../utils/raycast";
-import { useChunkStore } from "../../chunks/store";
 import { useChunks } from "features/chunks/hooks/useChunks";
 
 export default () => {

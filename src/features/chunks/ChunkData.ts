@@ -1,10 +1,12 @@
 import ChunksData from "./ChunksData";
 import { MeshData } from "./MeshData";
 import { ColorValue } from "./types";
+import { nanoid } from "nanoid";
 
 type getValueFunction = (i: number, j: number, k: number) => number | null;
 
 export default class ChunkData {
+  id = nanoid();
   data: number[] = [];
   color: ColorValue[] = [];
   origin: [number, number, number];

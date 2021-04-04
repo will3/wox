@@ -1,7 +1,5 @@
-import { useContext } from "react";
-import { ChunksContext } from "../ChunksProvider";
+import { chunksStore } from "../store";
 
 export function useChunks() {
-  const value = useContext(ChunksContext);
-  return value.chunks;
+  return chunksStore.chunks;
 }

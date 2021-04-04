@@ -2,21 +2,19 @@ import { Color, Vector2, Vector3 } from "three";
 import Layers from "../chunks/Layers";
 import { Noise } from "../../utils/Noise";
 import Curve from "../../utils/Curve";
-import { useChunkStore } from "../chunks/store";
 import { useWaterStore } from "../water/water";
 import { ColorValue } from "features/chunks/types";
 import ChunksData from "features/chunks/ChunksData";
 import { wait } from "utils/wait";
 import { makeAutoObservable } from "mobx";
 import _ from "lodash";
+import { chunksStore, ChunksStore } from "features/chunks/store";
 
 export interface GroundData {
   key: string;
   origin: Vector3;
   version: number;
 }
-
-const updateMeshData = useChunkStore.getState().updateMeshData;
 
 export class GroundStore {
   size = new Vector3(4, 2, 4);
@@ -27,9 +25,11 @@ export class GroundStore {
   rockColor = new Color(0.072, 0.08, 0.09);
   grassColor = new Color(0.08, 0.1, 0.065);
   seed = "1337";
+  chunksStore: ChunksStore;
 
-  constructor() {
+  constructor(chunksStore: ChunksStore) {
     makeAutoObservable(this);
+    this.chunksStore = chunksStore;
   }
 
   get generatedOrigins() {
@@ -106,7 +106,7 @@ export class GroundStore {
       }
     }
 
-    updateMeshData(chunksList, Layers.ground, chunk.key);
+    this.chunksStore.updateMeshData(chunksList, Layers.ground, chunk.key);
   }
 
   generateGrass(chunksList: ChunksData[], origin: Vector3) {
@@ -161,4 +161,4 @@ export class GroundStore {
   }
 }
 
-export const groundStore = new GroundStore();
+export const groundStore = new GroundStore(chunksStore);

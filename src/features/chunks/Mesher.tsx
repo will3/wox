@@ -1,15 +1,14 @@
 import { useEffect, useRef } from "react";
 import ChunksData from "./ChunksData";
-import Chunks from "./components/Chunks";
+import { Chunks } from "./components/Chunks";
 import React from "react";
-import { useChunkStore } from "./store";
 import { useChunks } from "./hooks/useChunks";
+import { chunksStore } from "./store";
+import { observer } from "mobx-react-lite";
 
-export default function Mesher() {
+export const Mesher = observer(() => {
   const chunksList = useChunks();
   const ref = useRef<number>();
-  const incrementVersion = useChunkStore((state) => state.incrementVersion);
-  const updateMeshData = useChunkStore((state) => state.updateMeshData);
 
   const animate = () => {
     handleFrame();
@@ -27,30 +26,20 @@ export default function Mesher() {
 
   const handleFrame = () => {
     for (const chunks of chunksList) {
-      processChunks(chunks);
-
       for (const id in chunks.map) {
         let changed = false;
         const chunk = chunks.map[id];
         if (chunk.dirty) {
-          updateMeshData(chunksList, chunk.layer, chunk.key);
+          chunksStore.updateMeshData(chunksList, chunk.layer, chunk.key);
           chunk.dirty = false;
           changed = true;
         }
 
         if (changed) {
-          incrementVersion(chunks.layer);
+          chunksStore.incrementVersion(chunks.layer);
         }
       }
     }
-  };
-
-  const processChunks = (chunks: ChunksData) => {
-    if (!chunks.dirty) {
-      return;
-    }
-
-    chunks.dirty = false;
   };
 
   return (
@@ -60,4 +49,4 @@ export default function Mesher() {
       ))}
     </>
   );
-}
+});

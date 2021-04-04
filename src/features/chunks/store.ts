@@ -1,25 +1,34 @@
-import create from "zustand";
 import ChunksData from "./ChunksData";
 import { meshChunk } from "./meshChunk";
 import { useWaterStore } from "../water/water";
+import { makeAutoObservable } from "mobx";
+import { Vector3 } from "three";
 
-export interface ChunksState {
-  versions: number[];
-  chunkVersions: { [layer: number]: { [id: string]: number } };
-  incrementVersion(layer: number): void;
-  updateMeshData(chunks: ChunksData[], layer: number, id: string): void;
-}
+export class ChunksStore {
+  chunks: ChunksData[] = [];
+  versions: { [id: string]: number } = {};
+  chunkVersions: { [id: string]: number } = {};
 
-export const useChunkStore = create<ChunksState>((set, get) => ({
-  // TODO
-  versions: [0, 0, 0, 0],
-  chunkVersions: {},
+  constructor() {
+    makeAutoObservable(this);
+  }
+
+  getChunkVersion(chunkId: string) {
+    return this.chunkVersions[chunkId] ?? 0;
+  }
+
+  addLayers(...chunksList: ChunksData[]) {
+    this.chunks.push(...chunksList);
+  }
+
   incrementVersion(layer: number) {
-    const versions = [...get().versions];
+    const versions = this.versions;
+    if (versions[layer] == null) {
+      versions[layer] = 0;
+    }
     versions[layer]++;
+  }
 
-    set({ versions });
-  },
   updateMeshData(chunks: ChunksData[], layer: number, id: string) {
     const waterLevel = useWaterStore.getState().waterLevel;
     const start = new Date().getTime();
@@ -28,19 +37,14 @@ export const useChunkStore = create<ChunksState>((set, get) => ({
     chunk.meshData = meshData;
     const end = new Date().getTime();
     console.log(
-      `Meshed ${layer} ${chunk.origin.join(",")} ${
-        meshData.vertices.length / 3
+      `Meshed ${layer} ${chunk.origin.join(",")} ${meshData.vertices.length / 3
       } vertices, ${meshData.indices.length / 3} triangles ${end - start}ms`
     );
-    const chunkVersions = { ...get().chunkVersions };
-    if (chunkVersions[layer] == null) {
-      chunkVersions[layer] = {};
+    if (this.chunkVersions[chunk.id] == null) {
+      this.chunkVersions[chunk.id] = 0;
     }
-    const byChunk = chunkVersions[layer];
-    if (byChunk[chunk.key] == null) {
-      byChunk[chunk.key] = 0;
-    }
-    byChunk[chunk.key]++;
-    set({ chunkVersions });
-  },
-}));
+    this.chunkVersions[chunk.id]++;
+  }
+}
+
+export const chunksStore = new ChunksStore();

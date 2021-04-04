@@ -1,10 +1,11 @@
 import ChunkData from "./ChunkData";
 import { ColorValue } from "./types";
+import { nanoid } from "nanoid";
 
 export default class ChunksData {
+  id = nanoid();
   map: { [key: string]: ChunkData } = {};
   size: number;
-  dirty = false;
   layer: number;
   normalBias = 0.5;
   skyBias = 0.5;
@@ -75,7 +76,6 @@ export default class ChunksData {
       const chunk = new ChunkData(origin, this, this.size, this.layer);
       this.map[key] = chunk;
       chunk.isWater = this.isWater;
-      this.dirty = true;
     }
     return this.map[key];
   }

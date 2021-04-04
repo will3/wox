@@ -1,22 +1,17 @@
 import { chunkSize } from "../../constants";
-import { createContext, ReactNode, useMemo } from "react";
+import { ReactNode, useLayoutEffect } from "react";
 import ChunksData from "./ChunksData";
 import Layers from "./Layers";
 import React from "react";
-import Mesher from "./Mesher";
-
-export interface ChunksContextValue {
-  chunks: ChunksData[];
-}
-
-export const ChunksContext = createContext({ chunks: [] as ChunksData[] });
+import { Mesher } from "./Mesher";
+import { chunksStore } from "./store";
 
 export interface ChunksProviderProps {
   children: ReactNode;
 }
 
 export function ChunksProvider({ children }: ChunksProviderProps) {
-  const value = useMemo<ChunksContextValue>(() => {
+  useLayoutEffect(() => {
     const trees = new ChunksData(chunkSize, Layers.trees);
     trees.normalBias = 0.8;
 
@@ -31,15 +26,13 @@ export function ChunksProvider({ children }: ChunksProviderProps) {
 
     const ground = new ChunksData(chunkSize, Layers.ground);
 
-    return {
-      chunks: [ground, trees, water, structures],
-    };
+    chunksStore.addLayers(ground, trees, water, structures);
   }, []);
 
   return (
-    <ChunksContext.Provider value={value}>
+    <>
       <Mesher />
       {children}
-    </ChunksContext.Provider>
+    </>
   );
 }
