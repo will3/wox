@@ -2,9 +2,9 @@ import { useEffect } from "react";
 import Layers from "../../chunks/Layers";
 import { Color } from "three";
 import ChunksData from "features/chunks/ChunksData";
-import { useWaterStore } from "features/water/water";
 import { WaterfallData, WaterfallPoint } from "../store";
 import { useChunks } from "features/chunks/hooks/useChunks";
+import { waterStore } from "features/water/store";
 
 export interface WaterfallProps {
   data: WaterfallData;
@@ -13,7 +13,7 @@ export interface WaterfallProps {
 export function Waterfall({ data }: WaterfallProps) {
   const chunks = useChunks();
   const groundChunks = chunks[Layers.ground];
-  const waterColor = useWaterStore((state) => state.waterColor);
+  const waterColor = waterStore.waterColor;
 
   useEffect(() => {
     applyWaterfall(data.points, groundChunks, waterColor);

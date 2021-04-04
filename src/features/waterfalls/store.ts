@@ -5,9 +5,9 @@ import seedrandom from "seedrandom";
 import { clamp } from "lodash";
 import { Noise } from "../../utils/Noise";
 import traceWaterfall from "./traceWaterfall";
-import { useWaterStore } from "../water/water";
 import { groundStore } from "features/ground/store";
 import ChunksData from "features/chunks/ChunksData";
+import { waterStore } from "features/water/store";
 
 export interface WaterfallPoint {
   coord: Vector3;
@@ -46,7 +46,7 @@ export const useWaterfallStore = create<WaterfallState>((set, get) => ({
   }),
   generateWaterfalls(chunks: ChunksData[], origin: Vector3) {
     const { maxHeight } = groundStore;
-    const waterLevel = useWaterStore.getState().waterLevel;
+    const waterLevel = waterStore.waterLevel;
     const groundChunks = chunks[Layers.ground];
     const chunk = groundChunks.getChunk(
       origin.toArray() as [number, number, number]

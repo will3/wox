@@ -1,8 +1,7 @@
 import ChunksData from "./ChunksData";
 import { meshChunk } from "./meshChunk";
-import { useWaterStore } from "../water/water";
 import { makeAutoObservable } from "mobx";
-import { Vector3 } from "three";
+import { waterStore } from "features/water/store";
 
 export class ChunksStore {
   chunks: ChunksData[] = [];
@@ -30,7 +29,7 @@ export class ChunksStore {
   }
 
   updateMeshData(chunks: ChunksData[], layer: number, id: string) {
-    const waterLevel = useWaterStore.getState().waterLevel;
+    const waterLevel = waterStore.waterLevel;
     const start = new Date().getTime();
     const chunk = chunks[layer].map[id];
     const meshData = meshChunk(chunk, waterLevel);

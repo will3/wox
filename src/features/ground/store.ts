@@ -2,13 +2,13 @@ import { Color, Vector2, Vector3 } from "three";
 import Layers from "../chunks/Layers";
 import { Noise } from "../../utils/Noise";
 import Curve from "../../utils/Curve";
-import { useWaterStore } from "../water/water";
 import { ColorValue } from "features/chunks/types";
 import ChunksData from "features/chunks/ChunksData";
 import { wait } from "utils/wait";
 import { makeAutoObservable } from "mobx";
 import _ from "lodash";
 import { chunksStore, ChunksStore } from "features/chunks/store";
+import { waterStore } from "features/water/store";
 
 export interface GroundData {
   key: string;
@@ -114,7 +114,7 @@ export class GroundStore {
     const chunk = chunks.getOrCreateChunk(
       origin.toArray() as [number, number, number]
     );
-    const { waterLevel } = useWaterStore.getState();
+    const waterLevel = waterStore.waterLevel;
     const grassColorValue = this.grassColor.getHex();
     const meshData = chunk.meshData!;
     const voxels = meshData.voxels;

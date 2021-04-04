@@ -6,9 +6,9 @@ import _ from "lodash";
 import Tree from "./Tree";
 import { useChunks } from "features/chunks/hooks/useChunks";
 import Layers from "features/chunks/Layers";
-import { useWaterStore } from "features/water/water";
 import seedrandom from "seedrandom";
 import { groundStore } from "features/ground/store";
+import { waterStore } from "features/water/store";
 
 export interface TreeChunkProps {
   origin: Vector3;
@@ -22,7 +22,7 @@ export function TreeChunk({ version, origin }: TreeChunkProps) {
   const noise = useTreeStore((state) => state.noise);
   const treeMap = useTreeStore((state) => state.treeMap);
   const maxHeight = groundStore.maxHeight;
-  const waterLevel = useWaterStore((state) => state.waterLevel);
+  const waterLevel = waterStore.waterLevel;
   const seed = useTreeStore((state) => state.seed);
   const setTrees = useTreeStore((state) => state.setTrees);
 
