@@ -2,29 +2,29 @@ import { useEffect } from "react";
 import keycode from "keycode";
 import { useInputStore } from "../store";
 import { Vector2 } from "three";
-import { useCameraStore } from "../../camera/store";
 import React from "react";
 import HighlightHover from "./HighlightHover";
+import { cameraStore } from "features/camera/store";
+import { observer } from "mobx-react-lite";
 
-export default () => {
+export const UserInput = observer(() => {
   const zoomRate = 1.1;
 
-  const targetRotation = useCameraStore((state) => state.targetRotation);
-  const distance = useCameraStore((state) => state.distance);
+  const targetRotation = cameraStore.targetRotation;
+  const distance = cameraStore.distance;
   const setMouse = useInputStore((state) => state.setMouse);
-  const setTargetRotation = useCameraStore((state) => state.setTargetRotation);
-  const setDistance = useCameraStore((state) => state.setDistance);
+  const setDistance = cameraStore.setDistance;
 
   const handleKeyUp = (e: KeyboardEvent) => {
     const key = keycode(e);
     if (key === "q") {
       const next = targetRotation;
       next[1] -= Math.PI / 2;
-      setTargetRotation(next);
+      cameraStore.setTargetRotation(next);
     } else if (key === "e") {
       const next = targetRotation;
       next[1] += Math.PI / 2;
-      setTargetRotation(next);
+      cameraStore.setTargetRotation(next);
     }
 
     if (key === "=") {
@@ -59,4 +59,4 @@ export default () => {
       <HighlightHover />
     </>
   );
-};
+});

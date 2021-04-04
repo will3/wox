@@ -1,15 +1,7 @@
 import { groundStore } from "features/ground/store";
-import create from "zustand";
+import { makeAutoObservable } from "mobx";
 import { chunkSize } from "../../constants";
 import { EulerValue, Vector3Value } from "../../utils/math";
-
-export interface CameraState {
-  targetRotation: EulerValue;
-  target: Vector3Value;
-  distance: number;
-  setTargetRotation(targetRotation: EulerValue): void;
-  setDistance(distance: number): void;
-}
 
 const initialRotation: EulerValue = [-Math.PI / 4, Math.PI / 4, 0, "YXZ"];
 
@@ -21,15 +13,23 @@ const target: Vector3Value = [
   (size.z * chunkSize) / 2,
 ];
 
-export const useCameraStore = create<CameraState>((set) => ({
-  rotation: initialRotation,
-  targetRotation: initialRotation,
-  target,
-  distance: 400,
+export class CameraStore {
+  rotation= initialRotation;
+  targetRotation= initialRotation;
+  target = target;
+  distance = 400;
+
+  constructor() {
+    makeAutoObservable(this);
+  }
+
   setTargetRotation(targetRotation: EulerValue) {
-    set({ targetRotation });
-  },
+    this.targetRotation = targetRotation;
+  }
+
   setDistance(distance: number) {
-    set({ distance });
-  },
-}));
+    this.distance = distance;
+  }
+}
+
+export const cameraStore = new CameraStore();

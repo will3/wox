@@ -1,15 +1,16 @@
+import { observer } from "mobx-react-lite";
 import { useCallback, useEffect, useRef } from "react";
 import { useThree } from "react-three-fiber";
 import { Euler, Vector3 } from "three";
 import { lerpEulers } from "../../../utils/math";
-import { useCameraStore } from "../store";
+import { cameraStore } from "../store";
 
-export function CameraController() {
+export const CameraController = observer(() => {
   const { camera } = useThree();
 
-  const target = useCameraStore((camera) => camera.target);
-  const distance = useCameraStore((camera) => camera.distance);
-  const targetRotation = useCameraStore((camera) => camera.targetRotation);
+  const target = cameraStore.target;
+  const distance = cameraStore.distance;
+  const targetRotation = cameraStore.targetRotation;
   const rotation = useRef(targetRotation);
 
   const updateCamera = useCallback(() => {
@@ -47,4 +48,4 @@ export function CameraController() {
   }, [animate]);
 
   return null;
-}
+});
