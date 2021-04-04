@@ -3,14 +3,13 @@ import { groundStore } from "../store";
 import _ from "lodash";
 import { GroundChunk } from "./GroundChunk";
 import { useChunks } from "features/chunks/hooks/useChunks";
-import { useOrigins } from "../hooks/useOrigins";
 import { observer } from "mobx-react-lite";
 import Layers from "features/chunks/Layers";
 
 export const Ground = observer(() => {
   const grounds = groundStore.grounds;
   const chunks = useChunks();
-  const origins = useOrigins();
+  const origins = groundStore.origins;
 
   useEffect(() => {
     groundStore.addGrounds(origins);

@@ -42,6 +42,19 @@ export class GroundStore {
     })
   }
 
+  get origins() {
+    const origins: Vector3[] = [];
+    for (let i = 0; i < this.size.x; i++) {
+      for (let j = 0; j < this.size.y; j++) {
+        for (let k = 0; k < this.size.z; k++) {
+          origins.push(new Vector3(i, j, k).multiplyScalar(this.chunkSize));
+        }
+      }
+    }
+
+    return origins;
+  }
+
   generatedOrigin(origin: Vector3) {
     return this.generatedOrigins.has(origin.toArray().join(","));
   }
