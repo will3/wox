@@ -36,13 +36,18 @@ export class GroundStore {
     return new Set(_.values(this.grounds).filter(x => x.version > 0).map(x => x.origin.toArray().join(",")));
   }
 
+  get groundNoise() {
+    return new Noise({
+      scale: new Vector3(1, 0.6, 1),
+      seed: this.seed,
+    })
+  }
+
   generatedOrigin(origin: Vector3) {
     return this.generatedOrigins.has(origin.toArray().join(","));
   }
 
   addGrounds(origins: Vector3[]) {
-    const grounds = this.grounds;
-
     for (const origin of origins) {
       const key = origin.toArray().join(",");
       if (this.grounds[key] == null) {
@@ -55,14 +60,14 @@ export class GroundStore {
     }
   }
 
-  async generateColumns(columns: Vector2[], chunks: ChunksData[], noise: Noise) {
+  async generateColumns(columns: Vector2[], chunks: ChunksData[]) {
     const { size, chunkSize } = this;
     const start = new Date().getTime();
     for (const column of columns) {
       for (let j = 0; j < size.y; j++) {
         const origin = new Vector3(column.x, j * chunkSize, column.y);
         const id = origin.toArray().join(",");
-        this.generateGround(chunks, origin, noise);
+        this.generateGround(chunks, origin, this.groundNoise);
         this.incrementVersion(id);
         this.generateGrass(chunks, origin);
       }
