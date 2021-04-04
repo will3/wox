@@ -28,15 +28,15 @@ export class ChunksStore {
     versions[layer]++;
   }
 
-  updateMeshData(chunks: ChunksData[], layer: number, id: string) {
+  updateMeshData(chunks: ChunksData, id: string) {
     const waterLevel = waterStore.waterLevel;
     const start = new Date().getTime();
-    const chunk = chunks[layer].map[id];
+    const chunk = chunks.map[id];
     const meshData = meshChunk(chunk, waterLevel);
     chunk.meshData = meshData;
     const end = new Date().getTime();
     console.log(
-      `Meshed ${layer} ${chunk.origin.join(",")} ${meshData.vertices.length / 3
+      `Meshed ${chunks.layer} ${chunk.origin.join(",")} ${meshData.vertices.length / 3
       } vertices, ${meshData.indices.length / 3} triangles ${end - start}ms`
     );
     if (this.chunkVersions[chunk.id] == null) {

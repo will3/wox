@@ -9,6 +9,7 @@ import { makeAutoObservable } from "mobx";
 import _ from "lodash";
 import { chunksStore, ChunksStore } from "features/chunks/store";
 import { waterStore } from "features/water/store";
+import ChunkData from "features/chunks/ChunkData";
 
 export interface GroundData {
   key: string;
@@ -60,25 +61,29 @@ export class GroundStore {
     }
   }
 
-  async generateColumns(columns: Vector2[], chunks: ChunksData[]) {
-    const { size, chunkSize } = this;
-    const start = new Date().getTime();
-    for (const column of columns) {
-      for (let j = 0; j < size.y; j++) {
-        const origin = new Vector3(column.x, j * chunkSize, column.y);
-        const id = origin.toArray().join(",");
-        this.generateGround(chunks, origin, this.groundNoise);
-        this.incrementVersion(id);
-        this.generateGrass(chunks, origin);
+  async generateAllChunks(chunks: ChunksData) {
+    for (let i = 0; i < this.size.x; i++) {
+      for (let k = 0; k < this.size.z; k++) {
+        for (let j = 0; j < this.size.y; j++) {
+          const origin = new Vector3(i, j, k).multiplyScalar(this.chunkSize);
+          this.generateChunk(chunks, origin);
+        }
+        await wait(0);
       }
-      await wait(0);
     }
+  }
+
+  generateChunk(chunks: ChunksData, origin: Vector3) {
+    const start = new Date().getTime();
+    const key = origin.toArray().join(",");
+    this.generateGround(chunks, origin, this.groundNoise);
+    this.incrementVersion(key);
+    this.generateGrass(chunks, origin);
     console.log(`Took ${new Date().getTime() - start}ms`);
   }
 
-  generateGround(chunksList: ChunksData[], origin: Vector3, noise: Noise) {
+  generateGround(chunks: ChunksData, origin: Vector3, noise: Noise) {
     const { rockColor, curve, maxHeight } = this;
-    const chunks = chunksList[Layers.ground];
     const chunk = chunks.getOrCreateChunk(
       origin.toArray() as [number, number, number]
     );
@@ -111,11 +116,10 @@ export class GroundStore {
       }
     }
 
-    this.chunksStore.updateMeshData(chunksList, Layers.ground, chunk.key);
+    this.chunksStore.updateMeshData(chunks, chunk.key);
   }
 
-  generateGrass(chunksList: ChunksData[], origin: Vector3) {
-    const chunks = chunksList[Layers.ground];
+  generateGrass(chunks: ChunksData, origin: Vector3) {
     const chunk = chunks.getOrCreateChunk(
       origin.toArray() as [number, number, number]
     );

@@ -30,7 +30,7 @@ export const Mesher = observer(() => {
         let changed = false;
         const chunk = chunks.map[id];
         if (chunk.dirty) {
-          chunksStore.updateMeshData(chunksList, chunk.layer, chunk.key);
+          chunksStore.updateMeshData(chunks, chunk.key);
           chunk.dirty = false;
           changed = true;
         }

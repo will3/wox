@@ -4,14 +4,13 @@ import _ from "lodash";
 import { GroundChunk } from "./GroundChunk";
 import { useChunks } from "features/chunks/hooks/useChunks";
 import { useOrigins } from "../hooks/useOrigins";
-import { useSortedColumns } from "../hooks/useSortedColumns";
 import { observer } from "mobx-react-lite";
+import Layers from "features/chunks/Layers";
 
 export const Ground = observer(() => {
   const grounds = groundStore.grounds;
   const chunks = useChunks();
   const origins = useOrigins();
-  const sortedColumns = useSortedColumns();
 
   useEffect(() => {
     groundStore.addGrounds(origins);
@@ -19,9 +18,9 @@ export const Ground = observer(() => {
 
   useEffect(() => {
     (async () => {
-      await groundStore.generateColumns(sortedColumns, chunks);
+      await groundStore.generateAllChunks(chunks[Layers.ground]);
     })();
-  }, [sortedColumns]);
+  }, [origins]);
 
   return (
     <>
