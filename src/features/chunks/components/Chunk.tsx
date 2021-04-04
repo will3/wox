@@ -32,29 +32,23 @@ export const Chunk = observer((props: ChunkProps) => {
   const sunColor = useLightStore((state) => state.sunColor);
   const ambient = useLightStore((state) => state.ambient);
   const waterAlpha = waterStore.waterAlpha;
-  const lightDir = useLightStore.getState().lightDir;
+  const lightDir = useLightStore(state => state.lightDir);
   const version = chunksStore.getChunkVersion(chunk.id);
 
   console.log(
     `Rerender chunk ${props.chunk.layer} ${props.chunk.origin.join(",")}`
   );
 
-  const handleLightDirChanged = (lightDir: Vector3) => {
+  useEffect(() => {
     const mesh = meshRef.current;
     const material = mesh.material as ShaderMaterial;
+    if (material.uniforms == null) {
+      return;
+    }
     material.uniforms.lightDir = new Uniform(lightDir);
     material.uniformsNeedUpdate = true;
     material.needsUpdate = true;
-  };
-
-  useEffect(
-    () =>
-      useLightStore.subscribe(
-        (lightDir) => handleLightDirChanged(lightDir as Vector3),
-        (state) => state.lightDir
-      ),
-    []
-  );
+  }, [lightDir]);
 
   useEffect(() => {
     const position = new Vector3()
