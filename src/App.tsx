@@ -4,7 +4,7 @@ import UserInput from "./features/input/components/UserInput";
 import { CameraController } from "./features/camera/components/CameraController";
 import { Stats } from "drei";
 import { VSMShadowMap } from "three";
-import Light from "./features/light/components/Light";
+import { Light } from "./features/light/components/Light";
 
 import "./app.css";
 import { ChunksProvider } from "features/chunks/ChunksProvider";

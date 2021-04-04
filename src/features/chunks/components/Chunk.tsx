@@ -16,10 +16,10 @@ import {
   Material,
 } from "three";
 import { vertexShader, fragmentShader } from "../voxelShader";
-import { useLightStore } from "../../light/store";
 import { chunksStore } from "../store";
 import { observer } from "mobx-react-lite";
 import { waterStore } from "features/water/store";
+import { lightStore } from "features/light/store";
 
 export interface ChunkProps {
   chunk: ChunkData;
@@ -29,10 +29,10 @@ export const Chunk = observer((props: ChunkProps) => {
   const { chunk } = props;
 
   const meshRef = useRef(new Mesh());
-  const sunColor = useLightStore((state) => state.sunColor);
-  const ambient = useLightStore((state) => state.ambient);
+  const sunColor = lightStore.sunColor;
+  const ambient = lightStore.ambient;
   const waterAlpha = waterStore.waterAlpha;
-  const lightDir = useLightStore(state => state.lightDir);
+  const lightDir = lightStore.lightDir;
   const version = chunksStore.getChunkVersion(chunk.id);
 
   console.log(

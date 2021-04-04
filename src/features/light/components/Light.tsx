@@ -1,11 +1,12 @@
 import { DirectionalLight, Vector3, Vector2, CameraHelper } from "three";
 import React, { useEffect, useMemo } from "react";
 import { useCameraStore } from "../../camera/store";
-import { useLightStore } from "../store";
 import { AlwaysLongShadows } from "./AlwaysLongShadows";
+import { lightStore } from "../store";
+import { observer } from "mobx-react-lite";
 
-export default () => {
-  const lightDir = useLightStore((state) => state.lightDir);
+export const Light = observer(() => {
+  const lightDir = lightStore.lightDir;
   const target = useCameraStore((state) => state.target);
   const showHelper = false;
   const distance = 150;
@@ -55,4 +56,4 @@ export default () => {
       {showHelper ? <primitive object={helper} /> : null}
     </>
   );
-};
+});

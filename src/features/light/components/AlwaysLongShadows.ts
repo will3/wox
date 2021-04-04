@@ -1,9 +1,10 @@
 import { useFrame, useThree } from "react-three-fiber";
 import { Vector3 } from "three";
 import _ from "lodash";
-import { useLightStore } from "../store";
+import { lightStore } from "../store";
+import { observer } from "mobx-react-lite";
 
-export function AlwaysLongShadows() {
+export const AlwaysLongShadows = observer(() => {
   const { camera } = useThree();
   const lightDirs = [
     new Vector3(-1, -1, -1),
@@ -12,8 +13,7 @@ export function AlwaysLongShadows() {
     new Vector3(-1, -1, 1),
   ].map((x) => x.normalize());
 
-  const setLightDir = useLightStore((state) => state.setLightDir);
-  const lightDir = useLightStore((state) => state.lightDir);
+  const lightDir = lightStore.lightDir;
 
   useFrame(() => {
     const forward = new Vector3(0, 0, 1)
@@ -29,9 +29,9 @@ export function AlwaysLongShadows() {
     })!;
 
     if (!d.equals(lightDir)) {
-      setLightDir(d);
+      lightStore.setLightDir(d);
     }
   });
 
   return null;
-}
+});
