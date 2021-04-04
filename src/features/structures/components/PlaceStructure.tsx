@@ -1,10 +1,11 @@
-import { gridStore } from "features/grid/store";
 import { observer } from "mobx-react-lite";
 import { useEffect } from "react";
-import { structoreStore } from "../store";
+import { useGridStore, useStructureStore } from "StoreProvider";
 
 export const PlaceStructure = observer(() => {
+  const gridStore = useGridStore();
   const gridIds = gridStore.gridIds;
+  const structoreStore = useStructureStore();
 
   const handleMouseDown = (e: MouseEvent) => {
     console.log(`add structure ${gridIds}`);

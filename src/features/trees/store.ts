@@ -1,7 +1,6 @@
 import { Vector3 } from "three";
 import { Noise } from "../../utils/Noise";
 import QuadMap from "../../utils/QuadMap";
-import { groundStore } from "features/ground/store";
 import { makeAutoObservable } from "mobx";
 
 export interface TreeData {
@@ -11,20 +10,21 @@ export interface TreeData {
   position: Vector3;
 }
 
-const seed = groundStore.seed;
-const noise = new Noise({
-  frequency: 0.0025,
-  seed: seed + "tree",
-});
-
 export class TreeStore {
   treeMap = new QuadMap<TreeData>();
-  noise = noise;
   trees: { [id: string]: { [key: string]: TreeData } } = {};
-  seed = seed;
+  seed: string;
 
-  constructor() {
+  constructor(seed: string) {
     makeAutoObservable(this);
+    this.seed = seed;
+  }
+
+  get noise() {
+    return new Noise({
+      frequency: 0.0025,
+      seed: this.seed + "tree",
+    });
   }
 
   setTrees(origin: Vector3, treesToAdd: TreeData[]) {
@@ -42,5 +42,3 @@ export class TreeStore {
     return this.trees[key];
   }
 }
-
-export const treeStore = new TreeStore();

@@ -18,5 +18,3 @@ export class InputStore {
     this.hover = hover;
   }
 }
-
-export const inputStore = new InputStore();

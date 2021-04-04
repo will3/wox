@@ -45,5 +45,3 @@ export class ChunksStore {
     this.chunkVersions[chunk.id]++;
   }
 }
-
-export const chunksStore = new ChunksStore();

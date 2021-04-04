@@ -1,13 +1,14 @@
 import { useEffect } from "react";
 import placeStructure from "../placeStructure";
 import { useChunks } from "features/chunks/hooks/useChunks";
-import { gridStore } from "features/grid/store";
+import { useGridStore } from "StoreProvider";
 
 export interface StructureProps {
   gridIds: string[];
 }
 
 export default function Structure({ gridIds }: StructureProps) {
+  const gridStore = useGridStore();
   const grids = gridStore.grids;
   const chunks = useChunks();
 

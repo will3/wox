@@ -1,12 +1,13 @@
 import React, { useEffect } from "react";
-import { groundStore } from "../store";
 import _ from "lodash";
 import { GroundChunk } from "./GroundChunk";
 import { useChunks } from "features/chunks/hooks/useChunks";
 import { observer } from "mobx-react-lite";
 import Layers from "features/chunks/Layers";
+import { useGroundStore } from "StoreProvider";
 
 export const Ground = observer(() => {
+  const groundStore = useGroundStore();
   const grounds = groundStore.grounds;
   const chunks = useChunks();
   const origins = groundStore.origins;

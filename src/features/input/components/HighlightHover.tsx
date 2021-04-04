@@ -5,10 +5,11 @@ import React from "react";
 import Layers from "../../chunks/Layers";
 import raycast from "../../../utils/raycast";
 import { useChunks } from "features/chunks/hooks/useChunks";
-import { inputStore } from "../store";
 import { observer } from "mobx-react-lite";
+import { useInputStore } from "StoreProvider";
 
 export const HighlightHover = observer(() => {
+  const inputStore = useInputStore();
   const mouse = inputStore.mouse;
   const { camera, scene } = useThree();
   const chunks = useChunks();

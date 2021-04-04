@@ -1,15 +1,15 @@
 import { useEffect } from "react";
 import { Vector3 } from "three";
-import { TreeData, treeStore } from "../store";
+import { TreeData } from "../store";
 import React from "react";
 import _ from "lodash";
 import Tree from "./Tree";
 import { useChunks } from "features/chunks/hooks/useChunks";
 import Layers from "features/chunks/Layers";
 import seedrandom from "seedrandom";
-import { groundStore } from "features/ground/store";
 import { waterStore } from "features/water/store";
 import { observer } from "mobx-react-lite";
+import { useGroundStore, useTreeStore } from "StoreProvider";
 
 export interface TreeChunkProps {
   origin: Vector3;
@@ -17,10 +17,12 @@ export interface TreeChunkProps {
 }
 
 export const TreeChunk = observer(({ version, origin }: TreeChunkProps) => {
+  const treeStore = useTreeStore();
   const trees = treeStore.getTrees(origin);
   const chunks = useChunks();
   const noise = treeStore.noise;
   const treeMap = treeStore.treeMap;
+  const groundStore = useGroundStore();
   const maxHeight = groundStore.maxHeight;
   const waterLevel = waterStore.waterLevel;
   const seed = treeStore.seed;

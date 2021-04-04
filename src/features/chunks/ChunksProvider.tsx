@@ -4,13 +4,15 @@ import ChunksData from "./ChunksData";
 import Layers from "./Layers";
 import React from "react";
 import { Mesher } from "./Mesher";
-import { chunksStore } from "./store";
+import { useChunksStore } from "StoreProvider";
 
 export interface ChunksProviderProps {
   children: ReactNode;
 }
 
 export function ChunksProvider({ children }: ChunksProviderProps) {
+  const chunksStore = useChunksStore();
+
   useLayoutEffect(() => {
     const trees = new ChunksData(chunkSize, Layers.trees);
     trees.normalBias = 0.8;

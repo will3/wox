@@ -1,5 +1,5 @@
 import ChunkData from "../ChunkData";
-import React, { useEffect, useMemo, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 
 import {
   BufferGeometry,
@@ -16,10 +16,9 @@ import {
   Material,
 } from "three";
 import { vertexShader, fragmentShader } from "../voxelShader";
-import { chunksStore } from "../store";
 import { observer } from "mobx-react-lite";
 import { waterStore } from "features/water/store";
-import { lightStore } from "features/light/store";
+import { useChunksStore, useLightStore } from "StoreProvider";
 
 export interface ChunkProps {
   chunk: ChunkData;
@@ -29,10 +28,12 @@ export const Chunk = observer((props: ChunkProps) => {
   const { chunk } = props;
 
   const meshRef = useRef(new Mesh());
+  const lightStore = useLightStore();
   const sunColor = lightStore.sunColor;
   const ambient = lightStore.ambient;
   const waterAlpha = waterStore.waterAlpha;
   const lightDir = lightStore.lightDir;
+  const chunksStore = useChunksStore();
   const version = chunksStore.getChunkVersion(chunk.id);
 
   console.log(

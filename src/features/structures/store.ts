@@ -21,5 +21,3 @@ export class StructureStore {
     this.structures[id] = structure;
   }
 }
-
-export const structoreStore = new StructureStore();

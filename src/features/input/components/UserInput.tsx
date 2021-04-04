@@ -3,16 +3,17 @@ import keycode from "keycode";
 import { Vector2 } from "three";
 import React from "react";
 import { HighlightHover } from "./HighlightHover";
-import { cameraStore } from "features/camera/store";
 import { observer } from "mobx-react-lite";
-import { inputStore } from "../store";
+import { useCameraStore, useInputStore } from "StoreProvider";
 
 export const UserInput = observer(() => {
   const zoomRate = 1.1;
 
+  const cameraStore = useCameraStore();
   const targetRotation = cameraStore.targetRotation;
   const distance = cameraStore.distance;
   const setDistance = cameraStore.setDistance;
+  const inputStore = useInputStore();
 
   const handleKeyUp = (e: KeyboardEvent) => {
     const key = keycode(e);

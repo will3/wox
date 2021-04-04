@@ -1,8 +1,8 @@
 import { useFrame, useThree } from "react-three-fiber";
 import { Vector3 } from "three";
 import _ from "lodash";
-import { lightStore } from "../store";
 import { observer } from "mobx-react-lite";
+import { useLightStore } from "StoreProvider";
 
 export const AlwaysLongShadows = observer(() => {
   const { camera } = useThree();
@@ -13,6 +13,7 @@ export const AlwaysLongShadows = observer(() => {
     new Vector3(-1, -1, 1),
   ].map((x) => x.normalize());
 
+  const lightStore = useLightStore();
   const lightDir = lightStore.lightDir;
 
   useFrame(() => {

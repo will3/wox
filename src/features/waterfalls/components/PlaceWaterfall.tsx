@@ -5,12 +5,13 @@ import Layers from "../../chunks/Layers";
 import { useChunks } from "features/chunks/hooks/useChunks";
 import { waterStore } from "features/water/store";
 import { observer } from "mobx-react-lite";
-import { inputStore } from "features/input/store";
+import { useInputStore } from "StoreProvider";
 
 export const PlaceWaterfall = observer(() => {
   const chunks = useChunks();
   const groundChunks = chunks[Layers.ground];
   const waterLevel = waterStore.waterLevel;
+  const inputStore = useInputStore();
   const hover = inputStore.hover;
 
   const handleMouseDown = useCallback((e: MouseEvent) => {

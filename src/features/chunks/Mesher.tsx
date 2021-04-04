@@ -1,14 +1,14 @@
 import { useEffect, useRef } from "react";
-import ChunksData from "./ChunksData";
 import { Chunks } from "./components/Chunks";
 import React from "react";
 import { useChunks } from "./hooks/useChunks";
-import { chunksStore } from "./store";
 import { observer } from "mobx-react-lite";
+import { useChunksStore } from "StoreProvider";
 
 export const Mesher = observer(() => {
   const chunksList = useChunks();
   const ref = useRef<number>();
+  const chunksStore = useChunksStore();
 
   const animate = () => {
     handleFrame();

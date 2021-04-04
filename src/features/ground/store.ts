@@ -6,7 +6,7 @@ import ChunksData from "features/chunks/ChunksData";
 import { wait } from "utils/wait";
 import { makeAutoObservable } from "mobx";
 import _ from "lodash";
-import { chunksStore, ChunksStore } from "features/chunks/store";
+import { ChunksStore } from "features/chunks/store";
 import { waterStore } from "features/water/store";
 
 export interface GroundData {
@@ -23,11 +23,12 @@ export class GroundStore {
   maxHeight = 64;
   rockColor = new Color(0.072, 0.08, 0.09);
   grassColor = new Color(0.08, 0.1, 0.065);
-  seed = "1337";
+  seed: string;
   chunksStore: ChunksStore;
 
-  constructor(chunksStore: ChunksStore) {
+  constructor(seed: string, chunksStore: ChunksStore) {
     makeAutoObservable(this);
+    this.seed = seed;
     this.chunksStore = chunksStore;
   }
 
@@ -180,5 +181,3 @@ export class GroundStore {
     return v;
   }
 }
-
-export const groundStore = new GroundStore(chunksStore);

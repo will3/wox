@@ -3,11 +3,12 @@ import _ from "lodash";
 import { Vector3 } from "three";
 import { chunkSize } from "../../../constants";
 import { WaterfallChunk } from "./WaterfallChunk";
-import { groundStore } from "features/ground/store";
 import { observer } from "mobx-react-lite";
-import { waterfallStore } from "../store";
+import { useGroundStore, useWaterfallStore } from "StoreProvider";
 
 export const Waterfalls = observer(() => {
+  const groundStore = useGroundStore();
+  const waterfallStore = useWaterfallStore();
   const size = groundStore.size;
   const waterfallChunks = waterfallStore.waterfallChunks;
 

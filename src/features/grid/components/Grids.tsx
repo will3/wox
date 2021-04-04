@@ -5,16 +5,17 @@ import React from "react";
 import { chunkSize } from "../../../constants";
 import { GridChunk } from "./GridChunk";
 import { HighlightGrid } from "./HighlightGrid";
-import { groundStore } from "features/ground/store";
 import { observer } from "mobx-react-lite";
-import { gridStore } from "../store";
+import { useGridStore, useGroundStore } from "StoreProvider";
 
 export interface GridsProps {
   highlightGrid?: boolean;
 }
 
 export const Grids = observer(({ highlightGrid }: GridsProps) => {
+  const groundStore = useGroundStore();
   const size = groundStore.size;
+  const gridStore = useGridStore();
   const gridColumns = gridStore.gridColumns;
 
   useEffect(() => {

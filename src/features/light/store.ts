@@ -14,5 +14,3 @@ export class LightStore {
     this.lightDir = lightDir;
   }
 }
-
-export const lightStore = new LightStore();

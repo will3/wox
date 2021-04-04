@@ -9,6 +9,7 @@ import { Light } from "./features/light/components/Light";
 import "./app.css";
 import { ChunksProvider } from "features/chunks/ChunksProvider";
 import { Planet } from "features/planet/Planet";
+import { StoreProvider } from "StoreProvider";
 
 export function App() {
   return (
@@ -23,12 +24,14 @@ export function App() {
           props.gl.setClearColor(0x000000);
         }}
       >
-        <ChunksProvider>
-          <Light />
-          <CameraController />
-          <Planet />
-          <UserInput />
-        </ChunksProvider>
+        <StoreProvider>
+          <ChunksProvider>
+            <Light />
+            <CameraController />
+            <Planet />
+            <UserInput />
+          </ChunksProvider>
+        </StoreProvider>
       </Canvas>
       <Stats />
     </>

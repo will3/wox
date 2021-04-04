@@ -1,4 +1,3 @@
-import { inputStore } from "../../input/store";
 import { useEffect, useState } from "react";
 import raycast from "../../../utils/raycast";
 import { useThree } from "react-three-fiber";
@@ -8,7 +7,7 @@ import { gridSize } from "../constants";
 import React from "react";
 import { useChunks } from "features/chunks/hooks/useChunks";
 import { observer } from "mobx-react-lite";
-import { gridStore } from "../store";
+import { useGridStore, useInputStore } from "StoreProvider";
 
 const twoByTwo = {
   coords: [
@@ -21,8 +20,10 @@ const twoByTwo = {
 };
 
 export const HighlightGrid = observer(() => {
+  const inputStore = useInputStore();
   const mouse = inputStore.mouse;
   const chunks = useChunks();
+  const gridStore = useGridStore();
   const grids = gridStore.grids;
   const gridIds = gridStore.gridIds;
   const [geometry, setGeometry] = useState(new Geometry());

@@ -2,13 +2,13 @@ import { Vector2, Vector3 } from "three";
 import { useEffect, useMemo } from "react";
 import { chunkSize } from "../../../constants";
 import _ from "lodash";
-import { GridData, gridStore } from "../store";
+import { GridData } from "../store";
 import { useChunks } from "features/chunks/hooks/useChunks";
 import Layers from "features/chunks/Layers";
 import { waterStore } from "features/water/store";
 import { gridSize } from "../constants";
-import { groundStore } from "features/ground/store";
 import { observer } from "mobx-react-lite";
+import { useGridStore, useGroundStore } from "StoreProvider";
 
 interface GridChunkProps {
   origin: Vector2;
@@ -18,6 +18,8 @@ export const GridChunk = observer(({ origin }: GridChunkProps) => {
   const chunks = useChunks();
   const groundChunks = chunks[Layers.ground];
   const waterLevel = waterStore.waterLevel;
+  const groundStore = useGroundStore();
+  const gridStore = useGridStore();
 
   const generated = useMemo(() => {
     for (let j = 0; j < groundStore.size.y; j++) {

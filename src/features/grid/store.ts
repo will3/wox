@@ -49,5 +49,3 @@ export class GridStore {
     }
   }
 }
-
-export const gridStore = new GridStore();

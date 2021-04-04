@@ -4,10 +4,10 @@ import seedrandom from "seedrandom";
 import { clamp } from "lodash";
 import { Noise } from "../../utils/Noise";
 import traceWaterfall from "./traceWaterfall";
-import { groundStore } from "features/ground/store";
 import ChunksData from "features/chunks/ChunksData";
 import { waterStore } from "features/water/store";
 import { makeAutoObservable } from "mobx";
+import { GroundStore } from "features/ground/store";
 
 export interface WaterfallPoint {
   coord: Vector3;
@@ -26,29 +26,33 @@ export interface WaterfallChunkData {
   waterfallIds: string[];
 }
 
-const seed = groundStore.seed + "waterfall";
-
 export class WaterfallStore {
   waterfalls: { [key: string]: WaterfallData } = {};
   waterfallChunks: { [key: string]: WaterfallChunkData } = {};
-  seed = seed;
-  noise = new Noise({
-    seed,
-    frequency: 0.01,
-  });
+  seed: string;
+  groundStore: GroundStore;
 
-  constructor() {
+  constructor(seed: string, groundStore: GroundStore) {
     makeAutoObservable(this);
+    this.seed = seed;
+    this.groundStore = groundStore;
+  }
+
+  get noise() {
+    return new Noise({
+      seed: this.seed,
+      frequency: 0.01,
+    });
   }
 
   generateWaterfalls(chunks: ChunksData[], origin: Vector3) {
-    const { maxHeight } = groundStore;
+    const { maxHeight } = this.groundStore;
     const waterLevel = waterStore.waterLevel;
     const groundChunks = chunks[Layers.ground];
     const chunk = groundChunks.getChunk(
       origin.toArray() as [number, number, number]
     );
-    const rng = seedrandom(seed + "generateWaterfalls" + chunk.key);
+    const rng = seedrandom(this.seed + "generateWaterfalls" + chunk.key);
     const meshData = chunk.meshData;
     if (meshData == null) {
       throw new Error("Mesh data is empty");
@@ -114,5 +118,3 @@ export class WaterfallStore {
     }
   }
 }
-
-export const waterfallStore = new WaterfallStore();

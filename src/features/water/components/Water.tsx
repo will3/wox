@@ -1,10 +1,11 @@
 import React from "react";
 import _ from "lodash";
 import { WaterChunk } from "./WaterChunk";
-import { groundStore } from "features/ground/store";
 import { observer } from "mobx-react-lite";
+import { useGroundStore } from "StoreProvider";
 
 export const Water = observer(() => {
+  const groundStore = useGroundStore();
   const grounds = groundStore.grounds;
 
   return (
