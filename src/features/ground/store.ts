@@ -1,5 +1,4 @@
-import { Color, Vector2, Vector3 } from "three";
-import Layers from "../chunks/Layers";
+import { Color, Vector3 } from "three";
 import { Noise } from "../../utils/Noise";
 import Curve from "../../utils/Curve";
 import { ColorValue } from "features/chunks/types";
@@ -9,7 +8,6 @@ import { makeAutoObservable } from "mobx";
 import _ from "lodash";
 import { chunksStore, ChunksStore } from "features/chunks/store";
 import { waterStore } from "features/water/store";
-import ChunkData from "features/chunks/ChunkData";
 
 export interface GroundData {
   key: string;
