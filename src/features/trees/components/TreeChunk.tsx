@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { Vector3 } from "three";
-import { TreeData, useTreeStore } from "../store";
+import { TreeData, treeStore } from "../store";
 import React from "react";
 import _ from "lodash";
 import Tree from "./Tree";
@@ -9,22 +9,21 @@ import Layers from "features/chunks/Layers";
 import seedrandom from "seedrandom";
 import { groundStore } from "features/ground/store";
 import { waterStore } from "features/water/store";
+import { observer } from "mobx-react-lite";
 
 export interface TreeChunkProps {
   origin: Vector3;
   version: number;
 }
 
-export function TreeChunk({ version, origin }: TreeChunkProps) {
-  const key = origin.toArray().join(",");
-  const trees = useTreeStore((state) => state.trees[key]);
+export const TreeChunk = observer(({ version, origin }: TreeChunkProps) => {
+  const trees = treeStore.getTrees(origin);
   const chunks = useChunks();
-  const noise = useTreeStore((state) => state.noise);
-  const treeMap = useTreeStore((state) => state.treeMap);
+  const noise = treeStore.noise;
+  const treeMap = treeStore.treeMap;
   const maxHeight = groundStore.maxHeight;
   const waterLevel = waterStore.waterLevel;
-  const seed = useTreeStore((state) => state.seed);
-  const setTrees = useTreeStore((state) => state.setTrees);
+  const seed = treeStore.seed;
 
   const generateTrees = () => {
     const chunk = chunks[Layers.ground].getChunk(
@@ -79,14 +78,15 @@ export function TreeChunk({ version, origin }: TreeChunkProps) {
       }
     }
 
-    setTrees(origin, trees);
+    treeStore.setTrees(origin, trees);
+
+    console.log(`Generated ${trees.length} trees for ${origin.toArray().join(",")}`);
   };
 
   useEffect(() => {
     if (version === 0) {
       return;
     }
-    console.log(`Generate trees for ${origin.toArray().join(",")}`);
     generateTrees();
   }, [version]);
 
@@ -102,4 +102,4 @@ export function TreeChunk({ version, origin }: TreeChunkProps) {
       ))}
     </>
   );
-}
+});
