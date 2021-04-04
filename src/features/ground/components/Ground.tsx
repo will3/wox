@@ -1,21 +1,17 @@
 import React, { useEffect, useMemo } from "react";
 import { Vector2, Vector3 } from "three";
-import { Noise } from "../../../../utils/Noise";
-import { chunkSize } from "../../../../constants";
+import { Noise } from "../../../utils/Noise";
+import { chunkSize } from "../../../constants";
 import seedrandom from "seedrandom";
-import { useGroundStore } from "../../store";
+import { useGroundStore } from "../store";
 import _ from "lodash";
-import GroundChunk from "./GroundChunk";
-import { wait } from "../../../../utils/wait";
+import { GroundChunk } from "./GroundChunk";
+import { wait } from "../../../utils/wait";
 import { useChunks } from "features/chunks/hooks/useChunks";
 
-export interface GroundProps {
-  size: Vector3;
-  seed: number;
-}
-
-export default function Ground(props: GroundProps) {
-  const { size, seed } = props;
+export function Ground() {
+  const size = useGroundStore(state => state.size);
+  const seed = useGroundStore(state => state.seed);
   const grounds = useGroundStore((state) => state.grounds);
   const addGrounds = useGroundStore((state) => state.addGrounds);
   const generateGround = useGroundStore((state) => state.generateGround);

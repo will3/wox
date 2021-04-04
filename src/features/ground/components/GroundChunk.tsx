@@ -5,6 +5,6 @@ export interface GroundChunkProps {
   id: string;
 }
 
-export default function GroundChunk({ id, origin }: GroundChunkProps) {
+export function GroundChunk({ id, origin }: GroundChunkProps) {
   return null;
 }
