@@ -5,15 +5,15 @@ import React from "react";
 import { chunkSize } from "../../../constants";
 import GridChunk from "./GridChunk";
 import { useGridStore } from "../store";
-import { useGroundStore } from "features/ground/store";
 import HighlightGrid from "./HighlightGrid";
+import { groundStore } from "features/ground/store";
 
 export interface GridsProps {
   highlightGrid?: boolean;
 }
 
 export default function Grids({ highlightGrid }: GridsProps) {
-  const size = useGroundStore((state) => state.size);
+  const size = groundStore.size;
   const gridColumns = useGridStore((state) => state.gridColumns);
   const addGridColumns = useGridStore((state) => state.addGridColumns);
 

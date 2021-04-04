@@ -1,45 +1,40 @@
 import { Vector2, Vector3 } from "three";
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useMemo } from "react";
 import { chunkSize } from "../../../constants";
 import _ from "lodash";
 import { GridData, useGridStore } from "../store";
-import { useGroundStore } from "features/ground/store";
 import { useChunks } from "features/chunks/hooks/useChunks";
 import Layers from "features/chunks/Layers";
 import { useWaterStore } from "features/water/water";
 import { gridSize } from "../constants";
+import { groundStore } from "features/ground/store";
 
 interface GridChunkProps {
   origin: Vector2;
 }
 
 export default function GridChunk({ origin }: GridChunkProps) {
-  const grounds = useGroundStore((state) => state.grounds);
+  const grounds = groundStore.grounds;
   const chunks = useChunks();
   const groundChunks = chunks[Layers.ground];
   const waterLevel = useWaterStore((state) => state.waterLevel);
   const setGrids = useGridStore((state) => state.setGrids);
 
-  const generated = useGroundStore(
-    useCallback(
-      (state) => {
-        for (let j = 0; j < state.size.y; j++) {
-          const co = new Vector3(origin.x, j * chunkSize, origin.y);
-          const key = co.toArray().join(",");
-          const ground = state.grounds[key];
-          if (ground.version === 0) {
-            return false;
-          }
-        }
+  const generated = useMemo(() => {
+    for (let j = 0; j < groundStore.size.y; j++) {
+      const co = new Vector3(origin.x, j * chunkSize, origin.y);
+      const key = co.toArray().join(",");
+      const ground = groundStore.grounds[key];
+      if (ground.version === 0) {
+        return false;
+      }
+    }
 
-        return true;
-      },
-      [grounds]
-    )
-  );
+    return true;
+  }, [groundStore]);
 
   const generateGrids = () => {
-    const size = useGroundStore.getState().size;
+    const size = groundStore.size;
     const grids: { [id: string]: GridData } = {};
 
     for (let j = 0; j < size.y; j++) {

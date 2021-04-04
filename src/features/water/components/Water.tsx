@@ -1,10 +1,10 @@
 import React from "react";
 import _ from "lodash";
 import { WaterChunk } from "./WaterChunk";
-import { useGroundStore } from "features/ground/store";
+import { groundStore } from "features/ground/store";
 
 export default function Water() {
-  const grounds = useGroundStore((state) => state.grounds);
+  const grounds = groundStore.grounds;
 
   return (
     <>

@@ -1,11 +1,11 @@
 import { useMemo } from "react";
 import { Vector2 } from "three";
-import { useGroundStore } from "../store";
+import { groundStore } from "../store";
 import { useColumns } from "./useColumns";
 
 export function useSortedColumns() {
-    const size = useGroundStore(state => state.size);
-    const chunkSize = useGroundStore(state => state.chunkSize);
+    const size = groundStore.size;
+    const chunkSize = groundStore.chunkSize;
     const columns = useColumns();
 
     return useMemo(() => {

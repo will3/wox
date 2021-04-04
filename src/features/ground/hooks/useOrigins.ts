@@ -1,10 +1,10 @@
 import { useMemo } from "react";
 import { Vector3 } from "three";
-import { useGroundStore } from "../store";
+import { groundStore } from "../store";
 
 export function useOrigins() {
-  const size = useGroundStore(state => state.size);
-  const chunkSize = useGroundStore(state => state.chunkSize);
+  const size = groundStore.size;
+  const chunkSize = groundStore.chunkSize;
 
   const origins = useMemo(() => {
     const origins: Vector3[] = [];

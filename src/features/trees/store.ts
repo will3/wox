@@ -1,12 +1,8 @@
 import { Vector3 } from "three";
 import create from "zustand";
-import Layers from "../chunks/Layers";
 import { Noise } from "../../utils/Noise";
 import QuadMap from "../../utils/QuadMap";
-import { useChunkStore } from "../chunks/store";
-import seedrandom from "seedrandom";
-import { useWaterStore } from "../water/water";
-import { useGroundStore } from "features/ground/store";
+import { groundStore } from "features/ground/store";
 
 export interface TreeData {
   key: string;
@@ -15,7 +11,7 @@ export interface TreeData {
   position: Vector3;
 }
 
-const seed = useGroundStore.getState().seed;
+const seed = groundStore.seed;
 const noise = new Noise({
   frequency: 0.0025,
   seed: seed + "tree",

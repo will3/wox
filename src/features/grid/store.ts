@@ -1,11 +1,5 @@
 import create from "zustand";
 import { Vector2, Vector3 } from "three";
-import { useGroundStore } from "features/ground/store";
-import { chunkSize } from "../../constants";
-import { useChunkStore } from "../chunks/store";
-import Layers from "../chunks/Layers";
-import { gridSize } from "./constants";
-import { useWaterStore } from "../water/water";
 import _ from "lodash";
 
 export interface GridData {

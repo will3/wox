@@ -1,28 +1,27 @@
 import React, { useEffect, useMemo } from "react";
-import { useGroundStore } from "../store";
+import { groundStore, GroundStore } from "../store";
 import _ from "lodash";
 import { GroundChunk } from "./GroundChunk";
 import { useChunks } from "features/chunks/hooks/useChunks";
 import { useOrigins } from "../hooks/useOrigins";
 import { useSortedColumns } from "../hooks/useSortedColumns";
 import { useNoise } from "../hooks/useNoise";
+import { observer } from "mobx-react-lite";
 
-export function Ground() {
-  const grounds = useGroundStore((state) => state.grounds);
-  const addGrounds = useGroundStore((state) => state.addGrounds);
+export const Ground = observer(() => {
+  const grounds = groundStore.grounds;
   const chunks = useChunks();
   const origins = useOrigins();
   const sortedColumns = useSortedColumns();
-  const generateColumns = useGroundStore(state => state.generateColumns);
   const noise = useNoise();
 
   useEffect(() => {
-    addGrounds(origins);
+    groundStore.addGrounds(origins);
   }, [origins]);
 
   useEffect(() => {
     (async () => {
-      await generateColumns(sortedColumns, chunks, noise);
+      await groundStore.generateColumns(sortedColumns, chunks, noise);
     })();
   }, [sortedColumns]);
 
@@ -33,4 +32,4 @@ export function Ground() {
       ))}
     </>
   );
-}
+});

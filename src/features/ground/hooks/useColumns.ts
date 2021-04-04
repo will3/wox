@@ -1,10 +1,10 @@
 import { useMemo } from "react";
 import { Vector2 } from "three";
-import { useGroundStore } from "../store";
+import { groundStore } from "../store";
 
 export function useColumns() {
-    const size = useGroundStore(state => state.size);
-    const chunkSize = useGroundStore(state => state.chunkSize);
+    const size = groundStore.size;
+    const chunkSize = groundStore.chunkSize;
 
     return useMemo(() => {
         const columns: Vector2[] = [];
