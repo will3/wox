@@ -2,8 +2,9 @@ import React from "react";
 import _ from "lodash";
 import { WaterChunk } from "./WaterChunk";
 import { groundStore } from "features/ground/store";
+import { observer } from "mobx-react-lite";
 
-export default function Water() {
+export const Water = observer(() => {
   const grounds = groundStore.grounds;
 
   return (
@@ -17,4 +18,4 @@ export default function Water() {
       ))}
     </>
   );
-}
+});

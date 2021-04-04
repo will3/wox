@@ -2,8 +2,9 @@ import React from "react";
 import _ from "lodash";
 import { TreeChunk } from "./TreeChunk";
 import { groundStore } from "features/ground/store";
+import { observer } from "mobx-react-lite";
 
-export default function Trees() {
+export const Trees = observer(() => {
   const grounds = groundStore.grounds;
 
   return (
@@ -19,4 +20,4 @@ export default function Trees() {
       })}
     </>
   );
-}
+});

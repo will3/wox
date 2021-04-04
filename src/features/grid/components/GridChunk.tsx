@@ -8,13 +8,13 @@ import Layers from "features/chunks/Layers";
 import { useWaterStore } from "features/water/water";
 import { gridSize } from "../constants";
 import { groundStore } from "features/ground/store";
+import { observer } from "mobx-react-lite";
 
 interface GridChunkProps {
   origin: Vector2;
 }
 
-export default function GridChunk({ origin }: GridChunkProps) {
-  const grounds = groundStore.grounds;
+export const GridChunk = observer(({ origin }: GridChunkProps) => {
   const chunks = useChunks();
   const groundChunks = chunks[Layers.ground];
   const waterLevel = useWaterStore((state) => state.waterLevel);
@@ -23,15 +23,13 @@ export default function GridChunk({ origin }: GridChunkProps) {
   const generated = useMemo(() => {
     for (let j = 0; j < groundStore.size.y; j++) {
       const co = new Vector3(origin.x, j * chunkSize, origin.y);
-      const key = co.toArray().join(",");
-      const ground = groundStore.grounds[key];
-      if (ground.version === 0) {
+      if (!groundStore.generatedOrigin(co)) {
         return false;
       }
     }
 
     return true;
-  }, [groundStore]);
+  }, [groundStore.generatedOrigins]);
 
   const generateGrids = () => {
     const size = groundStore.size;
@@ -90,4 +88,4 @@ export default function GridChunk({ origin }: GridChunkProps) {
   }, [generated]);
 
   return null;
-}
+});

@@ -3,16 +3,17 @@ import { Vector2 } from "three";
 import { useEffect } from "react";
 import React from "react";
 import { chunkSize } from "../../../constants";
-import GridChunk from "./GridChunk";
+import { GridChunk } from "./GridChunk";
 import { useGridStore } from "../store";
 import HighlightGrid from "./HighlightGrid";
 import { groundStore } from "features/ground/store";
+import { observer } from "mobx-react-lite";
 
 export interface GridsProps {
   highlightGrid?: boolean;
 }
 
-export default function Grids({ highlightGrid }: GridsProps) {
+export const Grids = observer(({ highlightGrid }: GridsProps) => {
   const size = groundStore.size;
   const gridColumns = useGridStore((state) => state.gridColumns);
   const addGridColumns = useGridStore((state) => state.addGridColumns);
@@ -35,4 +36,4 @@ export default function Grids({ highlightGrid }: GridsProps) {
         .value()}
     </>
   );
-}
+});

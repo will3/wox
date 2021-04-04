@@ -3,10 +3,11 @@ import _ from "lodash";
 import { useWaterfallStore } from "../store";
 import { Vector3 } from "three";
 import { chunkSize } from "../../../constants";
-import WaterfallChunk from "./WaterfallChunk";
+import { WaterfallChunk } from "./WaterfallChunk";
 import { groundStore } from "features/ground/store";
+import { observer } from "mobx-react-lite";
 
-export default function Waterfalls() {
+export const Waterfalls = observer(() => {
   const size = groundStore.size;
   const setWaterfallChunks = useWaterfallStore(
     (state) => state.setWaterfallChunks
@@ -32,4 +33,4 @@ export default function Waterfalls() {
       ))}
     </>
   );
-}
+});

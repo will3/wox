@@ -8,6 +8,7 @@ import { ColorValue } from "features/chunks/types";
 import ChunksData from "features/chunks/ChunksData";
 import { wait } from "utils/wait";
 import { makeAutoObservable } from "mobx";
+import _ from "lodash";
 
 export interface GroundData {
   key: string;
@@ -31,6 +32,14 @@ export class GroundStore {
     makeAutoObservable(this);
   }
 
+  get generatedOrigins() {
+    return new Set(_.values(this.grounds).filter(x => x.version > 0).map(x => x.origin.toArray().join(",")));
+  }
+
+  generatedOrigin(origin: Vector3) {
+    return this.generatedOrigins.has(origin.toArray().join(","));
+  }
+
   addGrounds(origins: Vector3[]) {
     const grounds = this.grounds;
 
@@ -47,7 +56,7 @@ export class GroundStore {
   }
 
   async generateColumns(columns: Vector2[], chunks: ChunksData[], noise: Noise) {
-    const {  size, chunkSize } = this;
+    const { size, chunkSize } = this;
     const start = new Date().getTime();
     for (const column of columns) {
       for (let j = 0; j < size.y; j++) {
