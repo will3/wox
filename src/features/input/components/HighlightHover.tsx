@@ -1,23 +1,23 @@
 import { useEffect } from "react";
-import { useInputStore } from "../store";
 import { useThree } from "react-three-fiber";
 import { Color, Vector3, Quaternion } from "three";
 import React from "react";
 import Layers from "../../chunks/Layers";
 import raycast from "../../../utils/raycast";
 import { useChunks } from "features/chunks/hooks/useChunks";
+import { inputStore } from "../store";
+import { observer } from "mobx-react-lite";
 
-export default () => {
-  const mouse = useInputStore((state) => state.mouse);
+export const HighlightHover = observer(() => {
+  const mouse = inputStore.mouse;
   const { camera, scene } = useThree();
   const chunks = useChunks();
-  const setHover = useInputStore((state) => state.setHover);
-  const hover = useInputStore((state) => state.hover);
+  const hover = inputStore.hover;
 
   useEffect(() => {
     const result = raycast(mouse, camera, scene, chunks, [Layers.ground]);
     if (result != null) {
-      setHover(result);
+      inputStore.setHover(result);
     }
   }, [mouse]);
 
@@ -45,4 +45,4 @@ export default () => {
       <meshBasicMaterial color={new Color(1.0, 0.0, 1.0)} attach="material" />
     </mesh>
   );
-};
+});

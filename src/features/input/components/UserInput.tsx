@@ -1,18 +1,17 @@
 import { useEffect } from "react";
 import keycode from "keycode";
-import { useInputStore } from "../store";
 import { Vector2 } from "three";
 import React from "react";
-import HighlightHover from "./HighlightHover";
+import { HighlightHover } from "./HighlightHover";
 import { cameraStore } from "features/camera/store";
 import { observer } from "mobx-react-lite";
+import { inputStore } from "../store";
 
 export const UserInput = observer(() => {
   const zoomRate = 1.1;
 
   const targetRotation = cameraStore.targetRotation;
   const distance = cameraStore.distance;
-  const setMouse = useInputStore((state) => state.setMouse);
   const setDistance = cameraStore.setDistance;
 
   const handleKeyUp = (e: KeyboardEvent) => {
@@ -37,7 +36,7 @@ export const UserInput = observer(() => {
   const handleMouseMove = (e: MouseEvent) => {
     const x = (e.clientX / window.innerWidth) * 2 - 1;
     const y = -(e.clientY / window.innerHeight) * 2 + 1;
-    setMouse(new Vector2(x, y));
+    inputStore.setMouse(new Vector2(x, y));
   };
 
   useEffect(() => {

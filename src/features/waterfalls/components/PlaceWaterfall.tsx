@@ -1,24 +1,17 @@
-import { useInputStore } from "../../input/store";
-import { HoverState } from "../../input/HoverState";
 import { useEffect, useCallback } from "react";
 import { Vector3 } from "three";
 import traceWaterfall from "../traceWaterfall";
 import Layers from "../../chunks/Layers";
 import { useChunks } from "features/chunks/hooks/useChunks";
 import { waterStore } from "features/water/store";
+import { observer } from "mobx-react-lite";
+import { inputStore } from "features/input/store";
 
-export default function PlaceWaterfall() {
+export const PlaceWaterfall = observer(() => {
   const chunks = useChunks();
   const groundChunks = chunks[Layers.ground];
   const waterLevel = waterStore.waterLevel;
-
-  let hover: HoverState | null = null;
-  useInputStore.subscribe<HoverState | null>(
-    (h) => {
-      hover = h;
-    },
-    (state) => state.hover
-  );
+  const hover = inputStore.hover;
 
   const handleMouseDown = useCallback((e: MouseEvent) => {
     if (e.button != 0) {
@@ -48,4 +41,4 @@ export default function PlaceWaterfall() {
   }, []);
 
   return null;
-}
+});

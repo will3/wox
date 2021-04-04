@@ -1,19 +1,22 @@
-import create from "zustand";
 import { Vector2 } from "three";
 import { HoverState } from "./HoverState";
+import { makeAutoObservable } from "mobx";
 
-export interface InputState {
-  mouse: Vector2;
-  setMouse(mouse: Vector2): void;
-  hover: HoverState | null;
-  setHover(hover: HoverState | null): void;
+export class InputStore {
+  mouse = new Vector2();
+  hover: HoverState | null = null;
+
+  constructor() {
+    makeAutoObservable(this);
+  }
+
+  setMouse(mouse: Vector2) {
+    this.mouse = mouse;
+  }
+
+  setHover(hover: HoverState) {
+    this.hover = hover;
+  }
 }
 
-export const useInputStore = create<InputState>((set) => ({
-  mouse: new Vector2(),
-  setMouse: (mouse: Vector2) => {
-    set({ mouse });
-  },
-  hover: null,
-  setHover: (hover: HoverState) => set({ hover }),
-}));
+export const inputStore = new InputStore();

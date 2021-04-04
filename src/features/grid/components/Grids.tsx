@@ -5,7 +5,7 @@ import React from "react";
 import { chunkSize } from "../../../constants";
 import { GridChunk } from "./GridChunk";
 import { useGridStore } from "../store";
-import HighlightGrid from "./HighlightGrid";
+import { HighlightGrid } from "./HighlightGrid";
 import { groundStore } from "features/ground/store";
 import { observer } from "mobx-react-lite";
 

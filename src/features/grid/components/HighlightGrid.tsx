@@ -1,4 +1,4 @@
-import { useInputStore } from "../../input/store";
+import { inputStore } from "../../input/store";
 import { useEffect, useState } from "react";
 import raycast from "../../../utils/raycast";
 import { useThree } from "react-three-fiber";
@@ -8,6 +8,7 @@ import { gridSize } from "../constants";
 import React from "react";
 import { useGridStore } from "../store";
 import { useChunks } from "features/chunks/hooks/useChunks";
+import { observer } from "mobx-react-lite";
 
 const twoByTwo = {
   coords: [
@@ -19,8 +20,8 @@ const twoByTwo = {
   center: new Vector2(0.5, 0.5),
 };
 
-export default function HighlightGrid() {
-  const mouse = useInputStore((state) => state.mouse);
+export const HighlightGrid = observer(() => {
+  const mouse = inputStore.mouse;
   const chunks = useChunks();
   const grids = useGridStore((state) => state.grids);
   const gridIds = useGridStore((state) => state.gridIds);
@@ -85,7 +86,7 @@ export default function HighlightGrid() {
   }, [gridIds]);
 
   return <mesh geometry={geometry} />;
-}
+});
 
 function addPlane(
   vertices: Vector3[],
