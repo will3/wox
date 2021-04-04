@@ -10,11 +10,11 @@ export function Planet() {
     return (
         <>
             <Ground />
-            <Grids highlightGrid={true} />
+            {/* <Grids highlightGrid={true} />
             <Structures placeStructures={true} />
             <Waterfalls />
             <Trees />
-            <Water />
+            <Water /> */}
         </>
     );
 }

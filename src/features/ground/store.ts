@@ -1,4 +1,4 @@
-import { Color, Vector3 } from "three";
+import { Color, Vector2, Vector3 } from "three";
 import create from "zustand";
 import Layers from "../chunks/Layers";
 import { Noise } from "../../utils/Noise";
@@ -7,6 +7,7 @@ import { useChunkStore } from "../chunks/store";
 import { useWaterStore } from "../water/water";
 import { ColorValue } from "features/chunks/types";
 import ChunksData from "features/chunks/ChunksData";
+import { wait } from "utils/wait";
 
 export interface GroundData {
   key: string;
@@ -17,6 +18,7 @@ export interface GroundData {
 export interface GroundState {
   size: Vector3;
   curve: Curve;
+  chunkSize: number;
   grounds: { [id: string]: GroundData };
   addGrounds(origins: Vector3[]): void;
   incrementVersion(id: string): void;
@@ -25,6 +27,7 @@ export interface GroundState {
   grassColor: Color;
   generateGround(chunksList: ChunksData[], origin: Vector3): void;
   generateGrass(chunksList: ChunksData[], origin: Vector3): void;
+  generateColumns(columns: Vector2[], chunks: ChunksData[]): Promise<void>;
   noise: Noise;
   seed: string;
 }
@@ -39,6 +42,7 @@ export const useGroundStore = create<GroundState>((set, get) => ({
     seed,
   }),
   size: new Vector3(4, 2, 4),
+  chunkSize: 32,
   curve: new Curve([-1, -0.4, 0.2, 2], [-1, -0.58, -0.48, 1.5]),
   grounds: {},
   addGrounds(origins: Vector3[]) {
@@ -56,6 +60,21 @@ export const useGroundStore = create<GroundState>((set, get) => ({
     }
 
     set({ grounds });
+  },
+  async generateColumns(columns: Vector2[], chunks: ChunksData[]) {
+    const { generateGround, incrementVersion, generateGrass, size, chunkSize } = get();
+    const start = new Date().getTime();
+    for (const column of columns) {
+      for (let j = 0; j < size.y; j++) {
+        const origin = new Vector3(column.x, j * chunkSize, column.y);
+        const id = origin.toArray().join(",");
+        generateGround(chunks, origin);
+        incrementVersion(id);
+        generateGrass(chunks, origin);
+      }
+      await wait(0);
+    }
+    console.log(`Took ${new Date().getTime() - start}ms`);
   },
   generateGround(chunksList: ChunksData[], origin: Vector3) {
     const { rockColor, curve, noise, maxHeight } = get();

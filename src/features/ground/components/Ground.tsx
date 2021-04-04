@@ -1,77 +1,28 @@
 import React, { useEffect, useMemo } from "react";
-import { Vector2, Vector3 } from "three";
-import { Noise } from "../../../utils/Noise";
-import { chunkSize } from "../../../constants";
-import seedrandom from "seedrandom";
 import { useGroundStore } from "../store";
 import _ from "lodash";
 import { GroundChunk } from "./GroundChunk";
-import { wait } from "../../../utils/wait";
 import { useChunks } from "features/chunks/hooks/useChunks";
+import { useOrigins } from "../hooks/useOrigins";
+import { useSortedColumns } from "../hooks/useSortedColumns";
 
 export function Ground() {
-  const size = useGroundStore(state => state.size);
-  const seed = useGroundStore(state => state.seed);
   const grounds = useGroundStore((state) => state.grounds);
   const addGrounds = useGroundStore((state) => state.addGrounds);
-  const generateGround = useGroundStore((state) => state.generateGround);
-  const incrementVersion = useGroundStore((state) => state.incrementVersion);
-  const generateGrass = useGroundStore((state) => state.generateGrass);
   const chunks = useChunks();
-
-  const origins = useMemo(() => {
-    const origins: Vector3[] = [];
-    for (let i = 0; i < size.x; i++) {
-      for (let j = 0; j < size.y; j++) {
-        for (let k = 0; k < size.z; k++) {
-          origins.push(new Vector3(i, j, k).multiplyScalar(chunkSize));
-        }
-      }
-    }
-    return origins;
-  }, [size]);
-
-  const columns = useMemo(() => {
-    const columns: Vector2[] = [];
-    for (let i = 0; i < size.x; i++) {
-      for (let k = 0; k < size.z; k++) {
-        columns.push(new Vector2(i, k).multiplyScalar(chunkSize));
-      }
-    }
-    return columns;
-  }, []);
+  const origins = useOrigins();
+  const sortedColumns = useSortedColumns();
+  const generateColumns = useGroundStore(state => state.generateColumns);
 
   useEffect(() => {
     addGrounds(origins);
-  }, [seed]);
+  }, [origins]);
 
   useEffect(() => {
     (async () => {
-      const start = new Date().getTime();
-      const center = new Vector2(size.x - 1, size.z - 1)
-        .multiplyScalar(0.5)
-        .multiplyScalar(chunkSize);
-
-      const sorted = columns.sort((a, b) => {
-        const dis1 = center.clone().sub(a).length();
-        const dis2 = center.clone().sub(b).length();
-        const result = dis1 - dis2;
-        return result;
-      });
-
-      for (const column of sorted) {
-        for (let j = 0; j < size.y; j++) {
-          const origin = new Vector3(column.x, j * chunkSize, column.y);
-          const id = origin.toArray().join(",");
-          generateGround(chunks, origin);
-          incrementVersion(id);
-          generateGrass(chunks, origin);
-        }
-        await wait(0);
-      }
-      console.log(`Took ${new Date().getTime() - start}ms`);
+      await generateColumns(sortedColumns, chunks);
     })();
-  }, []);
+  }, [sortedColumns]);
 
   return (
     <>
