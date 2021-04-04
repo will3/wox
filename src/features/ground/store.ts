@@ -20,16 +20,16 @@ export interface GroundState {
   curve: Curve;
   chunkSize: number;
   grounds: { [id: string]: GroundData };
-  addGrounds(origins: Vector3[]): void;
-  incrementVersion(id: string): void;
   maxHeight: number;
   rockColor: Color;
   grassColor: Color;
-  generateGround(chunksList: ChunksData[], origin: Vector3): void;
-  generateGrass(chunksList: ChunksData[], origin: Vector3): void;
-  generateColumns(columns: Vector2[], chunks: ChunksData[]): Promise<void>;
-  noise: Noise;
   seed: string;
+
+  addGrounds(origins: Vector3[]): void;
+  incrementVersion(id: string): void;
+  generateGround(chunksList: ChunksData[], origin: Vector3, noise: Noise): void;
+  generateGrass(chunksList: ChunksData[], origin: Vector3): void;
+  generateColumns(columns: Vector2[], chunks: ChunksData[], noise: Noise): Promise<void>;
 }
 
 const updateMeshData = useChunkStore.getState().updateMeshData;
@@ -37,10 +37,6 @@ const updateMeshData = useChunkStore.getState().updateMeshData;
 const seed = "1337";
 
 export const useGroundStore = create<GroundState>((set, get) => ({
-  noise: new Noise({
-    scale: new Vector3(1, 0.6, 1),
-    seed,
-  }),
   size: new Vector3(4, 2, 4),
   chunkSize: 32,
   curve: new Curve([-1, -0.4, 0.2, 2], [-1, -0.58, -0.48, 1.5]),
@@ -61,14 +57,14 @@ export const useGroundStore = create<GroundState>((set, get) => ({
 
     set({ grounds });
   },
-  async generateColumns(columns: Vector2[], chunks: ChunksData[]) {
+  async generateColumns(columns: Vector2[], chunks: ChunksData[], noise: Noise) {
     const { generateGround, incrementVersion, generateGrass, size, chunkSize } = get();
     const start = new Date().getTime();
     for (const column of columns) {
       for (let j = 0; j < size.y; j++) {
         const origin = new Vector3(column.x, j * chunkSize, column.y);
         const id = origin.toArray().join(",");
-        generateGround(chunks, origin);
+        generateGround(chunks, origin, noise);
         incrementVersion(id);
         generateGrass(chunks, origin);
       }
@@ -76,8 +72,8 @@ export const useGroundStore = create<GroundState>((set, get) => ({
     }
     console.log(`Took ${new Date().getTime() - start}ms`);
   },
-  generateGround(chunksList: ChunksData[], origin: Vector3) {
-    const { rockColor, curve, noise, maxHeight } = get();
+  generateGround(chunksList: ChunksData[], origin: Vector3, noise: Noise) {
+    const { rockColor, curve, maxHeight } = get();
     const chunks = chunksList[Layers.ground];
     const chunk = chunks.getOrCreateChunk(
       origin.toArray() as [number, number, number]
@@ -151,7 +147,7 @@ export const useGroundStore = create<GroundState>((set, get) => ({
   seed,
 }));
 
-const getValue = (
+function getValue(
   noise: Noise,
   curve: Curve,
   origin: Vector3,
@@ -159,7 +155,7 @@ const getValue = (
   i: number,
   j: number,
   k: number
-) => {
+) {
   const absY = origin.y + j;
   const relY = absY / maxHeight;
   const gradient = (-relY * 2 + 1) * 0.75;
@@ -168,4 +164,4 @@ const getValue = (
   nv = curve.sample(nv);
   const v = nv + gradient;
   return v;
-};
+}
