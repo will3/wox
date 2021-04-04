@@ -1,8 +1,8 @@
 import { Vector2, Vector3 } from "three";
-import { useCallback, useEffect, useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { chunkSize } from "../../../constants";
 import _ from "lodash";
-import { GridData, useGridStore } from "../store";
+import { GridData, gridStore } from "../store";
 import { useChunks } from "features/chunks/hooks/useChunks";
 import Layers from "features/chunks/Layers";
 import { waterStore } from "features/water/store";
@@ -18,7 +18,6 @@ export const GridChunk = observer(({ origin }: GridChunkProps) => {
   const chunks = useChunks();
   const groundChunks = chunks[Layers.ground];
   const waterLevel = waterStore.waterLevel;
-  const setGrids = useGridStore((state) => state.setGrids);
 
   const generated = useMemo(() => {
     for (let j = 0; j < groundStore.size.y; j++) {
@@ -76,7 +75,7 @@ export const GridChunk = observer(({ origin }: GridChunkProps) => {
     }
 
     const key = origin.toArray().join(",");
-    setGrids(key, _.values(grids));
+    gridStore.setGrids(key, _.values(grids));
   };
 
   useEffect(() => {

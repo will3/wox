@@ -1,5 +1,5 @@
 import { Grids } from "features/grid/components/Grids";
-import Structures from "features/structures/components/Structures";
+import { Structures } from "features/structures/components/Structures";
 import { Trees } from "features/trees/components/Trees";
 import { Water } from "features/water/components/Water";
 import { Waterfalls } from "features/waterfalls/components/Waterfalls";

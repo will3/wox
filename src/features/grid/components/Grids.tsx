@@ -4,10 +4,10 @@ import { useEffect } from "react";
 import React from "react";
 import { chunkSize } from "../../../constants";
 import { GridChunk } from "./GridChunk";
-import { useGridStore } from "../store";
 import { HighlightGrid } from "./HighlightGrid";
 import { groundStore } from "features/ground/store";
 import { observer } from "mobx-react-lite";
+import { gridStore } from "../store";
 
 export interface GridsProps {
   highlightGrid?: boolean;
@@ -15,8 +15,7 @@ export interface GridsProps {
 
 export const Grids = observer(({ highlightGrid }: GridsProps) => {
   const size = groundStore.size;
-  const gridColumns = useGridStore((state) => state.gridColumns);
-  const addGridColumns = useGridStore((state) => state.addGridColumns);
+  const gridColumns = gridStore.gridColumns;
 
   useEffect(() => {
     const columns = [];
@@ -25,7 +24,7 @@ export const Grids = observer(({ highlightGrid }: GridsProps) => {
         columns.push(new Vector2(i, k).multiplyScalar(chunkSize));
       }
     }
-    addGridColumns(columns);
+    gridStore.addGridColumns(columns);
   }, [size]);
 
   return (

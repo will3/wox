@@ -1,6 +1,7 @@
 import create from "zustand";
 import { Vector2, Vector3 } from "three";
 import _ from "lodash";
+import { makeAutoObservable } from "mobx";
 
 export interface GridData {
   id: string;
@@ -16,43 +17,37 @@ export interface GridColumnData {
   gridIds: string[];
 }
 
-export interface GridState {
-  grids: { [id: string]: GridData };
-  gridColumns: { [id: string]: GridColumnData };
-  setGrids(columnId: string, grids: GridData[]): void;
-  addGridColumns(origins: Vector2[]): void;
-  gridIds: string[];
-  setGridIds(gridIds: string[]): void;
-}
+export class GridStore {
+  grids: { [id: string]: GridData } = {};
+  gridColumns: { [id: string]: GridColumnData } = {};
+  gridIds: string[] = [];
 
-export const useGridStore = create<GridState>((set, get) => ({
+  constructor() {
+    makeAutoObservable(this);
+  }
+
+  setGridIds(gridIds: string[]) {
+    this.gridIds = gridIds;
+  }
+
   setGrids(columnId: string, grids: GridData[]) {
-    const existingGrids = { ...get().grids };
     for (const grid of grids) {
-      existingGrids[grid.id] = grid;
+      this.grids[grid.id] = grid;
     }
-    set({ grids: existingGrids });
 
-    const gridColumns = { ...get().gridColumns };
-    gridColumns[columnId].gridIds = grids.map((x) => x.id);
-    set({ gridColumns });
-  },
+    this.gridColumns[columnId].gridIds = grids.map((x) => x.id);
+  }
+
   addGridColumns(origins: Vector2[]) {
-    const gridColumns = { ...get().gridColumns };
     for (const origin of origins) {
       const id = origin.toArray().join(",");
-      gridColumns[id] = {
+      this.gridColumns[id] = {
         id,
         origin,
         gridIds: [],
       };
     }
-    set({ gridColumns });
-  },
-  grids: {},
-  gridColumns: {},
-  gridIds: [],
-  setGridIds(gridIds: string[]) {
-    set({ gridIds });
-  },
-}));
+  }
+}
+
+export const gridStore = new GridStore();

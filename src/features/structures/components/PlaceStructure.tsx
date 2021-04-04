@@ -1,10 +1,10 @@
+import { gridStore } from "features/grid/store";
+import { observer } from "mobx-react-lite";
 import { useEffect } from "react";
-import { useStructureStore } from "../store";
-import { useGridStore } from "features/grid/store";
+import { structoreStore } from "../store";
 
-export default function PlaceStructure() {
-  const gridIds = useGridStore((state) => state.gridIds);
-  const addStructure = useStructureStore((state) => state.addStructure);
+export const PlaceStructure = observer(() => {
+  const gridIds = gridStore.gridIds;
 
   const handleMouseDown = (e: MouseEvent) => {
     console.log(`add structure ${gridIds}`);
@@ -16,7 +16,7 @@ export default function PlaceStructure() {
       return;
     }
 
-    addStructure(gridIds);
+    structoreStore.addStructure(gridIds);
   };
 
   useEffect(() => {
@@ -27,4 +27,4 @@ export default function PlaceStructure() {
   }, [gridIds]);
 
   return null;
-}
+});

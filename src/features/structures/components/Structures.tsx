@@ -1,14 +1,15 @@
 import React from "react";
 import _ from "lodash";
 import Structure from "./Structure";
-import { useStructureStore } from "../store";
-import PlaceStructure from "./PlaceStructure";
+import { PlaceStructure } from "./PlaceStructure";
+import { structoreStore } from "../store";
+import { observer } from "mobx-react-lite";
 
 export interface StructuresProps {
   placeStructures?: boolean;
 }
-export default function Structures({ placeStructures }: StructuresProps) {
-  const structures = useStructureStore((state) => state.structures);
+export const Structures = observer(({ placeStructures }: StructuresProps) => {
+  const structures = structoreStore.structures;
 
   return (
     <>
@@ -18,4 +19,4 @@ export default function Structures({ placeStructures }: StructuresProps) {
       ))}
     </>
   );
-}
+});
