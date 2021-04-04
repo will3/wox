@@ -1,18 +1,15 @@
 import React, { useEffect } from "react";
 import _ from "lodash";
-import { useWaterfallStore } from "../store";
 import { Vector3 } from "three";
 import { chunkSize } from "../../../constants";
 import { WaterfallChunk } from "./WaterfallChunk";
 import { groundStore } from "features/ground/store";
 import { observer } from "mobx-react-lite";
+import { waterfallStore } from "../store";
 
 export const Waterfalls = observer(() => {
   const size = groundStore.size;
-  const setWaterfallChunks = useWaterfallStore(
-    (state) => state.setWaterfallChunks
-  );
-  const waterfallChunks = useWaterfallStore((state) => state.waterfallChunks);
+  const waterfallChunks = waterfallStore.waterfallChunks;
 
   useEffect(() => {
     const origins = [];
@@ -23,7 +20,7 @@ export const Waterfalls = observer(() => {
         }
       }
     }
-    setWaterfallChunks(origins);
+    waterfallStore.setWaterfallChunks(origins);
   }, [size]);
 
   return (

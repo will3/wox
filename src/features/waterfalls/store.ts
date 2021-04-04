@@ -8,6 +8,7 @@ import traceWaterfall from "./traceWaterfall";
 import { groundStore } from "features/ground/store";
 import ChunksData from "features/chunks/ChunksData";
 import { waterStore } from "features/water/store";
+import { makeAutoObservable } from "mobx";
 
 export interface WaterfallPoint {
   coord: Vector3;
@@ -26,24 +27,21 @@ export interface WaterfallChunkData {
   waterfallIds: string[];
 }
 
-export interface WaterfallState {
-  waterfalls: { [key: string]: WaterfallData };
-  waterfallChunks: { [key: string]: WaterfallChunkData };
-  generateWaterfalls(chunks: ChunksData[], origin: Vector3): void;
-  setWaterfallChunks(origins: Vector3[]): void;
-  noise: Noise;
-}
-
 const seed = groundStore.seed + "waterfall";
 
-export const useWaterfallStore = create<WaterfallState>((set, get) => ({
-  waterfalls: {},
-  waterfallChunks: {},
-  seed,
-  noise: new Noise({
+export class WaterfallStore {
+  waterfalls: { [key: string]: WaterfallData } = {};
+  waterfallChunks: { [key: string]: WaterfallChunkData } = {};
+  seed = seed;
+  noise = new Noise({
     seed,
     frequency: 0.01,
-  }),
+  });
+
+  constructor() {
+    makeAutoObservable(this);
+  }
+
   generateWaterfalls(chunks: ChunksData[], origin: Vector3) {
     const { maxHeight } = groundStore;
     const waterLevel = waterStore.waterLevel;
@@ -56,7 +54,7 @@ export const useWaterfallStore = create<WaterfallState>((set, get) => ({
     if (meshData == null) {
       throw new Error("Mesh data is empty");
     }
-    const noise = get().noise;
+    const noise = this.noise;
 
     if (meshData.upFaces.length === 0) {
       return;
@@ -64,16 +62,12 @@ export const useWaterfallStore = create<WaterfallState>((set, get) => ({
 
     const density = 1 / 420;
 
-    const waterfallChunks = { ...get().waterfallChunks };
-    const waterfalls = { ...get().waterfalls };
-
     const key = origin.toArray().join(",");
-    const waterfallChunk = {
+    this.waterfallChunks[key] = {
       key,
       origin,
       waterfallIds: [],
-    } as WaterfallChunkData;
-    waterfallChunks[key] = waterfallChunk;
+    };
 
     for (let i = 0; i < meshData.upFaces.length * density; i++) {
       const index = Math.floor(meshData.upFaces.length * rng());
@@ -105,26 +99,21 @@ export const useWaterfallStore = create<WaterfallState>((set, get) => ({
         points,
       };
 
-      waterfallChunk.waterfallIds.push(waterfall.key);
-      waterfalls[waterfall.key] = waterfall;
+      this.waterfallChunks[key].waterfallIds.push(waterfall.key);
+      this.waterfalls[waterfall.key] = waterfall;
     }
+  }
 
-    set({
-      waterfallChunks,
-      waterfalls,
-    });
-  },
   setWaterfallChunks(origins: Vector3[]) {
-    const waterfallChunks = { ...get().waterfallChunks };
     for (const origin of origins) {
       const key = origin.toArray().join(",");
-      waterfallChunks[key] = {
+      this.waterfallChunks[key] = {
         key,
         origin,
         waterfallIds: [],
       };
-
-      set({ waterfallChunks });
     }
-  },
-}));
+  }
+}
+
+export const waterfallStore = new WaterfallStore();
