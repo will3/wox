@@ -1,12 +1,12 @@
 import ChunksData from "./ChunksData";
 import { meshChunk } from "./meshChunk";
 import { makeAutoObservable } from "mobx";
-import { waterStore } from "features/water/store";
 
 export class ChunksStore {
   chunks: ChunksData[] = [];
   versions: { [id: string]: number } = {};
   chunkVersions: { [id: string]: number } = {};
+  waterLevel = 6;
 
   constructor() {
     makeAutoObservable(this);
@@ -29,7 +29,7 @@ export class ChunksStore {
   }
 
   updateMeshData(chunks: ChunksData, id: string) {
-    const waterLevel = waterStore.waterLevel;
+    const waterLevel = this.waterLevel;
     const start = new Date().getTime();
     const chunk = chunks.map[id];
     const meshData = meshChunk(chunk, waterLevel);

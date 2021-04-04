@@ -7,7 +7,6 @@ import { wait } from "utils/wait";
 import { makeAutoObservable } from "mobx";
 import _ from "lodash";
 import { ChunksStore } from "features/chunks/store";
-import { waterStore } from "features/water/store";
 
 export interface GroundData {
   key: string;
@@ -25,6 +24,7 @@ export class GroundStore {
   grassColor = new Color(0.08, 0.1, 0.065);
   seed: string;
   chunksStore: ChunksStore;
+  waterLevel = 6;
 
   constructor(seed: string, chunksStore: ChunksStore) {
     makeAutoObservable(this);
@@ -135,7 +135,7 @@ export class GroundStore {
     const chunk = chunks.getOrCreateChunk(
       origin.toArray() as [number, number, number]
     );
-    const waterLevel = waterStore.waterLevel;
+    const waterLevel = this.waterLevel;
     const grassColorValue = this.grassColor.getHex();
     const meshData = chunk.meshData!;
     const voxels = meshData.voxels;

@@ -3,9 +3,9 @@ import { Color, Vector3 } from "three";
 import Layers from "../chunks/Layers";
 
 export class WaterStore {
-  waterColor= new Color(0.08, 0.12, 0.2);
-  waterAlpha= 0.4;
-  waterLevel= 6;
+  waterColor = new Color(0.08, 0.12, 0.2);
+  waterAlpha = 0.4;
+  waterLevel = 6;
 
   generateWater(chunksList: ChunksData[], origin: Vector3) {
     const groundChunks = chunksList[Layers.ground];
@@ -42,5 +42,3 @@ export class WaterStore {
     }
   }
 }
-
-export const waterStore = new WaterStore();

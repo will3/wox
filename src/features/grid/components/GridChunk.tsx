@@ -5,10 +5,9 @@ import _ from "lodash";
 import { GridData } from "../store";
 import { useChunks } from "features/chunks/hooks/useChunks";
 import Layers from "features/chunks/Layers";
-import { waterStore } from "features/water/store";
 import { gridSize } from "../constants";
 import { observer } from "mobx-react-lite";
-import { useGridStore, useGroundStore } from "StoreProvider";
+import { useGridStore, useGroundStore, useWaterStore } from "StoreProvider";
 
 interface GridChunkProps {
   origin: Vector2;
@@ -17,6 +16,7 @@ interface GridChunkProps {
 export const GridChunk = observer(({ origin }: GridChunkProps) => {
   const chunks = useChunks();
   const groundChunks = chunks[Layers.ground];
+  const waterStore = useWaterStore();
   const waterLevel = waterStore.waterLevel;
   const groundStore = useGroundStore();
   const gridStore = useGridStore();

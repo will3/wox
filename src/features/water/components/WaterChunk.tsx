@@ -1,7 +1,7 @@
 import { useChunks } from "features/chunks/hooks/useChunks";
 import { useEffect } from "react";
+import { useWaterStore } from "StoreProvider";
 import { Vector3 } from "three";
-import { waterStore } from "../store";
 
 export interface WaterChunkProps {
   origin: Vector3;
@@ -10,6 +10,7 @@ export interface WaterChunkProps {
 
 export function WaterChunk({ origin, version }: WaterChunkProps) {
   const chunks = useChunks();
+  const waterStore = useWaterStore();
 
   useEffect(() => {
     if (version === 0) {

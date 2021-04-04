@@ -5,7 +5,6 @@ import { clamp } from "lodash";
 import { Noise } from "../../utils/Noise";
 import traceWaterfall from "./traceWaterfall";
 import ChunksData from "features/chunks/ChunksData";
-import { waterStore } from "features/water/store";
 import { makeAutoObservable } from "mobx";
 import { GroundStore } from "features/ground/store";
 
@@ -47,7 +46,7 @@ export class WaterfallStore {
 
   generateWaterfalls(chunks: ChunksData[], origin: Vector3) {
     const { maxHeight } = this.groundStore;
-    const waterLevel = waterStore.waterLevel;
+    const waterLevel = this.groundStore.waterLevel;
     const groundChunks = chunks[Layers.ground];
     const chunk = groundChunks.getChunk(
       origin.toArray() as [number, number, number]

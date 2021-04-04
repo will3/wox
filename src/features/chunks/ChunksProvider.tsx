@@ -1,17 +1,25 @@
 import { chunkSize } from "../../constants";
-import { ReactNode, useLayoutEffect } from "react";
+import { createContext, ReactNode, useLayoutEffect, useRef } from "react";
 import ChunksData from "./ChunksData";
 import Layers from "./Layers";
 import React from "react";
 import { Mesher } from "./Mesher";
 import { useChunksStore } from "StoreProvider";
+import { ShaderMaterial } from "three";
 
 export interface ChunksProviderProps {
   children: ReactNode;
 }
 
+export const ChunksContext = createContext({
+  materials: new Map<string, ShaderMaterial>(),
+});
+
 export function ChunksProvider({ children }: ChunksProviderProps) {
   const chunksStore = useChunksStore();
+  const materialsRef = useRef(new Map<string, ShaderMaterial>());
+
+  const materials = materialsRef.current;
 
   useLayoutEffect(() => {
     const trees = new ChunksData(chunkSize, Layers.trees);
@@ -34,7 +42,11 @@ export function ChunksProvider({ children }: ChunksProviderProps) {
   return (
     <>
       <Mesher />
-      {children}
+      <ChunksContext.Provider value={{
+        materials,
+      }}>
+        {children}
+      </ChunksContext.Provider>
     </>
   );
 }

@@ -7,7 +7,6 @@ import Tree from "./Tree";
 import { useChunks } from "features/chunks/hooks/useChunks";
 import Layers from "features/chunks/Layers";
 import seedrandom from "seedrandom";
-import { waterStore } from "features/water/store";
 import { observer } from "mobx-react-lite";
 import { useGroundStore, useTreeStore } from "StoreProvider";
 
@@ -24,7 +23,7 @@ export const TreeChunk = observer(({ version, origin }: TreeChunkProps) => {
   const treeMap = treeStore.treeMap;
   const groundStore = useGroundStore();
   const maxHeight = groundStore.maxHeight;
-  const waterLevel = waterStore.waterLevel;
+  const waterLevel = groundStore.waterLevel;
   const seed = treeStore.seed;
 
   const generateTrees = () => {

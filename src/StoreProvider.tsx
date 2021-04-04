@@ -6,6 +6,7 @@ import { InputStore } from "features/input/store";
 import { LightStore } from "features/light/store";
 import { StructureStore } from "features/structures/store";
 import { TreeStore } from "features/trees/store";
+import { WaterStore } from "features/water/store";
 import { WaterfallStore } from "features/waterfalls/store";
 import React, { createContext, ReactNode, useContext, useMemo } from "react";
 import seedrandom from "seedrandom";
@@ -20,6 +21,7 @@ interface StoreContextValue {
     structureStore?: StructureStore;
     lightStore?: LightStore;
     inputStore?: InputStore;
+    waterStore?: WaterStore;
 }
 
 const StoreContext = createContext<StoreContextValue>({});
@@ -45,6 +47,7 @@ export function StoreProvider({ children }: StoreProviderProps) {
         const structureStore = new StructureStore();
         const lightStore = new LightStore();
         const inputStore = new InputStore();
+        const waterStore = new WaterStore();
 
         return {
             chunksStore,
@@ -55,7 +58,8 @@ export function StoreProvider({ children }: StoreProviderProps) {
             gridStore,
             structureStore,
             lightStore,
-            inputStore
+            inputStore,
+            waterStore,
         }
     }, []);
 
@@ -77,6 +81,7 @@ export const useGridStore = createStoreHook("grid", (store => store.gridStore));
 export const useStructureStore = createStoreHook("structure", (store => store.structureStore));
 export const useInputStore = createStoreHook("input", (store => store.inputStore));
 export const useLightStore = createStoreHook("light", (store => store.lightStore));
+export const useWaterStore = createStoreHook("water", (store => store.waterStore));
 
 export function createStoreHook<T>(name: string, callback: (store: StoreContextValue) => T) {
     function hook() {

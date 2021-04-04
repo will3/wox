@@ -8,17 +8,12 @@ import {
   RGBFormat,
   FloatType,
   Vector3,
-  ShaderMaterial,
-  UniformsUtils,
-  UniformsLib,
   BufferAttribute,
   Mesh,
-  Material,
 } from "three";
-import { vertexShader, fragmentShader } from "../voxelShader";
 import { observer } from "mobx-react-lite";
-import { waterStore } from "features/water/store";
-import { useChunksStore, useLightStore } from "StoreProvider";
+import { useChunksStore } from "StoreProvider";
+import { useMaterial } from "../hooks/useMaterial";
 
 export interface ChunkProps {
   chunk: ChunkData;
@@ -28,28 +23,13 @@ export const Chunk = observer((props: ChunkProps) => {
   const { chunk } = props;
 
   const meshRef = useRef(new Mesh());
-  const lightStore = useLightStore();
-  const sunColor = lightStore.sunColor;
-  const ambient = lightStore.ambient;
-  const waterAlpha = waterStore.waterAlpha;
-  const lightDir = lightStore.lightDir;
   const chunksStore = useChunksStore();
   const version = chunksStore.getChunkVersion(chunk.id);
+  const { getOrCreateMaterial, removeMaterial } = useMaterial();
 
   console.log(
     `Rerender chunk ${props.chunk.layer} ${props.chunk.origin.join(",")}`
   );
-
-  useEffect(() => {
-    const mesh = meshRef.current;
-    const material = mesh.material as ShaderMaterial;
-    if (material.uniforms == null) {
-      return;
-    }
-    material.uniforms.lightDir = new Uniform(lightDir);
-    material.uniformsNeedUpdate = true;
-    material.needsUpdate = true;
-  }, [lightDir]);
 
   useEffect(() => {
     const position = new Vector3()
@@ -64,27 +44,6 @@ export const Chunk = observer((props: ChunkProps) => {
       origin: chunk.origin,
       layer: chunk.layer,
     };
-
-    const uniforms = UniformsUtils.merge([
-      UniformsLib["lights"],
-      {
-        sunColor: new Uniform(sunColor),
-        lightDir: new Uniform(lightDir),
-        ambient: new Uniform(ambient),
-        normalBias: new Uniform(chunk.chunks.normalBias),
-        skyBias: new Uniform(chunk.chunks.skyBias),
-        waterAlpha: new Uniform(waterAlpha),
-        isWater: new Uniform(chunk.chunks.isWater ? 1.0 : 0.0),
-      },
-    ]);
-
-    mesh.material = new ShaderMaterial({
-      vertexShader,
-      fragmentShader,
-      lights: true,
-      uniforms,
-      transparent: chunk.chunks.isWater,
-    });
   }, []);
 
   useEffect(() => {
@@ -128,7 +87,8 @@ export const Chunk = observer((props: ChunkProps) => {
 
     mesh.geometry = geometry;
 
-    const material = mesh.material as ShaderMaterial;
+    const material = getOrCreateMaterial(chunk);
+    mesh.material = material;
 
     const prevTexture = material.uniforms.voxelNormals?.value;
     if (prevTexture != null) {
@@ -157,17 +117,11 @@ export const Chunk = observer((props: ChunkProps) => {
   useEffect(() => {
     return () => {
       const mesh = meshRef.current;
-      const material = mesh.material as ShaderMaterial;
-      const texture = material.uniforms.voxelNormals?.value;
-      if (texture != null) {
-        texture.dispose();
-      }
       if (mesh.geometry != null) {
         mesh.geometry.dispose();
       }
-      if (mesh.material != null) {
-        (mesh.material as Material).dispose();
-      }
+
+      removeMaterial(chunk.id);
     };
   }, []);
 
