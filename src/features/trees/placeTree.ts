@@ -3,7 +3,6 @@ import { Vector3, Quaternion, Matrix4, Vector2, Color } from "three";
 import { clamp } from "lodash";
 import { sdVerticalCapsule, opTx, sdCone } from "../../utils/sdf";
 import { Bounds } from "../../utils/Bounds";
-import { ColorValue } from "features/chunks/types";
 
 const placeTree = (
   chunks: ChunksData,

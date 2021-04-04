@@ -6,7 +6,7 @@ import seedrandom from "seedrandom";
 import { useGroundStore } from "../../store";
 import _ from "lodash";
 import GroundChunk from "./GroundChunk";
-import { wait } from "./wait";
+import { wait } from "../../../../utils/wait";
 import { useChunks } from "features/chunks/hooks/useChunks";
 
 export interface GroundProps {
