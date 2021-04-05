@@ -2,6 +2,7 @@ import { Vector2, Camera, Scene, Raycaster, Vector3 } from "three";
 import ChunksData from "../features/chunks/ChunksData";
 import { HoverState } from "../features/input/HoverState";
 import getFaceInfo from "../features/chunks/getFaceInfo";
+import _ from "lodash";
 
 const raycast = (
   mouse: Vector2,
@@ -10,6 +11,8 @@ const raycast = (
   chunks: ChunksData[],
   layers: number[]
 ) => {
+  const byLayer = _.keyBy(chunks, x => x.layer);
+
   const ray = new Raycaster();
   for (const layer of layers) {
     ray.layers.disableAll();
@@ -34,7 +37,7 @@ const raycast = (
     return;
   }
 
-  const chunk = chunks[layer].getChunk(origin);
+  const chunk = byLayer[layer].getChunk(origin);
   if (chunk == null || chunk.meshData == null) {
     return;
   }

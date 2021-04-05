@@ -4,8 +4,6 @@ import { TreeData } from "../store";
 import React from "react";
 import _ from "lodash";
 import Tree from "./Tree";
-import { useChunks } from "features/chunks/hooks/useChunks";
-import Layers from "features/chunks/Layers";
 import seedrandom from "seedrandom";
 import { observer } from "mobx-react-lite";
 import { useGroundStore, useTreeStore } from "StoreProvider";
@@ -18,16 +16,16 @@ export interface TreeChunkProps {
 export const TreeChunk = observer(({ version, origin }: TreeChunkProps) => {
   const treeStore = useTreeStore();
   const trees = treeStore.getTrees(origin);
-  const chunks = useChunks();
   const noise = treeStore.noise;
   const treeMap = treeStore.treeMap;
   const groundStore = useGroundStore();
   const maxHeight = groundStore.maxHeight;
   const waterLevel = groundStore.waterLevel;
   const seed = treeStore.seed;
+  const groundChunks = groundStore.chunks;
 
   const generateTrees = () => {
-    const chunk = chunks[Layers.ground].getChunk(
+    const chunk = groundChunks.getChunk(
       origin.toArray() as [number, number, number]
     );
 

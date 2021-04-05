@@ -1,12 +1,10 @@
 import ChunksData from "../chunks/ChunksData";
 import { Vector3, Color, Euler } from "three";
-import Layers from "../chunks/Layers";
 import seedrandom from "seedrandom";
 import { GridData } from "../grid/store";
 import _ from "lodash";
-import { ColorValue } from "features/chunks/types";
 
-export default (chunksList: ChunksData[], grids: GridData[]) => {
+export default (chunks: ChunksData, grids: GridData[]) => {
   const hw = 3;
   const hl = 3;
   const height = 7;
@@ -32,7 +30,6 @@ export default (chunksList: ChunksData[], grids: GridData[]) => {
 
   const offset = new Vector3(hw, minY, hl);
 
-  const chunks = chunksList[Layers.structures];
   const rng = seedrandom();
   const rotation = new Euler(
     0,

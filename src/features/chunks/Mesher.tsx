@@ -1,12 +1,10 @@
 import { useEffect, useRef } from "react";
 import { Chunks } from "./components/Chunks";
 import React from "react";
-import { useChunks } from "./hooks/useChunks";
 import { observer } from "mobx-react-lite";
 import { useChunksStore } from "StoreProvider";
 
 export const Mesher = observer(() => {
-  const chunksList = useChunks();
   const ref = useRef<number>();
   const chunksStore = useChunksStore();
 
@@ -25,7 +23,7 @@ export const Mesher = observer(() => {
   }, []);
 
   const handleFrame = () => {
-    for (const chunks of chunksList) {
+    for (const chunks of chunksStore.chunksList) {
       for (const id in chunks.map) {
         let changed = false;
         const chunk = chunks.map[id];
@@ -36,7 +34,7 @@ export const Mesher = observer(() => {
         }
 
         if (changed) {
-          chunksStore.incrementVersion(chunks.layer);
+          chunksStore.incrementVersion(chunks.id);
         }
       }
     }
@@ -44,8 +42,8 @@ export const Mesher = observer(() => {
 
   return (
     <>
-      {chunksList.map((chunks, index) => (
-        <Chunks key={index} layer={chunks.layer} />
+      {chunksStore.chunksList.map((chunks, index) => (
+        <Chunks key={index} chunks={chunks} />
       ))}
     </>
   );

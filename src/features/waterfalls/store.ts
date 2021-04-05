@@ -1,5 +1,4 @@
 import { Vector3 } from "three";
-import Layers from "../chunks/Layers";
 import seedrandom from "seedrandom";
 import { clamp } from "lodash";
 import { Noise } from "../../utils/Noise";
@@ -44,10 +43,10 @@ export class WaterfallStore {
     });
   }
 
-  generateWaterfalls(chunks: ChunksData[], origin: Vector3) {
+  generateWaterfalls(origin: Vector3) {
     const { maxHeight } = this.groundStore;
     const waterLevel = this.groundStore.waterLevel;
-    const groundChunks = chunks[Layers.ground];
+    const groundChunks = this.groundStore.chunks;
     const chunk = groundChunks.getChunk(
       origin.toArray() as [number, number, number]
     );

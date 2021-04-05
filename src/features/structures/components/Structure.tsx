@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import placeStructure from "../placeStructure";
-import { useChunks } from "features/chunks/hooks/useChunks";
-import { useGridStore } from "StoreProvider";
+import { useChunksStore, useGridStore, useStructureStore } from "StoreProvider";
 
 export interface StructureProps {
   gridIds: string[];
@@ -9,12 +8,15 @@ export interface StructureProps {
 
 export default function Structure({ gridIds }: StructureProps) {
   const gridStore = useGridStore();
+  const chunksStore = useChunksStore();
+  const structureStore = useStructureStore();
+  const structureChunks = structureStore.chunks;
+
   const grids = gridStore.grids;
-  const chunks = useChunks();
 
   useEffect(() => {
     const gs = gridIds.map((x) => grids[x]);
-    placeStructure(chunks, gs);
+    placeStructure(structureChunks, gs);
   }, []);
   return null;
 }

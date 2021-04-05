@@ -5,9 +5,8 @@ import Layers from "../../chunks/Layers";
 import { Vector2, Vector3, Geometry, Face3 } from "three";
 import { gridSize } from "../constants";
 import React from "react";
-import { useChunks } from "features/chunks/hooks/useChunks";
 import { observer } from "mobx-react-lite";
-import { useGridStore, useInputStore } from "StoreProvider";
+import { useChunksStore, useGridStore, useInputStore } from "StoreProvider";
 
 const twoByTwo = {
   coords: [
@@ -21,9 +20,10 @@ const twoByTwo = {
 
 export const HighlightGrid = observer(() => {
   const inputStore = useInputStore();
-  const mouse = inputStore.mouse;
-  const chunks = useChunks();
   const gridStore = useGridStore();
+  const chunksStore = useChunksStore();
+
+  const mouse = inputStore.mouse;
   const grids = gridStore.grids;
   const gridIds = gridStore.gridIds;
   const [geometry, setGeometry] = useState(new Geometry());
@@ -31,7 +31,7 @@ export const HighlightGrid = observer(() => {
   const { camera, scene } = useThree();
 
   useEffect(() => {
-    const result = raycast(mouse, camera, scene, chunks, [Layers.ground]);
+    const result = raycast(mouse, camera, scene, chunksStore.chunksList, [Layers.ground]);
     if (result == null) {
       return;
     }

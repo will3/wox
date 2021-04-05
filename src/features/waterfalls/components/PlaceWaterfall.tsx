@@ -1,15 +1,12 @@
 import { useEffect, useCallback } from "react";
 import { Vector3 } from "three";
 import traceWaterfall from "../traceWaterfall";
-import Layers from "../../chunks/Layers";
-import { useChunks } from "features/chunks/hooks/useChunks";
 import { observer } from "mobx-react-lite";
 import { useGroundStore, useInputStore } from "StoreProvider";
 
 export const PlaceWaterfall = observer(() => {
-  const chunks = useChunks();
-  const groundChunks = chunks[Layers.ground];
   const groundStore = useGroundStore();
+  const groundChunks = groundStore.chunks;
   const waterLevel = groundStore.waterLevel;
   const inputStore = useInputStore();
   const hover = inputStore.hover;

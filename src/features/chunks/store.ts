@@ -3,29 +3,41 @@ import { meshChunk } from "./meshChunk";
 import { makeAutoObservable } from "mobx";
 
 export class ChunksStore {
-  chunks: ChunksData[] = [];
   versions: { [id: string]: number } = {};
   chunkVersions: { [id: string]: number } = {};
   waterLevel = 6;
+  map = new Map<string, ChunksData>();
 
   constructor() {
     makeAutoObservable(this);
+  }
+
+  get chunksList() {
+    return [...this.map.values()];
+  }
+
+  getVersion(chunksId: string) {
+    return this.versions[chunksId];
+  }
+
+  addChunks(chunks: ChunksData) {
+    this.map.set(chunks.id, chunks);
+  }
+
+  removeChunks(chunks: ChunksData) {
+    this.map.delete(chunks.id);
   }
 
   getChunkVersion(chunkId: string) {
     return this.chunkVersions[chunkId] ?? 0;
   }
 
-  addLayers(...chunksList: ChunksData[]) {
-    this.chunks.push(...chunksList);
-  }
-
-  incrementVersion(layer: number) {
+  incrementVersion(chunksId: string) {
     const versions = this.versions;
-    if (versions[layer] == null) {
-      versions[layer] = 0;
+    if (versions[chunksId] == null) {
+      versions[chunksId] = 0;
     }
-    versions[layer]++;
+    versions[chunksId]++;
   }
 
   updateMeshData(chunks: ChunksData, id: string) {

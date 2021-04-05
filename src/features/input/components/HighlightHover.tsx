@@ -4,19 +4,19 @@ import { Color, Vector3, Quaternion } from "three";
 import React from "react";
 import Layers from "../../chunks/Layers";
 import raycast from "../../../utils/raycast";
-import { useChunks } from "features/chunks/hooks/useChunks";
 import { observer } from "mobx-react-lite";
-import { useInputStore } from "StoreProvider";
+import { useChunksStore, useInputStore } from "StoreProvider";
 
 export const HighlightHover = observer(() => {
   const inputStore = useInputStore();
+  const chunksStore = useChunksStore();
+
   const mouse = inputStore.mouse;
   const { camera, scene } = useThree();
-  const chunks = useChunks();
   const hover = inputStore.hover;
 
   useEffect(() => {
-    const result = raycast(mouse, camera, scene, chunks, [Layers.ground]);
+    const result = raycast(mouse, camera, scene, chunksStore.chunksList, [Layers.ground]);
     if (result != null) {
       inputStore.setHover(result);
     }

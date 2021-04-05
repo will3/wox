@@ -2,6 +2,7 @@ import { Vector3 } from "three";
 import { Noise } from "../../utils/Noise";
 import QuadMap from "../../utils/QuadMap";
 import { makeAutoObservable } from "mobx";
+import ChunksData from "features/chunks/ChunksData";
 
 export interface TreeData {
   key: string;
@@ -14,10 +15,12 @@ export class TreeStore {
   treeMap = new QuadMap<TreeData>();
   trees: { [id: string]: { [key: string]: TreeData } } = {};
   seed: string;
+  chunks: ChunksData;
 
-  constructor(seed: string) {
+  constructor(seed: string, chunks: ChunksData) {
     makeAutoObservable(this);
     this.seed = seed;
+    this.chunks = chunks;
   }
 
   get noise() {

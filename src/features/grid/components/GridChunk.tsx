@@ -3,8 +3,6 @@ import { useEffect, useMemo } from "react";
 import { chunkSize } from "../../../constants";
 import _ from "lodash";
 import { GridData } from "../store";
-import { useChunks } from "features/chunks/hooks/useChunks";
-import Layers from "features/chunks/Layers";
 import { gridSize } from "../constants";
 import { observer } from "mobx-react-lite";
 import { useGridStore, useGroundStore, useWaterStore } from "StoreProvider";
@@ -14,11 +12,10 @@ interface GridChunkProps {
 }
 
 export const GridChunk = observer(({ origin }: GridChunkProps) => {
-  const chunks = useChunks();
-  const groundChunks = chunks[Layers.ground];
   const waterStore = useWaterStore();
   const waterLevel = waterStore.waterLevel;
   const groundStore = useGroundStore();
+  const groundChunks = groundStore.chunks;
   const gridStore = useGridStore();
 
   const generated = useMemo(() => {

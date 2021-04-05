@@ -25,11 +25,13 @@ export class GroundStore {
   seed: string;
   chunksStore: ChunksStore;
   waterLevel = 6;
+  chunks: ChunksData;
 
-  constructor(seed: string, chunksStore: ChunksStore) {
+  constructor(seed: string, chunksStore: ChunksStore, chunks: ChunksData) {
     makeAutoObservable(this);
     this.seed = seed;
     this.chunksStore = chunksStore;
+    this.chunks = chunks;
   }
 
   get generatedOrigins() {

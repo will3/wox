@@ -1,4 +1,7 @@
+import { chunkSize } from "./constants";
 import { CameraStore } from "features/camera/store";
+import ChunksData from "features/chunks/ChunksData";
+import Layers from "features/chunks/Layers";
 import { ChunksStore } from "features/chunks/store";
 import { GridStore } from "features/grid/store";
 import { GroundStore } from "features/ground/store";
@@ -39,15 +42,35 @@ export function StoreProvider({ children }: StoreProviderProps) {
     const store = useMemo<StoreContextValue>(() => {
         let seed = "1337";
         const chunksStore = new ChunksStore();
-        const groundStore = new GroundStore(seed, chunksStore);
-        const treeStore = new TreeStore(seed = nextSeed(seed));
+
+        const groundChunks = new ChunksData(chunkSize, Layers.ground);
+        const groundStore = new GroundStore(seed, chunksStore, groundChunks);
+        chunksStore.addChunks(groundChunks);
+
+        const treeChunks = new ChunksData(chunkSize, Layers.trees);
+        treeChunks.normalBias = 0.8;
+        const treeStore = new TreeStore(seed = nextSeed(seed), treeChunks);
+        chunksStore.addChunks(treeChunks);
+
         const cameraStore = new CameraStore(groundStore);
         const waterfallStore = new WaterfallStore(seed = nextSeed(seed), groundStore);
         const gridStore = new GridStore();
-        const structureStore = new StructureStore();
+
+        const structureChunks = new ChunksData(chunkSize, Layers.structures);
+        structureChunks.renderAllSurfaces = true;
+        const structureStore = new StructureStore(structureChunks);
+        chunksStore.addChunks(structureChunks);
+
         const lightStore = new LightStore();
         const inputStore = new InputStore();
-        const waterStore = new WaterStore();
+
+        const waterChunks = new ChunksData(chunkSize, Layers.water);
+        waterChunks.isWater = true;
+        waterChunks.normalBias = 1.0;
+        waterChunks.skyBias = 1.0;
+        waterChunks.offset = [0, -0.5, 0];
+        const waterStore = new WaterStore(waterChunks);
+        chunksStore.addChunks(waterChunks);
 
         return {
             chunksStore,
@@ -62,8 +85,6 @@ export function StoreProvider({ children }: StoreProviderProps) {
             waterStore,
         }
     }, []);
-
-    console.log(store);
 
     return (
         <StoreContext.Provider value={store}>

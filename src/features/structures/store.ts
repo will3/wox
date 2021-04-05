@@ -1,3 +1,4 @@
+import ChunksData from "features/chunks/ChunksData";
 import { makeAutoObservable } from "mobx";
 
 export interface StructureData {
@@ -7,9 +8,11 @@ export interface StructureData {
 
 export class StructureStore {
   structures: { [id: string]: StructureData } = {};
+  chunks: ChunksData;
 
-  constructor() {
+  constructor(chunks: ChunksData) {
     makeAutoObservable(this);
+    this.chunks = chunks;
   }
 
   addStructure(gridIds: string[]) {

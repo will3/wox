@@ -1,19 +1,17 @@
 import React from "react";
 import _ from "lodash";
 import { Chunk } from "./Chunk";
-import { useChunks } from "../hooks/useChunks";
 import { observer } from "mobx-react-lite";
 import { useChunksStore } from "StoreProvider";
+import ChunksData from "../ChunksData";
 
 export interface ChunksProps {
-  layer: number;
+  chunks: ChunksData;
 }
 
-export const Chunks = observer(({ layer }: ChunksProps) => {
-  const chunksList = useChunks();
+export const Chunks = observer(({ chunks }: ChunksProps) => {
   const chunksStore = useChunksStore();
-  const version = chunksStore.versions[layer];
-  const chunks = chunksList[layer];
+  const version = chunksStore.getVersion(chunks.id);
 
   console.log(`Rerender chunks version: ${version}`);
 

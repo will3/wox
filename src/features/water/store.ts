@@ -1,16 +1,19 @@
 import ChunksData from "features/chunks/ChunksData";
+import { makeAutoObservable } from "mobx";
 import { Color, Vector3 } from "three";
-import Layers from "../chunks/Layers";
 
 export class WaterStore {
   waterColor = new Color(0.08, 0.12, 0.2);
   waterAlpha = 0.4;
   waterLevel = 6;
+  chunks: ChunksData;
 
-  generateWater(chunksList: ChunksData[], origin: Vector3) {
-    const groundChunks = chunksList[Layers.ground];
-    const waterChunks = chunksList[Layers.water];
+  constructor(chunks: ChunksData) {
+    makeAutoObservable(this);
+    this.chunks = chunks;
+  }
 
+  generateWater(groundChunks: ChunksData, waterChunks: ChunksData, origin: Vector3) {
     if (origin.y > this.waterLevel) {
       return;
     }
