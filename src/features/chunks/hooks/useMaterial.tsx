@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import { useCallback, useContext, useEffect } from "react";
 import { useLightStore, useWaterStore } from "StoreProvider";
 import { ShaderMaterial, Uniform, UniformsLib, UniformsUtils } from "three";
 import ChunkData from "../ChunkData";
@@ -26,7 +26,7 @@ export function useMaterial() {
     });
   }, [lightDir]);
 
-  function getOrCreateMaterial(chunk: ChunkData) {
+  const getOrCreateMaterial = useCallback((chunk: ChunkData) => {
     let material = materials.get(chunk.id);
     if (material != null) {
       return material;
@@ -56,9 +56,9 @@ export function useMaterial() {
     materials.set(chunk.id, material);
 
     return material;
-  }
+  }, [sunColor, ambient, lightDir]);
 
-  function removeMaterial(chunkId: string) {
+  const removeMaterial = useCallback((chunkId: string) => {
     const material = materials.get(chunkId);
     if (material == null) {
       return;
@@ -68,7 +68,7 @@ export function useMaterial() {
       texture.dispose();
     }
     material.dispose();
-  }
+  }, []);
 
   return {
     getOrCreateMaterial,

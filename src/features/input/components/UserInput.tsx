@@ -12,7 +12,6 @@ export const UserInput = observer(() => {
   const cameraStore = useCameraStore();
   const targetRotation = cameraStore.targetRotation;
   const distance = cameraStore.distance;
-  const setDistance = cameraStore.setDistance;
   const inputStore = useInputStore();
 
   const handleKeyUp = (e: KeyboardEvent) => {
@@ -28,9 +27,9 @@ export const UserInput = observer(() => {
     }
 
     if (key === "=") {
-      setDistance(distance / zoomRate);
+      cameraStore.setDistance(distance / zoomRate);
     } else if (key === "-") {
-      setDistance(distance * zoomRate);
+      cameraStore.setDistance(distance * zoomRate);
     }
   };
 
