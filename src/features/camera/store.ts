@@ -13,7 +13,7 @@ export class CameraStore {
 
   constructor(groundStore: GroundStore) {
     makeAutoObservable(this);
-    const size = groundStore.size;
+    const size = groundStore.numChunks;
     this.target = [
       (size.x * chunkSize) / 2,
       ((size.y - 1) * chunkSize) / 2,

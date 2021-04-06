@@ -9,7 +9,7 @@ import { useGroundStore, useWaterfallStore } from "StoreProvider";
 export const Waterfalls = observer(() => {
   const groundStore = useGroundStore();
   const waterfallStore = useWaterfallStore();
-  const size = groundStore.size;
+  const size = groundStore.numChunks;
   const waterfallChunks = waterfallStore.waterfallChunks;
 
   useEffect(() => {

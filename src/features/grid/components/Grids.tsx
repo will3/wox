@@ -14,7 +14,7 @@ export interface GridsProps {
 
 export const Grids = observer(({ highlightGrid }: GridsProps) => {
   const groundStore = useGroundStore();
-  const size = groundStore.size;
+  const size = groundStore.numChunks;
   const gridStore = useGridStore();
   const gridColumns = gridStore.gridColumns;
 

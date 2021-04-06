@@ -15,7 +15,7 @@ export interface GroundData {
 }
 
 export class GroundStore {
-  size = new Vector3(4, 2, 4);
+  numChunks = new Vector3(4, 2, 4);
   chunkSize = 32;
   curve = new Curve([-1, -0.4, 0.2, 2], [-1, -0.58, -0.48, 1.5]);
   grounds: { [key: string]: GroundData } = {};
@@ -47,9 +47,9 @@ export class GroundStore {
 
   get origins() {
     const origins: Vector3[] = [];
-    for (let i = 0; i < this.size.x; i++) {
-      for (let j = 0; j < this.size.y; j++) {
-        for (let k = 0; k < this.size.z; k++) {
+    for (let i = 0; i < this.numChunks.x; i++) {
+      for (let j = 0; j < this.numChunks.y; j++) {
+        for (let k = 0; k < this.numChunks.z; k++) {
           origins.push(new Vector3(i, j, k).multiplyScalar(this.chunkSize));
         }
       }
@@ -76,9 +76,9 @@ export class GroundStore {
   }
 
   async generateAllChunks(chunks: ChunksData) {
-    for (let i = 0; i < this.size.x; i++) {
-      for (let k = 0; k < this.size.z; k++) {
-        for (let j = 0; j < this.size.y; j++) {
+    for (let i = 0; i < this.numChunks.x; i++) {
+      for (let k = 0; k < this.numChunks.z; k++) {
+        for (let j = 0; j < this.numChunks.y; j++) {
           const origin = new Vector3(i, j, k).multiplyScalar(this.chunkSize);
           this.generateChunk(chunks, origin);
         }

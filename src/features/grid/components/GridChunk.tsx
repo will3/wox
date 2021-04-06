@@ -19,7 +19,7 @@ export const GridChunk = observer(({ origin }: GridChunkProps) => {
   const gridStore = useGridStore();
 
   const generated = useMemo(() => {
-    for (let j = 0; j < groundStore.size.y; j++) {
+    for (let j = 0; j < groundStore.numChunks.y; j++) {
       const co = new Vector3(origin.x, j * chunkSize, origin.y);
       if (!groundStore.generatedOrigin(co)) {
         return false;
@@ -30,7 +30,7 @@ export const GridChunk = observer(({ origin }: GridChunkProps) => {
   }, [groundStore.generatedOrigins]);
 
   const generateGrids = () => {
-    const size = groundStore.size;
+    const size = groundStore.numChunks;
     const grids: { [id: string]: GridData } = {};
 
     for (let j = 0; j < size.y; j++) {
