@@ -19,6 +19,7 @@ export class TreeStore {
   seed: string;
   chunks: ChunksData;
   groundStore: GroundStore;
+  treeValueOffset = 0.8;
 
   constructor(seed: string, chunks: ChunksData, groundStore: GroundStore) {
     makeAutoObservable(this);
@@ -90,7 +91,7 @@ export class TreeStore {
       // const up = 1 - clamp(new Vector3(0, -1, 0).dot(voxelNormal), 0, 1);
       const nv = noise.get(position);
       //const v = -Math.abs(nv) * yFactor * up + 0.2;
-      const v = -Math.abs(nv) + 0.4;
+      const v = -Math.abs(nv) + this.treeValueOffset;
       if (v < 0) {
         continue;
       }
