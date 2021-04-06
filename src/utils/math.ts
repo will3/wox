@@ -1,18 +1,15 @@
-import { Vector3, Quaternion } from "three";
-
-export type EulerValue = [number, number, number, string];
-export type Vector3Value = [number, number, number];
+import { Vector3, Quaternion, Euler } from "three";
 
 export const lerp = (a: number, b: number, r: number): number => {
   return a + (b - a) * r;
 };
 
 export const lerpEulers = (
-  a: EulerValue,
-  b: EulerValue,
+  a: Euler,
+  b: Euler,
   r: number
-): EulerValue => {
-  return [lerp(a[0], b[0], r), lerp(a[1], b[1], r), lerp(a[2], b[2], r), a[3]];
+) => {
+  return new Euler(lerp(a.x, b.x, r), lerp(a.y, b.y, r), lerp(a.z, b.z, r), a.order);
 };
 
 export const clamp = (v: number, min: number, max: number): number => {

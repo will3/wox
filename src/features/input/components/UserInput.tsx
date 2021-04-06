@@ -17,12 +17,12 @@ export const UserInput = observer(() => {
   const handleKeyUp = (e: KeyboardEvent) => {
     const key = keycode(e);
     if (key === "q") {
-      const next = targetRotation;
-      next[1] -= Math.PI / 2;
+      const next = targetRotation.clone();
+      next.y -= Math.PI / 2;
       cameraStore.setTargetRotation(next);
     } else if (key === "e") {
-      const next = targetRotation;
-      next[1] += Math.PI / 2;
+      const next = targetRotation.clone();
+      next.y += Math.PI / 2;
       cameraStore.setTargetRotation(next);
     }
 

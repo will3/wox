@@ -14,7 +14,7 @@ export const Light = observer(() => {
 
   useEffect(() => {
     light.position.copy(calcPosition());
-    light.target.position.set(...target);
+    light.target.position.copy(target);
   }, [lightDir, target]);
 
   const calcPosition = () => {
@@ -22,13 +22,13 @@ export const Light = observer(() => {
       .clone()
       .multiply(new Vector3(-1, -1, -1))
       .multiplyScalar(distance)
-      .add(new Vector3(...target));
+      .add(target);
   };
 
   const light = useMemo(() => {
     const light = new DirectionalLight()
     light.position.copy(calcPosition());
-    light.target.position.set(...target);
+    light.target.position.copy(target);
     light.castShadow = true;
     light.shadow.mapSize = new Vector2(2048, 2048);
     light.shadow.normalBias = 0.5;
