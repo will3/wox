@@ -53,7 +53,7 @@ export function StoreProvider({ children }: StoreProviderProps) {
 
         const treeChunks = new ChunksData(chunkSize, Layers.trees);
         treeChunks.normalBias = 0.8;
-        const treeStore = new TreeStore(seed = nextSeed(seed), treeChunks);
+        const treeStore = new TreeStore(seed = nextSeed(seed), treeChunks, groundStore);
         chunksStore.addChunks(treeChunks);
 
         const cameraStore = new CameraStore(groundStore);
