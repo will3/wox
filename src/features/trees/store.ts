@@ -19,7 +19,7 @@ export class TreeStore {
   seed: string;
   chunks: ChunksData;
   groundStore: GroundStore;
-  treeValueOffset = 0.8;
+  treeValueOffset = 0.6;
 
   constructor(seed: string, chunks: ChunksData, groundStore: GroundStore) {
     makeAutoObservable(this);
