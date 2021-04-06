@@ -41,10 +41,14 @@ function nextSeed(seed: string) {
 export function StoreProvider({ children }: StoreProviderProps) {
     const store = useMemo<StoreContextValue>(() => {
         let seed = "1337";
+        const waterLevel = 3;
+
         const chunksStore = new ChunksStore();
+        chunksStore.waterLevel = waterLevel;
 
         const groundChunks = new ChunksData(chunkSize, Layers.ground);
         const groundStore = new GroundStore(seed, chunksStore, groundChunks);
+        groundStore.waterLevel = waterLevel;
         chunksStore.addChunks(groundChunks);
 
         const treeChunks = new ChunksData(chunkSize, Layers.trees);
@@ -70,6 +74,7 @@ export function StoreProvider({ children }: StoreProviderProps) {
         waterChunks.skyBias = 1.0;
         waterChunks.offset = [0, -0.5, 0];
         const waterStore = new WaterStore(waterChunks);
+        waterStore.waterLevel = waterLevel;
         chunksStore.addChunks(waterChunks);
 
         return {
