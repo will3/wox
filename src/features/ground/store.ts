@@ -15,11 +15,11 @@ export interface GroundData {
 }
 
 export class GroundStore {
-  numChunks = new Vector3(4, 2, 4);
+  numChunks = new Vector3(4, 1, 4);
   chunkSize = 32;
   curve = new Curve([-1, -0.4, 0.2, 2], [-1, -0.58, -0.48, 1.5]);
   grounds: { [key: string]: GroundData } = {};
-  maxHeight = 64;
+  maxHeight = 32;
   rockColor = new Color(0.072, 0.08, 0.09);
   grassColor = new Color(0.08, 0.1, 0.065);
   seed: string;
@@ -175,7 +175,7 @@ export class GroundStore {
   ) {
     const absY = origin.y + j;
     const relY = absY / maxHeight;
-    const gradientCurve = new Curve([0, 1], [0.75, -0.75]);
+    const gradientCurve = new Curve([0, 1], [0.6, -0.75]);
     const gradient = gradientCurve.sample(relY);
     const position = new Vector3().fromArray([i, j, k]).add(origin);
     let nv = noise.get(position);
