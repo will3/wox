@@ -30,7 +30,7 @@ export class TreeStore {
 
   get noise() {
     return new Noise({
-      frequency: 0.0025,
+      frequency: 0.005,
       seed: this.seed + "tree",
     });
   }

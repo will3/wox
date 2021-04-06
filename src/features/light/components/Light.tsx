@@ -30,7 +30,7 @@ export const Light = observer(() => {
     light.position.copy(calcPosition());
     light.target.position.copy(target);
     light.castShadow = true;
-    light.shadow.mapSize = new Vector2(2048, 2048);
+    light.shadow.mapSize = new Vector2(1024, 1024);
     light.shadow.normalBias = 0.5;
     light.shadow.bias = 0;
 
