@@ -175,7 +175,7 @@ export class GroundStore {
   ) {
     const absY = origin.y + j;
     const relY = absY / maxHeight;
-    const gradientCurve = new Curve([0, 1], [0.6, -0.75]);
+    const gradientCurve = new Curve([0, 1], [0.6, -0.9]);
     const gradient = gradientCurve.sample(relY);
     const position = new Vector3().fromArray([i, j, k]).add(origin);
     let nv = noise.get(position);
