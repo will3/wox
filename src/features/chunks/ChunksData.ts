@@ -1,6 +1,6 @@
 import ChunkData from "./ChunkData";
 import { nanoid } from "nanoid";
-import { Color } from "three";
+import { Color, Vector3 } from "three";
 
 export default class ChunksData {
   id = nanoid();
@@ -14,6 +14,7 @@ export default class ChunksData {
   hasBounds = false;
   renderAllSurfaces = false;
   defaultColor = new Color(0, 0, 0);
+  colorTransform?: (color: Color, worldCoord: Vector3) => Color;
 
   constructor(size: number, layer = 0) {
     this.size = size;

@@ -2,7 +2,7 @@ import ChunkData from "./ChunkData";
 import { MeshData } from "./MeshData";
 import { FaceInfo } from "./FaceInfo";
 import { VoxelInfo } from "./VoxelInfo";
-import { Color } from "three";
+import { Color, Vector3 } from "three";
 
 export const meshChunk = (chunk: ChunkData, waterLevel: number): MeshData => {
   const vertices: number[] = [];
@@ -22,6 +22,7 @@ export const meshChunk = (chunk: ChunkData, waterLevel: number): MeshData => {
   let faceIndex = 0;
 
   const renderAllSurfaces = chunk.chunks.renderAllSurfaces;
+  const colorTransform = chunk.chunks.colorTransform;
 
   for (let d = 0; d < 3; d++) {
     if (chunk.isWater && d != 1) {
@@ -62,17 +63,17 @@ export const meshChunk = (chunk: ChunkData, waterLevel: number): MeshData => {
 
           vertices.push(...v1, ...v2, ...v3, ...v4);
 
+          const localCoord = getVector(d, i, j, k);
           const coord = front
-            ? getVector(d, i, j, k)
+            ? localCoord
             : getVector(d, i + 1, j, k);
 
           let color = chunk.getColorWorld(coord[0], coord[1], coord[2]);
 
-          const absY = coord[1] + chunk.origin[1];
+          const worldCoord = new Vector3(...chunk.origin).add(new Vector3(...localCoord));
 
-          if (!chunk.isWater && absY < waterLevel) {
-            const factor = Math.pow(0.5, waterLevel - absY);
-            color = color.clone().multiplyScalar(factor);
+          if (colorTransform != null) {
+            color = colorTransform(color, worldCoord);
           }
 
           const colorArray = color.toArray();

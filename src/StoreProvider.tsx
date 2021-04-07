@@ -13,6 +13,7 @@ import { WaterStore } from "features/water/store";
 import { WaterfallStore } from "features/waterfalls/store";
 import React, { createContext, ReactNode, useContext, useMemo } from "react";
 import seedrandom from "seedrandom";
+import { Color, Vector3 } from "three";
 
 interface StoreContextValue {
     groundStore?: GroundStore;
@@ -48,6 +49,15 @@ export function StoreProvider({ children }: StoreProviderProps) {
         chunksStore.waterLevel = waterLevel;
 
         const groundChunks = new ChunksData(chunkSize, Layers.ground);
+        groundChunks.colorTransform = (color: Color, worldCoord: Vector3) => {
+            const absY = worldCoord.y;
+            if (absY >= waterLevel) {
+                return color;
+            }
+            const factor = Math.pow(0.5, waterLevel - absY);
+            return color.clone().multiplyScalar(factor);
+        };
+
         const groundStore = new GroundStore(seed, chunksStore, groundChunks);
         groundStore.waterLevel = waterLevel;
         chunksStore.addChunks(groundChunks);
