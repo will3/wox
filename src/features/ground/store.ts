@@ -76,14 +76,9 @@ export class GroundStore {
   }
 
   async generateAllChunks(chunks: ChunksData) {
-    for (let i = 0; i < this.numChunks.x; i++) {
-      for (let k = 0; k < this.numChunks.z; k++) {
-        for (let j = 0; j < this.numChunks.y; j++) {
-          const origin = new Vector3(i, j, k).multiplyScalar(this.chunkSize);
-          this.generateChunk(chunks, origin);
-        }
-        await wait(0);
-      }
+    for (const origin of this.origins) {
+      this.generateChunk(chunks, origin);
+      await wait(0);
     }
   }
 
