@@ -17,6 +17,7 @@ export class GroundStore {
   numChunks = new Vector3(4, 1, 4);
   chunkSize = 32;
   curve = new Curve([-1, -0.4, 0.2, 2], [-1, -0.58, -0.48, 1.5]);
+  gradientCurve = new Curve([0, 1], [0.7, -0.8])
   grounds: { [key: string]: GroundData } = {};
   maxHeight = 32;
   rockColor = new Color(0.072, 0.08, 0.09);
@@ -155,8 +156,7 @@ export class GroundStore {
   ) {
     const absY = worldCoord.y;
     const relY = absY / this.maxHeight;
-    const gradientCurve = new Curve([0, 1], [0.6, -0.9]);
-    const gradient = gradientCurve.sample(relY);
+    const gradient = this.gradientCurve.sample(relY);
     let nv = this.groundNoise.get(worldCoord);
     nv = this.curve.sample(nv);
     const v = nv + gradient;

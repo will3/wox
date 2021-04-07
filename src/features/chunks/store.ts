@@ -44,7 +44,7 @@ export class ChunksStore {
     const waterLevel = this.waterLevel;
     const start = new Date().getTime();
     const chunk = chunks.map[id];
-    const meshData = meshChunk(chunk, waterLevel);
+    const meshData = meshChunk(chunk);
     chunk.meshData = meshData;
     const end = new Date().getTime();
     console.log(

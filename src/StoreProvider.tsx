@@ -43,7 +43,7 @@ export function StoreProvider({ children }: StoreProviderProps) {
     const store = useMemo<StoreContextValue>(() => {
         let seed = Math.random().toString();
         console.log(`Seed ${seed}`);
-        const waterLevel = 3;
+        const waterLevel = 6;
 
         const chunksStore = new ChunksStore();
         chunksStore.waterLevel = waterLevel;

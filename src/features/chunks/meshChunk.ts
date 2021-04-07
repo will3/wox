@@ -2,9 +2,9 @@ import ChunkData from "./ChunkData";
 import { MeshData } from "./MeshData";
 import { FaceInfo } from "./FaceInfo";
 import { VoxelInfo } from "./VoxelInfo";
-import { Color, Vector3 } from "three";
+import { Vector3 } from "three";
 
-export const meshChunk = (chunk: ChunkData, waterLevel: number): MeshData => {
+export const meshChunk = (chunk: ChunkData): MeshData => {
   const vertices: number[] = [];
   const colors: number[] = [];
   const indices: number[] = [];
