@@ -91,20 +91,14 @@ export class GroundStore {
   }
 
   generateGround(chunks: ChunksData, origin: Vector3, noise: Noise) {
-    const { rockColor, curve, maxHeight } = this;
+    const { rockColor } = this;
     const chunk = chunks.getOrCreateChunk(
       origin.toArray() as [number, number, number]
     );
 
-    chunk.getValueCallback = (i, j, k) => {
+    chunk.getWorldValue = (i, j, k) => {
       return this.getValue(
-        noise,
-        curve,
-        origin,
-        maxHeight,
-        i - origin.x,
-        j - origin.y,
-        k - origin.z
+        new Vector3(i, j, k)
       );
     };
 
@@ -116,8 +110,8 @@ export class GroundStore {
     for (let i = 0; i < chunk.size; i++) {
       for (let j = 0; j < chunk.size; j++) {
         for (let k = 0; k < chunk.size; k++) {
-          chunk.setColor(i, j, k, rockColor);
-          const v = this.getValue(noise, curve, origin, maxHeight, i, j, k);
+          const worldCoord = origin.clone().add(new Vector3(i, j, k));
+          const v = this.getValue(worldCoord);
           chunk.set(i, j, k, v);
         }
       }
@@ -157,21 +151,14 @@ export class GroundStore {
   }
 
   getValue(
-    noise: Noise,
-    curve: Curve,
-    origin: Vector3,
-    maxHeight: number,
-    i: number,
-    j: number,
-    k: number
+    worldCoord: Vector3
   ) {
-    const absY = origin.y + j;
-    const relY = absY / maxHeight;
+    const absY = worldCoord.y;
+    const relY = absY / this.maxHeight;
     const gradientCurve = new Curve([0, 1], [0.6, -0.9]);
     const gradient = gradientCurve.sample(relY);
-    const position = new Vector3().fromArray([i, j, k]).add(origin);
-    let nv = noise.get(position);
-    nv = curve.sample(nv);
+    let nv = this.groundNoise.get(worldCoord);
+    nv = this.curve.sample(nv);
     const v = nv + gradient;
     return v;
   }

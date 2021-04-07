@@ -3,8 +3,6 @@ import { MeshData } from "./MeshData";
 import { nanoid } from "nanoid";
 import { Color } from "three";
 
-type getValueFunction = (i: number, j: number, k: number) => number | null;
-
 export default class ChunkData {
   id = nanoid();
   data: number[] = [];
@@ -17,7 +15,7 @@ export default class ChunkData {
   key: string;
   layer: number;
   isWater = false;
-  getValueCallback: getValueFunction;
+  getWorldValue: (i: number, j: number, k: number) => number | null;
   defaultColor = new Color(0, 0, 0);
 
   constructor(
@@ -31,7 +29,7 @@ export default class ChunkData {
     this.chunks = chunks;
     this.layer = layer;
     this.key = this.getKey();
-    this.getValueCallback = this.chunks.get.bind(this.chunks);
+    this.getWorldValue = this.chunks.get.bind(this.chunks);
   }
 
   get(i: number, j: number, k: number): number | null {
@@ -58,7 +56,7 @@ export default class ChunkData {
       j >= this.size ||
       k >= this.size
     ) {
-      return this.getValueCallback(
+      return this.getWorldValue(
         i + this.origin[0],
         j + this.origin[1],
         k + this.origin[2]
