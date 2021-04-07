@@ -1,14 +1,14 @@
 import ChunksData from "./ChunksData";
 import { MeshData } from "./MeshData";
-import { ColorValue } from "./types";
 import { nanoid } from "nanoid";
+import { Color } from "three";
 
 type getValueFunction = (i: number, j: number, k: number) => number | null;
 
 export default class ChunkData {
   id = nanoid();
   data: number[] = [];
-  color: ColorValue[] = [];
+  color: Color[] = [];
   origin: [number, number, number];
   size: number;
   chunks: ChunksData;
@@ -18,7 +18,7 @@ export default class ChunkData {
   layer: number;
   isWater = false;
   getValueCallback: getValueFunction;
-  defaultColor: ColorValue = 0x000000;
+  defaultColor = new Color(0, 0, 0);
 
   constructor(
     origin: [number, number, number],
@@ -74,13 +74,13 @@ export default class ChunkData {
     this.dirty = true;
   }
 
-  setColor(i: number, j: number, k: number, color: ColorValue): void {
+  setColor(i: number, j: number, k: number, color: Color): void {
     const index = i * this.size * this.size + j * this.size + k;
     this.color[index] = color;
     this.dirty = true;
   }
 
-  getColor(i: number, j: number, k: number): ColorValue {
+  getColor(i: number, j: number, k: number): Color {
     const index = i * this.size * this.size + j * this.size + k;
     const color = this.color[index];
     if (color == null) {

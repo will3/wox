@@ -39,7 +39,7 @@ export class WaterStore {
             continue;
           }
           chunk.set(i, j, k, 1);
-          chunk.setColor(i, j, k, this.waterColor.getHex());
+          chunk.setColor(i, j, k, this.waterColor);
         }
       }
     }

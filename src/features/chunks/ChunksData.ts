@@ -1,6 +1,6 @@
 import ChunkData from "./ChunkData";
-import { ColorValue } from "./types";
 import { nanoid } from "nanoid";
+import { Color } from "three";
 
 export default class ChunksData {
   id = nanoid();
@@ -13,7 +13,7 @@ export default class ChunksData {
   offset = [0, 0, 0];
   hasBounds = false;
   renderAllSurfaces = false;
-  defaultColor: ColorValue = 0x000000;
+  defaultColor = new Color(0, 0, 0);
 
   constructor(size: number, layer = 0) {
     this.size = size;
@@ -35,7 +35,7 @@ export default class ChunksData {
     return chunk.set(i - origin[0], j - origin[1], k - origin[2], v);
   }
 
-  setColor(i: number, j: number, k: number, color: ColorValue) {
+  setColor(i: number, j: number, k: number, color: Color) {
     if (i < 0 || j < 0 || k < 0) {
       return;
     }

@@ -1,7 +1,6 @@
 import { Color, Vector3 } from "three";
 import { Noise } from "../../utils/Noise";
 import Curve from "../../utils/Curve";
-import { ColorValue } from "features/chunks/types";
 import ChunksData from "features/chunks/ChunksData";
 import { wait } from "utils/wait";
 import { makeAutoObservable } from "mobx";
@@ -109,16 +108,15 @@ export class GroundStore {
       );
     };
 
-    const rockColorValue: ColorValue = rockColor.getHex();
-    chunks.defaultColor = rockColorValue;
-    chunk.defaultColor = rockColorValue;
+    chunks.defaultColor = rockColor;
+    chunk.defaultColor = rockColor;
 
     console.log(`Generated chunk ${chunk.key}`);
 
     for (let i = 0; i < chunk.size; i++) {
       for (let j = 0; j < chunk.size; j++) {
         for (let k = 0; k < chunk.size; k++) {
-          chunk.setColor(i, j, k, rockColorValue);
+          chunk.setColor(i, j, k, rockColor);
           const v = this.getValue(noise, curve, origin, maxHeight, i, j, k);
           chunk.set(i, j, k, v);
         }
@@ -133,7 +131,6 @@ export class GroundStore {
       origin.toArray() as [number, number, number]
     );
     const waterLevel = this.waterLevel;
-    const grassColorValue = this.grassColor.getHex();
     const meshData = chunk.meshData!;
     const voxels = meshData.voxels;
 
@@ -149,7 +146,7 @@ export class GroundStore {
       const dot = new Vector3(0, -1, 0).dot(new Vector3().fromArray(normal));
 
       if (dot > 0.75) {
-        chunk.setColor(i, j, k, grassColorValue);
+        chunk.setColor(i, j, k, this.grassColor);
       }
     }
   }

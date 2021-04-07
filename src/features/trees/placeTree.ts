@@ -93,14 +93,14 @@ const placeTree = (
             worldCoord.x,
             worldCoord.y,
             worldCoord.z,
-            leafColor.getHex()
+            leafColor
           );
         } else {
           chunks.setColor(
             worldCoord.x,
             worldCoord.y,
             worldCoord.z,
-            trunkColor.getHex()
+            trunkColor
           );
         }
       }

@@ -87,7 +87,7 @@ export default (chunks: ChunksData, grids: GridData[]) => {
           worldCoord.x,
           worldCoord.y,
           worldCoord.z,
-          color.getHex()
+          color
         );
       }
     }
