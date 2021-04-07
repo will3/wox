@@ -11,14 +11,8 @@ export class CameraStore {
   target = new Vector3(0, 0, 0);
   distance = 400;
 
-  constructor(groundStore: GroundStore) {
+  constructor() {
     makeAutoObservable(this);
-    const size = groundStore.numChunks;
-    this.target = new Vector3(
-      (size.x * chunkSize) / 2,
-      ((size.y - 1) * chunkSize) / 2,
-      (size.z * chunkSize) / 2,
-    );
   }
 
   get position() {

@@ -67,7 +67,16 @@ export function StoreProvider({ children }: StoreProviderProps) {
         const treeStore = new TreeStore(seed = nextSeed(seed), treeChunks, groundStore);
         chunksStore.addChunks(treeChunks);
 
-        const cameraStore = new CameraStore(groundStore);
+        const cameraStore = new CameraStore();
+        cameraStore.target = (() => {
+            const size = groundStore.numChunks;
+            return new Vector3(
+                (size.x * chunkSize) / 2,
+                ((size.y - 1) * chunkSize) / 2,
+                (size.z * chunkSize) / 2,
+            );
+        })();
+
         const waterfallStore = new WaterfallStore(seed = nextSeed(seed), groundStore);
         const gridStore = new GridStore();
 
