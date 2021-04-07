@@ -132,7 +132,14 @@ export class GroundStore {
     for (const voxel of voxels) {
       const [i, j, k] = voxel.coord;
       const absY = chunk.origin[1] + j;
-      if (absY <= waterLevel) {
+
+      const sand = new Color(0.117, 0.129, 0.099);
+      if (absY === waterLevel) {
+        chunk.setColor(i, j, k, sand);
+        continue;
+      }
+
+      if (absY < waterLevel) {
         continue;
       }
 
