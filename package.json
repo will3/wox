@@ -16,6 +16,7 @@
         "@types/lodash": "^4.14.158",
         "@types/react-dom": "^16.9.8",
         "@types/seedrandom": "^2.4.28",
+        "@types/shuffle-array": "^1.0.0",
         "@typescript-eslint/eslint-plugin": "^4.1.0",
         "@typescript-eslint/parser": "^4.1.0",
         "react-scripts": "^4.0.1",
@@ -34,6 +35,7 @@
         "react-dom": "^16.13.1",
         "react-three-fiber": "^4.2.18",
         "seedrandom": "^3.0.5",
+        "shuffle-array": "^1.0.1",
         "simplex-noise": "^2.4.0",
         "three": "^0.120.1"
     },
