@@ -6,6 +6,11 @@ import { HighlightHover } from "./HighlightHover";
 import { observer } from "mobx-react-lite";
 import { useCameraStore, useInputStore } from "StoreProvider";
 
+const keymap = {
+  left: new Set(["a", "left"]),
+  right: new Set(["d", "right"]),
+};
+
 export const UserInput = observer(() => {
   const zoomRate = 1.1;
 
@@ -16,11 +21,11 @@ export const UserInput = observer(() => {
 
   const handleKeyUp = (e: KeyboardEvent) => {
     const key = keycode(e);
-    if (key === "q") {
+    if (keymap.left.has(key)) {
       const next = targetRotation.clone();
       next.y -= Math.PI / 2;
       cameraStore.setTargetRotation(next);
-    } else if (key === "e") {
+    } else if (keymap.right.has(key)) {
       const next = targetRotation.clone();
       next.y += Math.PI / 2;
       cameraStore.setTargetRotation(next);

@@ -6,6 +6,7 @@ import { wait } from "utils/wait";
 import { makeAutoObservable } from "mobx";
 import _ from "lodash";
 import { ChunksStore } from "features/chunks/store";
+import shuffle from "shuffle-array";
 
 export interface GroundData {
   key: string;
@@ -63,7 +64,8 @@ export class GroundStore {
   }
 
   addGrounds(origins: Vector3[]) {
-    for (const origin of origins) {
+    const shuffled = shuffle(origins);
+    for (const origin of shuffled) {
       const key = origin.toArray().join(",");
       if (this.grounds[key] == null) {
         this.grounds[key] = {
