@@ -37,7 +37,7 @@
         "seedrandom": "^3.0.5",
         "shuffle-array": "^1.0.1",
         "simplex-noise": "^2.4.0",
-        "three": "^0.120.1"
+        "three": "^0.125.0"
     },
     "engines": {
         "node": "15.x"
