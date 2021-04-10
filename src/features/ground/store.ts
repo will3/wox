@@ -15,7 +15,7 @@ export interface GroundData {
 }
 
 export class GroundStore {
-  numChunks = new Vector3(4, 1, 4);
+  numChunks = new Vector3(4, 2, 4);
   chunkSize = 32;
   curve = new Curve([-1, -0.6, -0.2, 0.2, 2], [-1, -0.58, -0.4, -0.3, 1.5]);
   gradientCurve = new Curve([0, 1], [0.7, -0.8])
@@ -23,6 +23,7 @@ export class GroundStore {
   maxHeight = 32;
   rockColor = new Color(0.072, 0.08, 0.09);
   grassColor = new Color(0.08, 0.1, 0.065);
+  sandColor = new Color(0.117, 0.129, 0.099);
   seed: string;
   chunksStore: ChunksStore;
   waterLevel = 6;
@@ -135,9 +136,8 @@ export class GroundStore {
       const [i, j, k] = voxel.coord;
       const absY = chunk.origin[1] + j;
 
-      const sand = new Color(0.117, 0.129, 0.099);
       if (absY === waterLevel) {
-        chunk.setColor(i, j, k, sand);
+        chunk.setColor(i, j, k, this.sandColor);
         continue;
       }
 
