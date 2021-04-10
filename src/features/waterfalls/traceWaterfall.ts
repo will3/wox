@@ -40,7 +40,7 @@ const traceWaterfall = (
       break;
     }
     results.push(next);
-    if (next.coord.y <= waterLevel) {
+    if (next.coord.y < waterLevel) {
       reachedWater = true;
       break;
     }
@@ -49,7 +49,7 @@ const traceWaterfall = (
   } while (count < 100);
 
   return {
-    points: results,
+    points: results.slice(0, results.length - 1),
     reachedWater,
   };
 };
