@@ -164,6 +164,9 @@ export class GroundStore {
     worldCoord: Vector3
   ) {
     const absY = worldCoord.y;
+    if (absY === 0) {
+      return 1.0;
+    }
     const relY = absY / this.maxHeight;
     const gradient = this.gradientCurve.sample(relY);
     let nv = this.groundNoise.get(worldCoord);
