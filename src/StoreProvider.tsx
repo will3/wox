@@ -41,7 +41,7 @@ function nextSeed(seed: string) {
 
 export function StoreProvider({ children }: StoreProviderProps) {
     const store = useMemo<StoreContextValue>(() => {
-        let seed = Math.random().toString();
+        let seed = process.env.REACT_APP_SEED || Math.random().toString();
         console.log(`Seed ${seed}`);
         const waterLevel = 6;
 
