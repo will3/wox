@@ -1,3 +1,4 @@
+import { Color } from "three";
 import ChunksData from "./ChunksData";
 
 test("get", () => {
@@ -15,8 +16,8 @@ test("set", () => {
 
 test("setColor", () => {
   const chunks = new ChunksData(32);
-  chunks.setColor(33, 34, 35, 0xffffff);
-  expect(chunks.getColor(33, 34, 35)).toEqual(0xffffff);
+  chunks.setColor(33, 34, 35, new Color(0xffffff));
+  expect(chunks.getColor(33, 34, 35).getHex()).toEqual(0xffffff);
 });
 
 test("isSurface true", () => {
