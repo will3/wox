@@ -44,7 +44,7 @@ export class GroupCalculator {
                     continue;
                 }
                 visited.add(key);
-                const v = this.chunk.get(neighbour.x, neighbour.y, neighbour.z, true);
+                const v = this.chunk.get(neighbour.x, neighbour.y, neighbour.z);
                 if (v != null && v > 0) {
                     leads.push(neighbour);
                     map.delete(key);
