@@ -16,6 +16,7 @@ const placeTree = (
   const leafColor = new Color(0.06, 0.09, 0.04);
   const trunkColor = new Color(0.05, 0.05, 0.05);
 
+  const straight = 0.4 * Math.pow(Math.random(), 1.2);
   for (let i = lower.x; i <= upper.x; i++) {
     for (let j = lower.y; j <= upper.y; j++) {
       for (let k = lower.z; k <= upper.z; k++) {
@@ -25,7 +26,7 @@ const placeTree = (
           new Vector3(0, 1, 0),
           new Vector3(0, 1, 0).lerp(
             voxelNormal.clone().multiplyScalar(-1),
-            0.35
+            straight
           )
         );
 

@@ -21,6 +21,8 @@ export class TreeStore {
   chunks: ChunksData;
   groundStore: GroundStore;
   treeValueOffset = 0.6;
+  minDistance = 6;
+  baseChance = 1 / 24;
 
   constructor(seed: string, chunks: ChunksData, groundStore: GroundStore) {
     makeAutoObservable(this);
@@ -95,12 +97,9 @@ export class TreeStore {
     const waterLevel = groundStore.waterLevel;
     const seed = this.seed;
 
-    const minDistance = 6;
-    const baseChance = 1 / 24;
-
     const rng = seedrandom(seed + "generateTrees" + position.toArray().join(","))
     const value = rng();
-    if (value > baseChance) {
+    if (value > this.baseChance) {
       return;
     }
 
@@ -118,7 +117,7 @@ export class TreeStore {
     }
 
     const size = 1 + Math.pow(rng(), 1.5) * 0.5;
-    const otherTrees = treeMap.find(position, minDistance * size);
+    const otherTrees = treeMap.find(position, this.minDistance * size);
 
     if (otherTrees.length > 0) {
       return;
