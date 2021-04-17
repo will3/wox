@@ -22,7 +22,6 @@ export function useMaterial() {
       }
       material.uniforms.lightDir = new Uniform(lightDir);
       material.uniformsNeedUpdate = true;
-      material.needsUpdate = true;
     });
   }, [lightDir]);
 
