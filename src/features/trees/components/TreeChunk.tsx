@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { Vector3 } from "three";
 import React from "react";
 import _ from "lodash";
-import Tree from "./Tree";
+import { Tree } from "./Tree";
 import { observer } from "mobx-react-lite";
 import { useTreeStore } from "StoreProvider";
 
@@ -27,9 +27,7 @@ export const TreeChunk = observer(({ version, origin }: TreeChunkProps) => {
       {_.map(trees, (tree) => (
         <Tree
           key={tree.key}
-          position={tree.position}
-          normal={tree.normal}
-          size={tree.size}
+          data={tree}
         />
       ))}
     </>

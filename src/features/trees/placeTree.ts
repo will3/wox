@@ -2,15 +2,18 @@ import ChunksData from "../chunks/ChunksData";
 import { Vector3, Quaternion, Matrix4, Vector2, Color } from "three";
 import { clamp } from "lodash";
 import { sdVerticalCapsule, opTx, sdCone } from "../../utils/sdf";
-import { Bounds } from "../../utils/Bounds";
+import { TreeData } from "./store";
 
 const placeTree = (
   chunks: ChunksData,
-  coord: Vector3,
-  voxelNormal: Vector3,
-  size: number,
-  bounds?: Bounds
+  data: TreeData,
 ) => {
+  const {
+    normal,
+    size,
+    position,
+  } = data;
+
   const lower = new Vector3(-5, -2, -5);
   const upper = new Vector3(5, 18, 5);
   const leafColor = new Color(0.06, 0.09, 0.04);
@@ -25,7 +28,7 @@ const placeTree = (
         const rotation = new Quaternion().setFromUnitVectors(
           new Vector3(0, 1, 0),
           new Vector3(0, 1, 0).lerp(
-            voxelNormal.clone().multiplyScalar(-1),
+            normal.clone().multiplyScalar(-1),
             straight
           )
         );
@@ -56,7 +59,7 @@ const placeTree = (
           1
         );
 
-        const worldCoord = coord.clone().add(p);
+        const worldCoord = position.clone().add(p);
         if (trunk < 0 && leafs < 0) {
           continue;
         }
@@ -68,19 +71,6 @@ const placeTree = (
         }
 
         const isLeafs = leafs > trunk;
-
-        if (bounds != null) {
-          if (
-            worldCoord.x > bounds.max.x ||
-            worldCoord.x < bounds.min.x ||
-            worldCoord.y > bounds.max.y ||
-            worldCoord.y < bounds.min.y ||
-            worldCoord.z > bounds.max.z ||
-            worldCoord.z < bounds.min.z
-          ) {
-            continue;
-          }
-        }
 
         chunks.set(
           worldCoord.x,
