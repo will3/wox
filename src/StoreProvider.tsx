@@ -14,6 +14,7 @@ import { WaterfallStore } from "features/waterfalls/store";
 import React, { createContext, ReactNode, useContext, useMemo } from "react";
 import seedrandom from "seedrandom";
 import { Color, Vector3 } from "three";
+import { GroupStore } from "features/groups/store";
 
 interface StoreContextValue {
     groundStore?: GroundStore;
@@ -26,6 +27,7 @@ interface StoreContextValue {
     lightStore?: LightStore;
     inputStore?: InputStore;
     waterStore?: WaterStore;
+    groupStore?: GroupStore;
 }
 
 const StoreContext = createContext<StoreContextValue>({});
@@ -97,6 +99,8 @@ export function StoreProvider({ children }: StoreProviderProps) {
         waterStore.waterLevel = waterLevel;
         chunksStore.addChunks(waterChunks);
 
+        const groupStore = new GroupStore(groundStore);
+
         return {
             chunksStore,
             groundStore,
@@ -108,6 +112,7 @@ export function StoreProvider({ children }: StoreProviderProps) {
             lightStore,
             inputStore,
             waterStore,
+            groupStore,
         }
     }, []);
 
@@ -128,6 +133,7 @@ export const useStructureStore = createStoreHook("structure", (store => store.st
 export const useInputStore = createStoreHook("input", (store => store.inputStore));
 export const useLightStore = createStoreHook("light", (store => store.lightStore));
 export const useWaterStore = createStoreHook("water", (store => store.waterStore));
+export const useGroupStore = createStoreHook("group", (store => store.groupStore));
 
 export function createStoreHook<T>(name: string, callback: (store: StoreContextValue) => T) {
     function hook() {

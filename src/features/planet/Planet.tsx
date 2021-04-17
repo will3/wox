@@ -1,4 +1,5 @@
 import { Grids } from "features/grid/components/Grids";
+import { Groups } from "features/groups/components/Groups";
 import { Structures } from "features/structures/components/Structures";
 import { Trees } from "features/trees/components/Trees";
 import { Water } from "features/water/components/Water";
@@ -15,6 +16,7 @@ export function Planet() {
             <Waterfalls />
             <Trees />
             <Water />
+            <Groups />
         </>
     );
 }
