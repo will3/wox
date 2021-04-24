@@ -125,7 +125,7 @@ export class GroundStore {
   }
 
   generateGrass(chunks: ChunksData, origin: Vector3) {
-    const chunk = chunks.getOrCreateChunk(
+    const chunk = chunks.getChunk(
       origin.toArray() as [number, number, number]
     );
     const waterLevel = this.waterLevel;

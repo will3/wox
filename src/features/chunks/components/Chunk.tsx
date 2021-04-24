@@ -32,6 +32,10 @@ export const Chunk = observer((props: ChunkProps) => {
   );
 
   useEffect(() => {
+    meshRef.current.visible = !chunk.hidden;
+  }, [chunk.hidden]);
+
+  useEffect(() => {
     const position = new Vector3()
       .fromArray(chunk.origin)
       .add(new Vector3().fromArray(chunk.chunks.offset));

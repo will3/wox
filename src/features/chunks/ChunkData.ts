@@ -17,6 +17,7 @@ export default class ChunkData {
   isWater = false;
   getWorldValue: (i: number, j: number, k: number) => number | null;
   defaultColor = new Color(0, 0, 0);
+  hidden = false;
 
   constructor(
     origin: [number, number, number],
