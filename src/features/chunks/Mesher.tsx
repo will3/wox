@@ -25,6 +25,9 @@ export const Mesher = observer(() => {
   const handleFrame = () => {
     for (const chunks of chunksStore.chunksList) {
       for (const chunk of chunks.chunks) {
+        if (chunk.hidden) {
+          continue;
+        }
         let changed = false;
         if (chunk.dirty) {
           chunksStore.updateMeshData(chunk);
