@@ -24,11 +24,10 @@ export const Mesher = observer(() => {
 
   const handleFrame = () => {
     for (const chunks of chunksStore.chunksList) {
-      for (const id in chunks.map) {
+      for (const chunk of chunks.chunks) {
         let changed = false;
-        const chunk = chunks.map[id];
         if (chunk.dirty) {
-          chunksStore.updateMeshData(chunks, chunk.key);
+          chunksStore.updateMeshData(chunk);
           chunk.dirty = false;
           changed = true;
         }

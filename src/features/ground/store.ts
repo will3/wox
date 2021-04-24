@@ -121,13 +121,16 @@ export class GroundStore {
       }
     }
 
-    this.chunksStore.updateMeshData(chunks, chunk.key);
+    this.chunksStore.updateMeshData(chunk);
   }
 
   generateGrass(chunks: ChunksData, origin: Vector3) {
     const chunk = chunks.getChunk(
       origin.toArray() as [number, number, number]
     );
+    if (chunk == null) {
+      return;
+    }
     const waterLevel = this.waterLevel;
     const meshData = chunk.meshData!;
     const voxels = meshData.voxels;

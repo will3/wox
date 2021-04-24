@@ -39,6 +39,10 @@ export const GridChunk = observer(({ origin }: GridChunkProps) => {
         co.toArray() as [number, number, number]
       );
 
+      if (chunk == null) {
+        continue;
+      }
+
       const meshData = chunk.meshData!;
 
       for (const faceIndex of meshData.upFaces) {

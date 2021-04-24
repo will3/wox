@@ -50,6 +50,9 @@ export class WaterfallStore {
     const chunk = groundChunks.getChunk(
       origin.toArray() as [number, number, number]
     );
+    if (chunk == null) {
+      return;
+    }
     const rng = seedrandom(this.seed + "generateWaterfalls" + chunk.key);
     const meshData = chunk.meshData;
     if (meshData == null) {

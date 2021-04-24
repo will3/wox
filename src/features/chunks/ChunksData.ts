@@ -4,7 +4,7 @@ import { Color, Vector3 } from "three";
 
 export default class ChunksData {
   id = nanoid();
-  map: { [key: string]: ChunkData } = {};
+  private byOrigin = new Map<string, ChunkData>();
   size: number;
   layer: number;
   normalBias = 0.5;
@@ -19,6 +19,10 @@ export default class ChunksData {
   constructor(size: number, layer = 0) {
     this.size = size;
     this.layer = layer;
+  }
+
+  get chunks() {
+    return this.byOrigin.values();
   }
 
   get(i: number, j: number, k: number) {
@@ -68,22 +72,24 @@ export default class ChunksData {
 
   getChunk(origin: [number, number, number]) {
     const key = this.getKey(origin);
-    return this.map[key];
+    return this.byOrigin.get(key);
   }
 
   getOrCreateChunk(origin: [number, number, number]) {
     const key = this.getKey(origin);
-    if (this.map[key] == null) {
-      const chunk = new ChunkData(origin, this, this.size, this.layer);
-      this.map[key] = chunk;
-      chunk.isWater = this.isWater;
+    const existing = this.byOrigin.get(key);
+    if (existing != null) {
+      return existing;
     }
-    return this.map[key];
+    const chunk = new ChunkData(origin, this, this.size, this.layer);
+    this.byOrigin.set(key, chunk);
+    chunk.isWater = this.isWater;
+    return chunk;
   }
 
   visitChunk(callback: (chunk: ChunkData) => void) {
-    for (const key in this.map) {
-      callback(this.map[key]);
+    for (const chunk of this.chunks) {
+      callback(chunk);
     }
   }
 

@@ -21,9 +21,18 @@ export class WaterStore {
     const groundChunk = groundChunks.getChunk(
       origin.toArray() as [number, number, number]
     );
+
     const chunk = waterChunks.getOrCreateChunk(
       origin.toArray() as [number, number, number]
     );
+
+    if (chunk == null) {
+      return;
+    }
+
+    if (groundChunk == null) {
+      return;
+    }
 
     for (let i = 0; i < chunk.size; i++) {
       for (let j = 0; j < chunk.size; j++) {

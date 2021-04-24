@@ -17,7 +17,7 @@ export const Chunks = observer(({ chunks }: ChunksProps) => {
 
   return (
     <>
-      {_.values(chunks.map).map((chunk) => {
+      {Array.from(chunks.chunks).map((chunk) => {
         const key = chunk.origin.join(",");
         return <Chunk key={key} chunk={chunk} />;
       })}

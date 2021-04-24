@@ -60,6 +60,10 @@ export class TreeStore {
       origin.toArray() as [number, number, number]
     );
 
+    if (chunk == null) {
+      return;
+    }
+
     const meshData = chunk.meshData!;
 
     if (meshData.faces.length === 0) {
