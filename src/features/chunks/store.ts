@@ -4,9 +4,9 @@ import { makeAutoObservable } from "mobx";
 import ChunkData from "./ChunkData";
 
 export class ChunksStore {
-  chunksVersions: { [id: string]: number } = {};
-  chunkVersions: { [id: string]: number } = {};
-  map = new Map<string, ChunksData>();
+  private chunksVersions: { [id: string]: number } = {};
+  private chunkVersions: { [id: string]: number } = {};
+  private map = new Map<string, ChunksData>();
 
   constructor() {
     makeAutoObservable(this);
