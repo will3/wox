@@ -2,6 +2,7 @@ import { createContext, ReactNode, useRef } from "react";
 import React from "react";
 import { Mesher } from "./Mesher";
 import { ShaderMaterial } from "three";
+import { Remesh } from "./components/Remesh";
 
 export interface ChunksProviderProps {
   children: ReactNode;
@@ -17,6 +18,7 @@ export function ChunksProvider({ children }: ChunksProviderProps) {
 
   return (
     <>
+      <Remesh />
       <Mesher />
       <ChunksContext.Provider value={{
         materials,

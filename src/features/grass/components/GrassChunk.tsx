@@ -14,7 +14,7 @@ export const GrassChunk = observer(({ ground }: GrassChunkProps) => {
     const groundStore = useGroundStore();
 
     useEffect(() => {
-        if (chunkVersion > 0) {
+        if (chunkVersion === 1) {
             const chunk = groundStore.chunks.getChunk(ground.origin.toArray() as [number, number, number]);
             grassStore.generateGrass(chunk!);
         }

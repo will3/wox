@@ -12,13 +12,13 @@ export function Planet() {
     return (
         <>
             <Ground />
+            <Grass />
+            <Water />
+            <Trees />
             <Grids highlightGrid={true} />
             <Structures placeStructures={true} />
             <Waterfalls />
-            <Trees />
-            <Water />
             <Groups />
-            <Grass />
         </>
     );
 }

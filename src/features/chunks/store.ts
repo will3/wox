@@ -57,6 +57,13 @@ export class ChunksStore {
       `Meshed ${chunks.layer} ${chunk.origin.join(",")} ${meshData.vertices.length / 3
       } vertices, ${meshData.indices.length / 3} triangles ${end - start}ms`
     );
-    this.incrementChunkVersion(chunk.id);
+  }
+
+  remeshAll() {
+    for (const chunks of this.map.values()) {
+      for (const chunk of chunks.chunks) {
+        chunk.dirty = true;
+      }
+    }
   }
 }

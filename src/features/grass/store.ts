@@ -18,6 +18,9 @@ export class GrassStore {
         const meshData = chunk.meshData!;
         const voxels = meshData.voxels;
 
+        let count = 0;
+        const startTime = Date.now();
+
         for (const voxel of voxels) {
             const [i, j, k] = voxel.coord;
             const absY = chunk.origin[1] + j;
@@ -37,7 +40,10 @@ export class GrassStore {
 
             if (dot > 0.75) {
                 chunk.setColor(i, j, k, this.grassColor);
+                count++;
             }
         }
+
+        console.log(`Generated grass ${count} voxels, elapsed ${Date.now() - startTime}ms`)
     }
 }

@@ -35,6 +35,7 @@ export const Mesher = observer(() => {
         if (chunk.dirty) {
           chunksStore.updateMeshData(chunk);
           chunk.dirty = false;
+          chunksStore.incrementChunkVersion(chunk.id);
           changed = true;
         }
 
