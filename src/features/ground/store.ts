@@ -7,9 +7,11 @@ import { makeAutoObservable } from "mobx";
 import _ from "lodash";
 import { ChunksStore } from "features/chunks/store";
 import shuffle from "shuffle-array";
+import { nanoid } from "nanoid";
 
 export interface GroundData {
   key: string;
+  chunkId: string;
   origin: Vector3;
   version: number;
 }
@@ -22,8 +24,6 @@ export class GroundStore {
   grounds: { [key: string]: GroundData } = {};
   maxHeight = 32;
   rockColor = new Color(0.072, 0.08, 0.09);
-  grassColor = new Color(0.08, 0.1, 0.065);
-  sandColor = new Color(0.117, 0.129, 0.099);
   seed: string;
   chunksStore: ChunksStore;
   waterLevel = 6;
@@ -73,6 +73,7 @@ export class GroundStore {
           key,
           origin,
           version: 0,
+          chunkId: nanoid()
         };
       }
     }
@@ -90,7 +91,6 @@ export class GroundStore {
     const key = origin.toArray().join(",");
     this.generateGround(chunks, origin, this.groundNoise);
     this.incrementVersion(key);
-    this.generateGrass(chunks, origin);
     console.log(`Took ${new Date().getTime() - start}ms`);
   }
 
@@ -99,6 +99,9 @@ export class GroundStore {
     const chunk = chunks.getOrCreateChunk(
       origin.toArray() as [number, number, number]
     );
+    const key = origin.toArray().join(",");
+    const ground = this.grounds[key];
+    chunk.id = ground.chunkId;
 
     chunk.getWorldValue = (i, j, k) => {
       return this.getValue(
@@ -122,40 +125,6 @@ export class GroundStore {
     }
 
     this.chunksStore.updateMeshData(chunk);
-  }
-
-  generateGrass(chunks: ChunksData, origin: Vector3) {
-    const chunk = chunks.getChunk(
-      origin.toArray() as [number, number, number]
-    );
-    if (chunk == null) {
-      return;
-    }
-    const waterLevel = this.waterLevel;
-    const meshData = chunk.meshData!;
-    const voxels = meshData.voxels;
-
-    for (const voxel of voxels) {
-      const [i, j, k] = voxel.coord;
-      const absY = chunk.origin[1] + j;
-
-      if (absY === waterLevel) {
-        chunk.setColor(i, j, k, this.sandColor);
-        continue;
-      }
-
-      if (absY < waterLevel) {
-        continue;
-      }
-
-      const normal = voxel.voxelNormal;
-
-      const dot = new Vector3(0, -1, 0).dot(new Vector3().fromArray(normal));
-
-      if (dot > 0.75) {
-        chunk.setColor(i, j, k, this.grassColor);
-      }
-    }
   }
 
   incrementVersion(id: string) {

@@ -15,6 +15,7 @@ import React, { createContext, ReactNode, useContext, useMemo } from "react";
 import seedrandom from "seedrandom";
 import { Color, Vector3 } from "three";
 import { GroupStore } from "features/groups/store";
+import { GrassStore } from "features/grass/store";
 
 interface StoreContextValue {
     groundStore?: GroundStore;
@@ -28,6 +29,7 @@ interface StoreContextValue {
     inputStore?: InputStore;
     waterStore?: WaterStore;
     groupStore?: GroupStore;
+    grassStore?: GrassStore;
 }
 
 const StoreContext = createContext<StoreContextValue>({});
@@ -100,6 +102,8 @@ export function StoreProvider({ children }: StoreProviderProps) {
 
         const groupStore = new GroupStore(groundStore);
 
+        const grassStore = new GrassStore(groundStore);
+
         return {
             chunksStore,
             groundStore,
@@ -112,6 +116,7 @@ export function StoreProvider({ children }: StoreProviderProps) {
             inputStore,
             waterStore,
             groupStore,
+            grassStore,
         }
     }, []);
 
@@ -133,6 +138,7 @@ export const useInputStore = createStoreHook("input", (store => store.inputStore
 export const useLightStore = createStoreHook("light", (store => store.lightStore));
 export const useWaterStore = createStoreHook("water", (store => store.waterStore));
 export const useGroupStore = createStoreHook("group", (store => store.groupStore));
+export const useGrassStore = createStoreHook("grass", (store => store.grassStore));
 
 export function createStoreHook<T>(name: string, callback: (store: StoreContextValue) => T) {
     function hook() {
