@@ -79,22 +79,24 @@ export class GroundStore {
     }
   }
 
-  async generateAllChunks(chunks: ChunksData) {
+  async generateAllChunks() {
+    this.addGrounds(this.origins);
     for (const origin of this.origins) {
-      this.generateChunk(chunks, origin);
+      this.generateChunk(origin);
       await wait(0);
     }
   }
 
-  generateChunk(chunks: ChunksData, origin: Vector3) {
+  generateChunk(origin: Vector3) {
     const start = new Date().getTime();
     const key = origin.toArray().join(",");
-    this.generateGround(chunks, origin, this.groundNoise);
+    this.generateGround(origin);
     this.incrementVersion(key);
     console.log(`Took ${new Date().getTime() - start}ms`);
   }
 
-  generateGround(chunks: ChunksData, origin: Vector3, noise: Noise) {
+  generateGround(origin: Vector3) {
+    const chunks = this.chunks;
     const { rockColor } = this;
     const chunk = chunks.getOrCreateChunk(
       origin.toArray() as [number, number, number]
