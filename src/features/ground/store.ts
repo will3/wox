@@ -6,8 +6,9 @@ import { wait } from "utils/wait";
 import { makeAutoObservable } from "mobx";
 import _ from "lodash";
 import { ChunksStore } from "features/chunks/store";
-import shuffle from "shuffle-array";
 import { nanoid } from "nanoid";
+import seedrandom, { seedrandom_prng } from "seedrandom";
+import { shuffleArray } from "utils/math";
 
 export interface GroundData {
   key: string;
@@ -28,12 +29,14 @@ export class GroundStore {
   chunksStore: ChunksStore;
   waterLevel = 6;
   chunks: ChunksData;
+  originRng: seedrandom.prng;
 
   constructor(seed: string, chunksStore: ChunksStore, chunks: ChunksData) {
     makeAutoObservable(this);
     this.seed = seed;
     this.chunksStore = chunksStore;
     this.chunks = chunks;
+    this.originRng = seedrandom("origin" + seed);
   }
 
   get generatedOrigins() {
@@ -65,8 +68,7 @@ export class GroundStore {
   }
 
   addGrounds(origins: Vector3[]) {
-    const shuffled = shuffle(origins);
-    for (const origin of shuffled) {
+    for (const origin of origins) {
       const key = origin.toArray().join(",");
       if (this.grounds[key] == null) {
         this.grounds[key] = {
@@ -81,7 +83,8 @@ export class GroundStore {
 
   async generateAllChunks() {
     this.addGrounds(this.origins);
-    for (const origin of this.origins) {
+    const shuffled = shuffleArray(this.originRng, this.origins);
+    for (const origin of shuffled) {
       this.generateChunk(origin);
       await wait(0);
     }

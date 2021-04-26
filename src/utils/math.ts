@@ -1,3 +1,4 @@
+import seedrandom from "seedrandom";
 import { Vector3, Quaternion, Euler } from "three";
 
 export const lerp = (a: number, b: number, r: number): number => {
@@ -63,3 +64,16 @@ export const randomQuaternion = (rng: seedrandom.prng): Quaternion => {
     randomVector(rng)
   );
 };
+
+export function shuffleArray<T extends any[]>(rng: seedrandom.prng, array: T) {
+  const copy = [...array];
+  const length = copy.length;
+  const results = [];
+  for (let i = 0; i < length; i++) {
+    const index = Math.floor(rng() * copy.length);
+    results.push(copy[index]);
+    copy.splice(index, 1);
+  }
+
+  return results;
+}
