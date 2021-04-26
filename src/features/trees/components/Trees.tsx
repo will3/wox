@@ -13,9 +13,8 @@ export const Trees = observer(() => {
       {_.map(grounds, (ground) => {
         return (
           <TreeChunk
-            key={ground.origin.toArray().join(",")}
-            origin={ground.origin}
-            version={ground.version}
+            key={ground.key}
+            ground={ground}
           />
         );
       })}

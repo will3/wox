@@ -4,23 +4,25 @@ import React from "react";
 import _ from "lodash";
 import { Tree } from "./Tree";
 import { observer } from "mobx-react-lite";
-import { useTreeStore } from "StoreProvider";
+import { useChunksStore, useTreeStore } from "StoreProvider";
+import { GroundData } from "features/ground/store";
 
 export interface TreeChunkProps {
-  origin: Vector3;
-  version: number;
+  ground: GroundData
 }
 
-export const TreeChunk = observer(({ version, origin }: TreeChunkProps) => {
+export const TreeChunk = observer(({ ground }: TreeChunkProps) => {
+  const origin = ground.origin;
   const treeStore = useTreeStore();
   const trees = treeStore.getTrees(origin);
+  const chunksStore = useChunksStore();
+  const chunkVersion = chunksStore.getChunkVersion(ground.chunkId);
 
   useEffect(() => {
-    if (version === 0) {
-      return;
+    if (chunkVersion > 0) {
+      treeStore.generateTrees(origin);
     }
-    treeStore.generateTrees(origin);
-  }, [version]);
+  }, [chunkVersion]);
 
   return (
     <>
