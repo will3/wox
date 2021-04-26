@@ -10,7 +10,7 @@ export const Waterfalls = observer(() => {
   const groundStore = useGroundStore();
   const waterfallStore = useWaterfallStore();
   const size = groundStore.numChunks;
-  const waterfallChunks = waterfallStore.waterfallChunks;
+  const grounds = groundStore.grounds;
 
   useEffect(() => {
     const origins = [];
@@ -26,8 +26,8 @@ export const Waterfalls = observer(() => {
 
   return (
     <>
-      {_.map(waterfallChunks, (chunk) => (
-        <WaterfallChunk key={chunk.key} origin={chunk.origin} />
+      {_.map(grounds, (ground) => (
+        <WaterfallChunk key={ground.key} ground={ground} />
       ))}
     </>
   );

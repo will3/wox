@@ -29,6 +29,7 @@ export class WaterfallStore {
   waterfallChunks: { [key: string]: WaterfallChunkData } = {};
   seed: string;
   groundStore: GroundStore;
+  density = 1 / 420;
 
   constructor(seed: string, groundStore: GroundStore) {
     makeAutoObservable(this);
@@ -64,8 +65,6 @@ export class WaterfallStore {
       return;
     }
 
-    const density = 1 / 420;
-
     const key = origin.toArray().join(",");
     this.waterfallChunks[key] = {
       key,
@@ -73,7 +72,7 @@ export class WaterfallStore {
       waterfallIds: [],
     };
 
-    for (let i = 0; i < meshData.upFaces.length * density; i++) {
+    for (let i = 0; i < meshData.upFaces.length * this.density; i++) {
       const index = Math.floor(meshData.upFaces.length * rng());
       const faceIndex = meshData.upFaces[index];
       const face = meshData.faces[faceIndex];

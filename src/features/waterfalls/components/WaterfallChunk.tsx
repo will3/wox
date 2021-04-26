@@ -1,30 +1,30 @@
 import { Waterfall } from "./Waterfall";
-import { Vector3 } from "three";
 import { useEffect, useMemo } from "react";
 import React from "react";
 import { observer } from "mobx-react-lite";
-import { useGroundStore, useWaterfallStore } from "StoreProvider";
+import { useChunksStore, useGroundStore, useWaterfallStore } from "StoreProvider";
+import { GroundData } from "features/ground/store";
 
 interface WaterfallChunkProps {
-  origin: Vector3;
+  ground: GroundData;
 }
 
-export const WaterfallChunk = observer(({ origin }: WaterfallChunkProps) => {
+export const WaterfallChunk = observer(({ ground }: WaterfallChunkProps) => {
+  const origin = ground.origin;
   const key = origin.toArray().join(",");
-  const groundStore = useGroundStore();
   const waterfallStore = useWaterfallStore();
-  const groundVersion = groundStore.grounds[key]?.version ?? 0;
   const waterfallIds = waterfallStore.waterfallChunks[key].waterfallIds;
   const waterfalls = useMemo(() => waterfallIds.map((id) => waterfallStore.waterfalls[id]), [
     waterfallIds,
   ]);
+  const chunksStore = useChunksStore();
+  const chunkVersion = chunksStore.getChunkVersion(ground.chunkId);
 
   useEffect(() => {
-    if (groundVersion === 0) {
-      return;
+    if (chunkVersion === 1) {
+      waterfallStore.generateWaterfalls(origin);
     }
-    waterfallStore.generateWaterfalls(origin);
-  }, [groundVersion]);
+  }, [chunkVersion]);
 
   return (
     <>
