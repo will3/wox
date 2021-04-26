@@ -33,6 +33,8 @@ export class GroupStore {
             };
             this.map.set(key, data);
         }
-        data.groups = calculator.calcGroups();
+        const groups = calculator.calcGroups();
+        data.groups = groups;
+        chunk.setGroups(groups);
     }
 }

@@ -2,6 +2,7 @@ import ChunksData from "./ChunksData";
 import { MeshData } from "./MeshData";
 import { nanoid } from "nanoid";
 import { Color } from "three";
+import { Group } from "features/groups/Group";
 
 export default class ChunkData {
   id = nanoid();
@@ -18,6 +19,7 @@ export default class ChunkData {
   getWorldValue: (i: number, j: number, k: number) => number | null;
   defaultColor = new Color(0, 0, 0);
   hidden = false;
+  groups: Group[] = [];
 
   constructor(
     origin: [number, number, number],
@@ -118,6 +120,11 @@ export default class ChunkData {
       (this.getWorld(i, j, k + 1) ?? 0) - (this.getWorld(i, j, k - 1) ?? 0),
     ] as [number, number, number];
     return normalize(normal);
+  }
+
+  setGroups(groups: Group[]) {
+    this.groups = groups;
+    this.dirty = true;
   }
 }
 
