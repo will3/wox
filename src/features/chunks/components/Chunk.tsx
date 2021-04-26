@@ -115,6 +115,7 @@ export const Chunk = observer((props: ChunkProps) => {
 
     material.uniforms.voxelCount = new Uniform(meshData.voxelCount);
     material.uniformsNeedUpdate = true;
+    material.needsUpdate = true;
   }, [version]);
 
   useEffect(() => {
