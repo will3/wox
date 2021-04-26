@@ -48,7 +48,6 @@ export function StoreProvider({ children }: StoreProviderProps) {
         const waterLevel = 6;
 
         const chunksStore = new ChunksStore();
-        chunksStore.waterLevel = waterLevel;
 
         const groundChunks = new ChunksData(chunkSize, Layers.ground);
         groundChunks.colorTransform = (color: Color, worldCoord: Vector3) => {

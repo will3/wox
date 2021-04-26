@@ -4,9 +4,8 @@ import { makeAutoObservable } from "mobx";
 import ChunkData from "./ChunkData";
 
 export class ChunksStore {
-  versions: { [id: string]: number } = {};
+  chunksVersions: { [id: string]: number } = {};
   chunkVersions: { [id: string]: number } = {};
-  waterLevel = 6;
   map = new Map<string, ChunksData>();
 
   constructor() {
@@ -15,10 +14,6 @@ export class ChunksStore {
 
   get chunksList() {
     return [...this.map.values()];
-  }
-
-  getVersion(chunksId: string) {
-    return this.versions[chunksId];
   }
 
   addChunks(chunks: ChunksData) {
@@ -33,8 +28,19 @@ export class ChunksStore {
     return this.chunkVersions[chunkId] ?? 0;
   }
 
-  incrementVersion(chunksId: string) {
-    const versions = this.versions;
+  getChunksVersion(chunksId: string) {
+    return this.chunksVersions[chunksId];
+  }
+
+  incrementChunkVersion(chunkId: string) {
+    if (this.chunkVersions[chunkId] == null) {
+      this.chunkVersions[chunkId] = 0;
+    }
+    this.chunkVersions[chunkId]++;
+  }
+
+  incrementChunksVersion(chunksId: string) {
+    const versions = this.chunksVersions;
     if (versions[chunksId] == null) {
       versions[chunksId] = 0;
     }
@@ -51,9 +57,6 @@ export class ChunksStore {
       `Meshed ${chunks.layer} ${chunk.origin.join(",")} ${meshData.vertices.length / 3
       } vertices, ${meshData.indices.length / 3} triangles ${end - start}ms`
     );
-    if (this.chunkVersions[chunk.id] == null) {
-      this.chunkVersions[chunk.id] = 0;
-    }
-    this.chunkVersions[chunk.id]++;
+    this.incrementChunkVersion(chunk.id);
   }
 }

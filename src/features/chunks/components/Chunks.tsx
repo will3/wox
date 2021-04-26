@@ -11,7 +11,7 @@ export interface ChunksProps {
 
 export const Chunks = observer(({ chunks }: ChunksProps) => {
   const chunksStore = useChunksStore();
-  const version = chunksStore.getVersion(chunks.id);
+  const version = chunksStore.getChunksVersion(chunks.id);
 
   console.log(`Rerender chunks version: ${version}`);
 

@@ -36,7 +36,7 @@ export const Mesher = observer(() => {
         }
 
         if (changed) {
-          chunksStore.incrementVersion(chunks.id);
+          chunksStore.incrementChunksVersion(chunks.id);
         }
       }
     }
