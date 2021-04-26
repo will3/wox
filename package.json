@@ -36,7 +36,7 @@
         "react-three-fiber": "^4.2.18",
         "seedrandom": "^3.0.5",
         "simplex-noise": "^2.4.0",
-        "three": "^0.120.1"
+        "three": "^0.125.0"
     },
     "engines": {
         "node": "15.x"
