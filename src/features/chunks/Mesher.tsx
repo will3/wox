@@ -28,6 +28,9 @@ export const Mesher = observer(() => {
         if (chunk.hidden) {
           continue;
         }
+        if (chunks.onlyGrounded && chunk.groups.length === 0) {
+          continue;
+        }
         let changed = false;
         if (chunk.dirty) {
           chunksStore.updateMeshData(chunk);

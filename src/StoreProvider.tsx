@@ -60,6 +60,7 @@ export function StoreProvider({ children }: StoreProviderProps) {
             const factor = Math.pow(0.5, waterLevel - absY);
             return color.clone().multiplyScalar(factor);
         };
+        groundChunks.onlyGrounded = true;
 
         const groundStore = new GroundStore(seed, chunksStore, groundChunks);
         groundStore.waterLevel = waterLevel;

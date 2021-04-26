@@ -15,6 +15,7 @@ export default class ChunksData {
   renderAllSurfaces = false;
   defaultColor = new Color(0, 0, 0);
   colorTransform?: (color: Color, worldCoord: Vector3) => Color;
+  onlyGrounded = false;
 
   constructor(size: number, layer = 0) {
     this.size = size;

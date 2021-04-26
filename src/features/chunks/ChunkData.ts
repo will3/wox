@@ -1,7 +1,7 @@
 import ChunksData from "./ChunksData";
 import { MeshData } from "./MeshData";
 import { nanoid } from "nanoid";
-import { Color } from "three";
+import { Color, Vector3 } from "three";
 import { Group } from "features/groups/Group";
 
 export default class ChunkData {
@@ -125,6 +125,15 @@ export default class ChunkData {
   setGroups(groups: Group[]) {
     this.groups = groups;
     this.dirty = true;
+  }
+
+  getGrounded(coord: Vector3) {
+    for (const group of this.groups) {
+      if (group.has(coord)) {
+        return group.grounded;
+      }
+    }
+    return false;
   }
 }
 
