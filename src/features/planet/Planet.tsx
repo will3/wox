@@ -15,8 +15,8 @@ export function Planet() {
             <Grass />
             <Water />
             <Trees />
-            <Grids highlightGrid={true} />
-            <Structures placeStructures={true} />
+            <Grids />
+            <Structures />
             <Waterfalls />
             <Groups />
         </>
