@@ -50,6 +50,15 @@ export default class ChunkData {
     return this.data[index] ?? null;
   }
 
+  getIsOutOfBounds(i: number, j: number, k: number) {
+    return i < 0 ||
+      j < 0 ||
+      k < 0 ||
+      i >= this.size ||
+      j >= this.size ||
+      k >= this.size;
+  }
+
   getWorld(i: number, j: number, k: number): number | null {
     if (
       i < 0 ||

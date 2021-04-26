@@ -23,6 +23,7 @@ export const meshChunk = (chunk: ChunkData): MeshData => {
 
   const renderAllSurfaces = chunk.chunks.renderAllSurfaces;
   const colorTransform = chunk.chunks.colorTransform;
+  const onlyGrounded = chunk.chunks.onlyGrounded;
 
   for (let d = 0; d < 3; d++) {
     if (chunk.isWater && d != 1) {
@@ -31,8 +32,8 @@ export const meshChunk = (chunk: ChunkData): MeshData => {
     for (let i = 0; i < size; i++) {
       for (let j = 0; j < size; j++) {
         for (let k = 0; k < size; k++) {
-          let a = getWorld(chunk, d, i, j, k);
-          let b = getWorld(chunk, d, i + 1, j, k);
+          let a = getWorld(chunk, d, i, j, k, onlyGrounded);
+          let b = getWorld(chunk, d, i + 1, j, k, onlyGrounded);
 
           if (renderAllSurfaces) {
             a = a || 0;
@@ -136,14 +137,14 @@ export const meshChunk = (chunk: ChunkData): MeshData => {
           faceIndex++;
 
           const aoI = front ? i + 1 : i;
-          const v00 = getWorld(chunk, d, aoI, j - 1, k - 1);
-          const v01 = getWorld(chunk, d, aoI, j, k - 1);
-          const v02 = getWorld(chunk, d, aoI, j + 1, k - 1);
-          const v10 = getWorld(chunk, d, aoI, j - 1, k);
-          const v12 = getWorld(chunk, d, aoI, j + 1, k);
-          const v20 = getWorld(chunk, d, aoI, j - 1, k + 1);
-          const v21 = getWorld(chunk, d, aoI, j, k + 1);
-          const v22 = getWorld(chunk, d, aoI, j + 1, k + 1);
+          const v00 = getWorld(chunk, d, aoI, j - 1, k - 1, onlyGrounded);
+          const v01 = getWorld(chunk, d, aoI, j, k - 1, onlyGrounded);
+          const v02 = getWorld(chunk, d, aoI, j + 1, k - 1, onlyGrounded);
+          const v10 = getWorld(chunk, d, aoI, j - 1, k, onlyGrounded);
+          const v12 = getWorld(chunk, d, aoI, j + 1, k, onlyGrounded);
+          const v20 = getWorld(chunk, d, aoI, j - 1, k + 1, onlyGrounded);
+          const v21 = getWorld(chunk, d, aoI, j, k + 1, onlyGrounded);
+          const v22 = getWorld(chunk, d, aoI, j + 1, k + 1, onlyGrounded);
 
           ao.push(
             calcAo(v10, v01, v00),
@@ -190,6 +191,41 @@ const getVector = (
 };
 
 const getWorld = (
+  chunk: ChunkData,
+  d: number,
+  i: number,
+  j: number,
+  k: number,
+  onlyGrounded: boolean
+) => {
+  const v = _getWorld(chunk, d, i, j, k);
+
+  if (!onlyGrounded) {
+    return v;
+  }
+
+  if (v != null && v < 0) {
+    return v;
+  }
+
+  const coord = getVector(d, i, j, k);
+
+  const isOutOfBounds = chunk.getIsOutOfBounds(...coord);
+
+  if (isOutOfBounds) {
+    return v;
+  }
+
+  const grounded = chunk.getGrounded(new Vector3().fromArray(coord));
+
+  if (!grounded) {
+    return null;
+  }
+
+  return v;
+}
+
+const _getWorld = (
   chunk: ChunkData,
   d: number,
   i: number,
