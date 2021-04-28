@@ -5,14 +5,14 @@ import _ from "lodash";
 import { Group } from "./Group";
 
 export const Groups = observer(() => {
-    const groundStore = useGroundStore();
-    const grounds = groundStore.grounds;
+  const groundStore = useGroundStore();
+  const grounds = groundStore.grounds;
 
-    return (
-        <>
-            {
-                _.values(grounds).map(ground => <Group ground={ground} />)
-            }
-        </>
-    );
+  return (
+    <>
+      {_.values(grounds).map((ground) => (
+        <Group key={ground.key} ground={ground} />
+      ))}
+    </>
+  );
 });
