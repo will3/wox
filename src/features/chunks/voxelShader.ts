@@ -71,7 +71,7 @@ void main() {
     lin += vSkyDif * vec3(1.30, 1.40, 1.80) * 1.5;
     lin += ambient;
 
-    vec3 color = vColor * lin * (1.0 - vAo * 0.15);
+    vec3 color = vColor * lin * (1.0 - vAo * 0.2);
 
     float a = isWater == 1.0 ? waterAlpha : 1.0;
     gl_FragColor = vec4(color, a);
