@@ -22,7 +22,7 @@ export class GroundStore {
   chunkSize = 32;
   curve = new Curve([-1, -0.6, -0.2, 0.2, 2], [-1, -0.58, -0.4, -0.3, 1.5]);
   gradientCurve = new Curve([0, 1], [0.7, -0.8])
-  grounds: { [key: string]: GroundData } = {};
+  private map = new Map<string, GroundData>();
   maxHeight = 32;
   rockColor = new Color(0.072, 0.08, 0.09);
   seed: string;
@@ -40,7 +40,14 @@ export class GroundStore {
   }
 
   get generatedOrigins() {
-    return new Set(_.values(this.grounds).filter(x => x.version > 0).map(x => x.origin.toArray().join(",")));
+    const origins = this.grounds
+      .filter(x => x.version > 0)
+      .map(x => x.origin.toArray().join(","))
+    return new Set(origins);
+  }
+
+  get grounds() {
+    return Array.from(this.map.values());
   }
 
   get groundNoise() {
@@ -70,13 +77,13 @@ export class GroundStore {
   addGrounds(origins: Vector3[]) {
     for (const origin of origins) {
       const key = origin.toArray().join(",");
-      if (this.grounds[key] == null) {
-        this.grounds[key] = {
+      if (!this.map.has(key)) {
+        this.map.set(key, {
           key,
           origin,
           version: 0,
           chunkId: nanoid()
-        };
+        });
       }
     }
   }
@@ -105,7 +112,10 @@ export class GroundStore {
       origin.toArray() as [number, number, number]
     );
     const key = origin.toArray().join(",");
-    const ground = this.grounds[key];
+    const ground = this.map.get(key);
+    if (ground == null) {
+      throw new Error("ground is null");
+    }
     chunk.id = ground.chunkId;
 
     chunk.getWorldValue = (i, j, k) => {
@@ -133,8 +143,11 @@ export class GroundStore {
   }
 
   incrementVersion(id: string) {
-    const grounds = this.grounds;
-    grounds[id].version++;
+    const ground = this.map.get(id);
+    if (ground == null) {
+      throw new Error("ground is null");
+    }
+    ground.version++;
   }
 
   getValue(
