@@ -54,13 +54,5 @@ export const CameraController = observer(() => {
     cameraStore.setTargetRotation(next);
   }, [targetRotation]))
 
-  useKeyUp(Key.ZoomIn, useCallback(() => {
-    cameraStore.setDistance(distance / zoomRate);
-  }, [distance, zoomRate]));
-
-  useKeyUp(Key.ZoomOut, useCallback(() => {
-    cameraStore.setDistance(distance * zoomRate);
-  }, [distance, zoomRate]));
-
   return null;
 });
