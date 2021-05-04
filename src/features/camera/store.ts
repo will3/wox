@@ -10,6 +10,7 @@ export class CameraStore {
   targetRotation = initialRotation;
   target = new Vector3(0, 0, 0);
   distance = 400;
+  zoomRate = 1.1;
 
   constructor() {
     makeAutoObservable(this);

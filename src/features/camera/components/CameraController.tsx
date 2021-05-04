@@ -1,3 +1,5 @@
+import { useKeyUp } from "features/input/hooks/useKeyUp";
+import { Key } from "features/input/keymap";
 import { observer } from "mobx-react-lite";
 import { useCallback, useEffect, useRef } from "react";
 import { useThree } from "react-three-fiber";
@@ -8,6 +10,10 @@ export const CameraController = observer(() => {
   const { camera } = useThree();
 
   const cameraStore = useCameraStore();
+
+  const targetRotation = cameraStore.targetRotation;
+  const distance = cameraStore.distance;
+  const zoomRate = cameraStore.zoomRate;
 
   const updateCamera = useCallback(() => {
     camera.position.copy(cameraStore.position);
@@ -35,6 +41,26 @@ export const CameraController = observer(() => {
       }
     };
   }, [animate]);
+
+  useKeyUp(Key.Left, useCallback(() => {
+    const next = targetRotation.clone();
+    next.y -= Math.PI / 2;
+    cameraStore.setTargetRotation(next);
+  }, [targetRotation]));
+
+  useKeyUp(Key.Right, useCallback(() => {
+    const next = targetRotation.clone();
+    next.y += Math.PI / 2;
+    cameraStore.setTargetRotation(next);
+  }, [targetRotation]))
+
+  useKeyUp(Key.ZoomIn, useCallback(() => {
+    cameraStore.setDistance(distance / zoomRate);
+  }, [distance, zoomRate]));
+
+  useKeyUp(Key.ZoomOut, useCallback(() => {
+    cameraStore.setDistance(distance * zoomRate);
+  }, [distance, zoomRate]));
 
   return null;
 });
