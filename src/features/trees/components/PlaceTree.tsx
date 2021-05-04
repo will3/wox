@@ -13,11 +13,12 @@ export const PlaceTree = observer(() => {
             return;
         }
         const coord = inputStore.hover.coord;
-        const {  voxelNormal } = inputStore.hover.voxel;
+        const { voxelNormal } = inputStore.hover.voxel;
+        const size = 1 + Math.pow(Math.random(), 1.5) * 0.5;
         treeStore.addTree({
             key: coord.join(","),
             normal: new Vector3().fromArray(voxelNormal),
-            size: 1,
+            size,
             position: new Vector3().fromArray(coord)
         })
     }, []));
