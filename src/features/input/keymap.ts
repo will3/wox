@@ -6,8 +6,8 @@ export enum Key {
 }
 
 export const keymap = {
-    [Key.Left]: new Set(["a", "left"]),
-    [Key.Right]: new Set(["d", "right"]),
-    [Key.ZoomIn]: new Set(["="]),
-    [Key.ZoomOut]: new Set(["-"])
+    [Key.Left]: ["a", "left"],
+    [Key.Right]: ["d", "right"],
+    [Key.ZoomIn]: ["="],
+    [Key.ZoomOut]: ["-"],
 }

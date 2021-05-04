@@ -77,3 +77,11 @@ export function shuffleArray<T extends any[]>(rng: seedrandom.prng, array: T) {
 
   return results;
 }
+
+export const calcOrigin = (i: number, j: number, k: number, size: number) => {
+  return [
+    Math.floor(i / size) * size,
+    Math.floor(j / size) * size,
+    Math.floor(k / size) * size,
+  ];
+}

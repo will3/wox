@@ -3,6 +3,7 @@ import _ from "lodash";
 import { TreeChunk } from "./TreeChunk";
 import { observer } from "mobx-react-lite";
 import { useGroundStore } from "StoreProvider";
+import { PlaceTree } from "./PlaceTree";
 
 export const Trees = observer(() => {
   const groundStore = useGroundStore();
@@ -10,6 +11,7 @@ export const Trees = observer(() => {
 
   return (
     <>
+      <PlaceTree />
       {_.map(grounds, (ground) => {
         return (
           <TreeChunk

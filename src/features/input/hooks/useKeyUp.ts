@@ -5,7 +5,7 @@ import { Key, keymap } from "../keymap";
 export function useKeyUp(key: Key, callback: () => void) {
     const handleKeyUp = useCallback((e: KeyboardEvent) => {
         const k = keycode(e);
-        if (keymap[key].has(k)) {
+        if (keymap[key].includes(k)) {
             callback();
         }
     }, [callback]);

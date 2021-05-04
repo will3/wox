@@ -6,6 +6,7 @@ import ChunksData from "features/chunks/ChunksData";
 import { GroundStore } from "features/ground/store";
 import seedrandom from "seedrandom";
 import { VoxelInfo } from "features/chunks/VoxelInfo";
+import { calcOrigin } from "utils/math";
 
 export interface TreeData {
   key: string;
@@ -38,7 +39,12 @@ export class TreeStore {
     });
   }
 
-  setTrees(origin: Vector3, treesToAdd: TreeData[]) {
+  addTree(data: TreeData) {
+    const origin = calcOrigin(data.position.x, data.position.y, data.position.z, this.groundStore.chunkSize);
+    this.addTrees(new Vector3().fromArray(origin), [data]);
+  }
+
+  addTrees(origin: Vector3, treesToAdd: TreeData[]) {
     const key = origin.toArray().join(",");
     if (this.trees[key] == null) {
       this.trees[key] = {};
@@ -88,7 +94,7 @@ export class TreeStore {
       }
     }
 
-    this.setTrees(origin, trees);
+    this.addTrees(origin, trees);
 
     console.log(`Generated ${trees.length} trees for ${origin.toArray().join(",")}`);
   }
